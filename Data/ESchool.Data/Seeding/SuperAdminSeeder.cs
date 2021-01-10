@@ -47,7 +47,8 @@
             if (roleExist)
             {
                 var user = await userManager.FindByEmailAsync(superAdminEmail);
-                if (user != null)
+                var isUserInRole = await userManager.IsInRoleAsync(user, superAdminRoleName);
+                if (user != null && !isUserInRole)
                 {
                     var result = await userManager.AddToRoleAsync(user, superAdminRoleName);
                     if (!result.Succeeded)
