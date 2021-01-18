@@ -17,12 +17,10 @@
 
         public int ClassId { get; set; }
 
-        [ForeignKey("ClassId")]
         public Class Class { get; set; }
 
         public string TeacherId { get; set; }
 
-        [ForeignKey("TeacherId")]
         public ApplicationUser Teacher { get; set; }
 
         public virtual ICollection<SubjectStudent> Students { get; set; }

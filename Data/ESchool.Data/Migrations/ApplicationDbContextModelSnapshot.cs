@@ -68,6 +68,9 @@ namespace ESchool.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ClassId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -85,8 +88,17 @@ namespace ESchool.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -114,6 +126,12 @@ namespace ESchool.Data.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("SchoolId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SecondName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -126,6 +144,8 @@ namespace ESchool.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ClassId");
+
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("NormalizedEmail")
@@ -135,6 +155,8 @@ namespace ESchool.Data.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.HasIndex("SchoolId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -232,9 +254,6 @@ namespace ESchool.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SchoolId")
-                        .HasColumnType("int");
-
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
@@ -244,8 +263,6 @@ namespace ESchool.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
-
-                    b.HasIndex("SchoolId");
 
                     b.HasIndex("SubjectId");
 
@@ -260,6 +277,9 @@ namespace ESchool.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<string>("AdminId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
@@ -277,6 +297,8 @@ namespace ESchool.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AdminId");
 
                     b.HasIndex("IsDeleted");
 
@@ -454,6 +476,17 @@ namespace ESchool.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ESchool.Data.Models.ApplicationUser", b =>
+                {
+                    b.HasOne("ESchool.Data.Models.Class", null)
+                        .WithMany("Students")
+                        .HasForeignKey("ClassId");
+
+                    b.HasOne("ESchool.Data.Models.School", null)
+                        .WithMany("Users")
+                        .HasForeignKey("SchoolId");
+                });
+
             modelBuilder.Entity("ESchool.Data.Models.Class", b =>
                 {
                     b.HasOne("ESchool.Data.Models.School", "School")
@@ -484,10 +517,6 @@ namespace ESchool.Data.Migrations
 
             modelBuilder.Entity("ESchool.Data.Models.Lesson", b =>
                 {
-                    b.HasOne("ESchool.Data.Models.School", null)
-                        .WithMany("Lessons")
-                        .HasForeignKey("SchoolId");
-
                     b.HasOne("ESchool.Data.Models.Subject", "Subject")
                         .WithMany("Lessons")
                         .HasForeignKey("SubjectId")
@@ -501,6 +530,15 @@ namespace ESchool.Data.Migrations
                     b.Navigation("Subject");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("ESchool.Data.Models.School", b =>
+                {
+                    b.HasOne("ESchool.Data.Models.ApplicationUser", "Admin")
+                        .WithMany()
+                        .HasForeignKey("AdminId");
+
+                    b.Navigation("Admin");
                 });
 
             modelBuilder.Entity("ESchool.Data.Models.Subject", b =>
@@ -599,6 +637,8 @@ namespace ESchool.Data.Migrations
 
             modelBuilder.Entity("ESchool.Data.Models.Class", b =>
                 {
+                    b.Navigation("Students");
+
                     b.Navigation("Subjects");
                 });
 
@@ -611,7 +651,7 @@ namespace ESchool.Data.Migrations
                 {
                     b.Navigation("Classes");
 
-                    b.Navigation("Lessons");
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("ESchool.Data.Models.Subject", b =>

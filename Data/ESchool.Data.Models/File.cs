@@ -14,7 +14,6 @@
 
         public int LessonId { get; set; }
 
-        [ForeignKey("LessonId")]
         public virtual Lesson Lesson { get; set; }
 
         public string UserId { get; set; }

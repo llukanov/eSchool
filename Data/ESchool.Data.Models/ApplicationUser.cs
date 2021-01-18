@@ -3,7 +3,7 @@ namespace ESchool.Data.Models
 {
     using System;
     using System.Collections.Generic;
-
+    using System.ComponentModel.DataAnnotations.Schema;
     using ESchool.Data.Common.Models;
 
     using Microsoft.AspNetCore.Identity;
@@ -17,6 +17,14 @@ namespace ESchool.Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
         }
+
+        public string FirstName { get; set; }
+
+        public string SecondName { get; set; }
+
+        public string LastName { get; set; }
+
+        public bool IsApproved { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

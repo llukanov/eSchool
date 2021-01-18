@@ -62,6 +62,18 @@
             public string Email { get; set; }
 
             [Required]
+            [Display(Name = "Име")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Презиме")]
+            public string SecondName { get; set; }
+
+            [Required]
+            [Display(Name = "Фамилия")]
+            public string LastName { get; set; }
+
+            [Required]
             [StringLength(100, ErrorMessage = "{0}та трябва да бъде поне {2} и максимум {1} символа дължина.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Парола")]
@@ -75,6 +87,10 @@
             [Required]
             [Display(Name = "Роля")]
             public string Role { get; set; }
+
+            [Required]
+            [Display(Name = "Код на училище")]
+            public int SchoolCode { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -91,8 +107,13 @@
             this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (this.ModelState.IsValid)
             {
-                
-                var user = new ApplicationUser { UserName = this.Input.Email, Email = this.Input.Email };
+                var user = new ApplicationUser {
+                    UserName = this.Input.Email,
+                    Email = this.Input.Email,
+                    FirstName = this.Input.FirstName,
+                    SecondName = this.Input.SecondName,
+                    LastName = this.Input.LastName,
+                };
                 var result = await this.userManager.CreateAsync(user, this.Input.Password);
                 if (result.Succeeded)
                 {

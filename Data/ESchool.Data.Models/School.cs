@@ -16,6 +16,10 @@
 
         public virtual ICollection<Class> Classes { get; set; }
 
+        public string AdminId { get; set; }
+
+        public ApplicationUser Admin { get; set; }
+
         public virtual ICollection<ApplicationUser> Users { get; set; }
     }
 }

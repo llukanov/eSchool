@@ -13,32 +13,58 @@
             <h4>Създаване на нов профил</h4>
             <hr />
             <div asp-validation-summary="All" class="text-danger"></div>
+            @* First name *@
             <div class="form-group input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                    <span class="input-group-text background-fresh"> <i class="fa fa-user fa-fw"></i> </span>
                 </div>
-                <input name="" class="form-control" placeholder="Full name" type="text">
+                <input asp-for="Input.FirstName" class="form-control" placeholder="Име" />
+                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
             </div>
-            @* Email *@
+            @* Second name *@
             <div class="form-group input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text background-fresh"> <i class="fa fa-envelope"></i> </span>
+                    <span class="input-group-text background-fresh"> <i class="fa fa-user fa-fw"></i> </span>
                 </div>
-                <input asp-for="Input.Email" class="form-control" placeholder="Имейл адрес" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                <input asp-for="Input.SecondName" class="form-control" placeholder="Презиме" />
+                <span asp-validation-for="Input.SecondName" class="text-danger"></span>
+            </div>
+            @* Last name *@
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text background-fresh"> <i class="fa fa-user fa-fw"></i> </span>
+                </div>
+                <input asp-for="Input.LastName" class="form-control" placeholder="Фамилия" />
+                <span asp-validation-for="Input.LastName" class="text-danger"></span>
             </div>
             @* Role *@
             <div class="form-group input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text background-fresh"> <i class="fa fa-list-alt"></i> </span>
+                    <span class="input-group-text background-fresh"> <i class="fa fa-list-alt fa-fw"></i> </span>
                 </div>
                 <select asp-for="Input.Role" class="form-control" asp-items='rolesItems'></select>
                 <span asp-validation-for="Input.Role" class="text-danger"></span>
             </div>
+            @* School code *@
+            <!--<div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text background-fresh"> <i class="fa fa-graduation-cap fa-fw" aria-hidden="true"></i> </span>
+                </div>
+                <input asp-for="Input.SchoolCode" class="form-control" placeholder="Код на училището" />
+                <span asp-validation-for="Input.SchoolCode" class="text-danger"></span>
+            </div>-->
+            @* Email *@
+            <div class="form-group input-group">
+                <div class="input-group-prepend">
+                    <span class="input-group-text background-fresh"> <i class="fa fa-envelope fa-fw"></i> </span>
+                </div>
+                <input asp-for="Input.Email" class="form-control" placeholder="Имейл адрес" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
             @* Password *@
             <div class="form-group input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text background-fresh"> <i class="fa fa-lock"></i> </span>
+                    <span class="input-group-text background-fresh"> <i class="fa fa-lock fa-fw"></i> </span>
                 </div>
                 <input asp-for="Input.Password" placeholder="Създаване на парола" class="form-control" />
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
@@ -46,7 +72,9 @@
             @* Confirm password *@
             <div class="form-group input-group">
                 <div class="input-group-prepend">
-                    <span class="input-group-text background-fresh"> <i class="fa fa-lock"></i> </span>
+                    <span class="input-group-text background-fresh">
+                        <i class="fa fa-lock fa-fw"></i>
+                    </span>
                 </div>
                 <input asp-for="Input.ConfirmPassword" placeholder="Потвърждаване на паролата" class="form-control" />
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>

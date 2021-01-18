@@ -12,7 +12,6 @@
 
         public string StudentId { get; set; }
 
-        [ForeignKey("StudentId")]
         public virtual ApplicationUser Student { get; set; }
     }
 }

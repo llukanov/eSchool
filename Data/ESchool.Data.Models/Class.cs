@@ -9,14 +9,14 @@
         public Class()
         {
             this.Subjects = new HashSet<Subject>();
-            //this.Students = new HashSet<ApplicationUser>();
+            this.Students = new HashSet<ApplicationUser>();
         }
 
         public string Name { get; set; }
 
         public virtual ICollection<Subject> Subjects { get; set; }
 
-        //public virtual ICollection<ApplicationUser> Students { get; set; }
+        public virtual ICollection<ApplicationUser> Students { get; set; }
 
         public int SchoolId { get; set; }
 

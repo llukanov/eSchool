@@ -10,6 +10,7 @@
         {
             this.Files = new HashSet<File>();
         }
+
         public string Name { get; set; }
 
         public int SubjectId { get; set; }
