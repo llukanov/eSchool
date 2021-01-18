@@ -12,7 +12,6 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-    [Authorize]
     public class HomeController : BaseController
     {
         private readonly IClassesService classesService;

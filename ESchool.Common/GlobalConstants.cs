@@ -14,6 +14,6 @@
 
         public const string StudentRoleName = "Student";
 
-        public const string SuperAdminPassword = "super1001Admin";
+        public const string SuperAdminPassword = "super1001Admin=";
     }
 }

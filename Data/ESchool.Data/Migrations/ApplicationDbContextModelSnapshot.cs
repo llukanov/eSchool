@@ -68,9 +68,6 @@ namespace ESchool.Data.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ClassId")
-                        .HasColumnType("int");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -128,8 +125,6 @@ namespace ESchool.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClassId");
 
                     b.HasIndex("IsDeleted");
 
@@ -237,6 +232,9 @@ namespace ESchool.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SchoolId")
+                        .HasColumnType("int");
+
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
@@ -246,6 +244,8 @@ namespace ESchool.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
+
+                    b.HasIndex("SchoolId");
 
                     b.HasIndex("SubjectId");
 
@@ -454,13 +454,6 @@ namespace ESchool.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ESchool.Data.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("ESchool.Data.Models.Class", null)
-                        .WithMany("Students")
-                        .HasForeignKey("ClassId");
-                });
-
             modelBuilder.Entity("ESchool.Data.Models.Class", b =>
                 {
                     b.HasOne("ESchool.Data.Models.School", "School")
@@ -491,6 +484,10 @@ namespace ESchool.Data.Migrations
 
             modelBuilder.Entity("ESchool.Data.Models.Lesson", b =>
                 {
+                    b.HasOne("ESchool.Data.Models.School", null)
+                        .WithMany("Lessons")
+                        .HasForeignKey("SchoolId");
+
                     b.HasOne("ESchool.Data.Models.Subject", "Subject")
                         .WithMany("Lessons")
                         .HasForeignKey("SubjectId")
@@ -602,8 +599,6 @@ namespace ESchool.Data.Migrations
 
             modelBuilder.Entity("ESchool.Data.Models.Class", b =>
                 {
-                    b.Navigation("Students");
-
                     b.Navigation("Subjects");
                 });
 
@@ -615,6 +610,8 @@ namespace ESchool.Data.Migrations
             modelBuilder.Entity("ESchool.Data.Models.School", b =>
                 {
                     b.Navigation("Classes");
+
+                    b.Navigation("Lessons");
                 });
 
             modelBuilder.Entity("ESchool.Data.Models.Subject", b =>
