@@ -1,0 +1,84 @@
+﻿@using ESchool.Common
+@model ESchool.Web.ViewModels.School.EditSchoolInputModel
+@{
+    this.ViewData["Title"] = "Редактиране на училище";
+}
+
+<div class="mt-5">
+    <!-- Start header -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-6">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">@this.ViewData["Title"]</h1>
+            </div>
+        </div>
+    </div>
+    <!-- End header -->
+    <!-- Start input form -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-6 shadow p-3 mt-4 bg-white rounded">
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <!-- School's name -->
+                <div class="form-group input-group">
+                    <div>
+                        <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.Name">Наименование:</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" asp-for="@Model.Name" class="form-control">
+                    </div>
+                    <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                </div>
+                <!-- Settlement -->
+                <div class="form-group input-group">
+                    <div>
+                        <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.Settlement">Населено място:</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" asp-for="@Model.Settlement" class="form-control">
+                    </div>
+                    <span asp-validation-for="@Model.Settlement" class="text-danger"></span>
+                </div>
+                <!-- Province -->
+                <div class="form-group input-group">
+                    <div>
+                        <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.Province">Област:</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" asp-for="@Model.Province" class="form-control">
+                    </div>
+                    <span asp-validation-for="@Model.Province" class="text-danger"></span>
+                </div>
+                <!-- Submit -->
+                <div class="form-group float-right">
+                    <button type="submit" id="btn" class="btn text-white background-fresh btn-block">Редактиране</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- End input form -->
+</div>
+
+<!-- Modal -->
+<div class="modal" id="modalEdit" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Одобряване на редакцията</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Одобравяте ли промените?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Затваряне</button>
+                <button type="button" class="btn btn-primary" onclick="editForm.submit()">Запаметяване на промените</button>
+            </div>
+        </div>
+    </div>
+</div>
+

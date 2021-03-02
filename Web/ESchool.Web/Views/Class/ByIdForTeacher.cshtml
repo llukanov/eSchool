@@ -1,0 +1,71 @@
+﻿@using ESchool.Common;
+@using System.Security.Claims;
+@model ESchool.Web.ViewModels.Class.ClassPageViewModel
+@{
+    this.ViewData["Title"] = Model.Name;
+}
+
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+
+<div class="mt-5">
+    <!-- Start header -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-6">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">@this.ViewData["Title"]</h1>
+            </div>
+        </div>
+    </div>
+    <!-- End header -->
+    <!-- Start info table -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-6 shadow p-3 mt-4 bg-white rounded">
+            <table class="table table-user-information">
+                <tbody>
+                    <tr>
+                        <td class="font-weight-bold">Клас</td>
+                        <td>@Model.Name</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">Брой ученици</td>
+                        <td>@Model.Students.Count()</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">Брой предмети</td>
+                        <td>@Model.Subjects.Count()</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold"></td>
+                        <td><a asp-controller="Subject" asp-action="Create" asp-route-classInSchoolId="@Model.Id" asp-route-teacherId="@this.User.FindFirstValue(ClaimTypes.NameIdentifier)" class="btn text-white background-fresh">Добавяне на предмет</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- End info table -->
+</div>
+
+
+<hr />
+
+<div class="row">
+    <div class="col-md-12">
+        @if (this.Model.Students.Any())
+        {
+            <partial name="_StudentsInClass" model="@Model" />
+        }
+        else
+        {
+            <div class="m-1">
+                <div class="row">
+                    <div class="col-md-12 shadow p-3 mt-4 bg-white rounded">
+                        <p>Няма намерени ученици!</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

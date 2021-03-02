@@ -1,0 +1,65 @@
+﻿@using ESchool.Common
+@model ESchool.Web.ViewModels.Assignment.EditAssignmentInputModel
+@{
+    this.ViewData["Title"] = "Редактиране на задача";
+}
+
+<div class="mt-5 p-3">
+    <!-- Start header -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-9">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">@this.ViewData["Title"]</h1>
+            </div>
+        </div>
+    </div>
+    <!-- End header -->
+    <!-- Start input -->
+    <div class="mt-2 row justify-content-md-center shadow  bg-white rounded">
+        <div class="col-md-9">
+            <div>
+                <form method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <!-- Assignment's description -->
+                    <div class="form-group input-group">
+                        <div>
+                            <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.Description">Инструкции:</label>
+                        </div>
+                        <div class="input-group">
+                            <textarea class="form-control" id="mytextarea" asp-for="@Model.Description"></textarea>
+                        </div>
+                        <span asp-validation-for="@Model.Description" class="text-danger"></span>
+                    </div>
+                    <!-- Deadline -->
+                    <div class="form-group input-group">
+                        <div>
+                            <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.Deadline">Краен срок:</label>
+                        </div>
+                        <div class="input-group">
+                            <input id="datepicker" value="@DateTime.Today" asp-for="@Model.Deadline" class="form-control">
+                        </div>
+                        <span asp-validation-for="@Model.Deadline" class="text-danger"></span>
+                    </div>
+                    <!-- Submit -->
+                    <div class="form-group float-right">
+                        <button type="submit" id="btn" class="btn text-white background-fresh btn-block">Редактиране</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End input -->
+</div>
+
+
+
+@section Scripts {
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script type="text/javascript">
+        tinymce.init({
+            selector: '#mytextarea',
+            width: '100%',
+            height: '400',
+        });
+    </script>
+}

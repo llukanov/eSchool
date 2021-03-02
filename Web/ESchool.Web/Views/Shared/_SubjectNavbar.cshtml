@@ -1,0 +1,12 @@
+﻿<!-- Navigarion tabs -->
+<div class="row mt-2">
+    <div class="col-lg-3 nav-item mt-2 mb-2 text-center">
+        <a asp-controller="Subject" asp-action="ById" asp-route-subjectId="@Model.SubjectId" class="nav-link border border-secondary rounded font-color-dark-gray">Теми</a>
+    </div>
+    <div class="col-lg-3 nav-item mt-2 mb-2 text-center">
+        <a asp-controller="Material" asp-action="AllInSubject" asp-route-subjectId="@Model.SubjectId" class="nav-link border border-secondary rounded font-color-dark-gray">Всички файлове</a>
+    </div>
+    <div class="col-lg-3 nav-item mt-2 mb-2 text-center">
+        <a asp-controller="Assignment" asp-action="AllInSubject" asp-route-subjectId="@Model.SubjectId" class="nav-link border border-secondary rounded font-color-dark-gray">Задачи</a>
+    </div>
+</div>

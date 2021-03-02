@@ -1,0 +1,77 @@
+﻿@using ESchool.Common
+@using ESchool.Data.Models
+@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims;
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+@if (this.SignInManager.IsSignedIn(this.User))
+{
+    <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse vertical-navbar background-fresh" id="navbarsExampleDefault">
+        <ul class="nav flex-column m-0">
+            @if (this.User.IsInRole(GlobalConstants.SuperAdminRoleName))
+            {
+                <li class="nav-item">
+                    <a class="nav-link font-weight-bold font-color-aluminium" asp-area="" asp-controller="Home" asp-action="Index">Начало</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" asp-area="" asp-controller="School" asp-action="Create">Добавяне на училище</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" asp-area="" asp-controller="School" asp-action="All">Управление на училища</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" asp-area="" asp-controller="Admin" asp-action="All">Управление на администратори</a>
+                </li>
+            }
+            else if (this.User.IsInRole(GlobalConstants.AdminRoleName))
+            {
+                <li class="nav-item">
+                    <a class="nav-link font-weight-bold font-color-aluminium" asp-area="" asp-controller="Home" asp-action="Index">Начало</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" asp-controller="Class" asp-action="Create">Добавяне на клас</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" asp-controller="Class" asp-action="AllInSchool">Класове</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" asp-controller="Teacher" asp-action="AllInSchool">Учители</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" asp-controller="Student" asp-action="AllInSchool">Ученици</a>
+                </li>
+            }
+            else if (this.User.IsInRole(GlobalConstants.TeacherRoleName))
+            {
+                <li class="nav-item">
+                    <a class="nav-link font-weight-bold font-color-aluminium" asp-area="" asp-controller="Home" asp-action="Index">Начало</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" asp-controller="Class" asp-action="AllInSchool">Класове</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" asp-controller="Teacher" asp-action="AllInSchool">Учители</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" asp-controller="Student" asp-action="AllInSchool">Ученици</a>
+                </li>
+                @*<li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" asp-controller="Subject" asp-action="AllSubjectsOfTeacher" asp-route-schoolId="">Всички предмети</a>
+                </li>*@
+            }
+            else if (this.User.IsInRole(GlobalConstants.StudentRoleName))
+            {
+                <li class="nav-item">
+                    <a class="nav-link font-weight-bold font-color-aluminium" asp-area="" asp-controller="Home" asp-action="Index">Начало</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" asp-controller="Subject" asp-action="AllSubjectsOfStudent">Предмети</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link waves-effect waves-light" asp-controller="AssignmentReply" asp-action="AllOfStudent" asp-route-studentId="@this.User.FindFirstValue(ClaimTypes.NameIdentifier)">Оценки</a>
+                </li>
+            }
+        </ul>
+    </div>
+}

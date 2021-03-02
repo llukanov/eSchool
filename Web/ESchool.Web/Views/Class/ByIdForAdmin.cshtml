@@ -1,0 +1,84 @@
+﻿@using ESchool.Common
+@model ESchool.Web.ViewModels.Class.ClassPageViewModel
+@{
+    this.ViewData["Title"] = Model.Name;
+}
+
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+
+<div class="mt-5 mb-5">
+    <!-- Start header -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-6">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">@this.ViewData["Title"]</h1>
+            </div>
+        </div>
+    </div>
+    <!-- End header -->
+    <!-- Start info table -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-6 shadow p-3 mt-4 bg-white rounded">
+            <table class="table table-user-information">
+                <tbody>
+                    <tr>
+                        <td class="font-weight-bold">Клас</td>
+                        <td>@Model.Name</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">Брой ученици</td>
+                        <td>@Model.Students.Count()</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <a asp-controller="Class" asp-action="AllInSchool" asp-route-schoolId="@Model.SchoolId" class="btn text-white background-fresh mb-2">Всички класове</a>
+            <a asp-controller="Class" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-secondary mb-2">Редактиране</a>
+            <a asp-controller="Class" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger mb-2">Изтриване</a>
+        </div>
+    </div>
+    <!-- End info table -->
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+        @if (this.Model.Students.Any())
+        {
+            <partial name="_StudentsInClass" model="@Model" />
+        }
+        else
+        {
+            <div class="m-1">
+                <div class="row">
+                    <div class="col-md-12 shadow p-3 mt-4 bg-white rounded">
+                        <p>Няма намерени ученици!</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-6">
+        @if (this.Model.StudentsInSchool.Any())
+        {
+            <partial name="_StudentsInSchool" model="@Model" />
+        }
+        else
+        {
+            <div class="m-1">
+                <div>
+                    <h3 class="font-color-dark-gray font-weight-light">Ученици, които все още не са добавени в клас</h3>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 shadow p-3 mt-4 bg-white rounded">
+                        <p>Няма намерени ученици!</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

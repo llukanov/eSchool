@@ -1,0 +1,86 @@
+﻿@using ESchool.Common
+@using System.Security.Claims;
+@model ESchool.Web.ViewModels.Lesson.LessonPageViewModel
+@{
+    this.ViewData["Title"] = Model.Name;
+}
+
+<div class="mt-5">
+    <!-- Start header -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">Тема</h1>
+            </div>
+            @if (this.User.IsInRole(GlobalConstants.TeacherRoleName))
+            {
+                <div class="float-right">
+                    <a asp-controller="Lesson" asp-action="Edit" asp-route-lessonId="@Model.Id" class="btn shadow p-2 rounded text-white background-fresh btn-block"><i class="fa fa-pencil-square-o pr-3" aria-hidden="true"></i>Редактиране</a>
+                    <a asp-controller="Assignment" asp-action="Create" asp-route-teacherId="@this.User.FindFirstValue(ClaimTypes.NameIdentifier)" asp-route-lessonId="@Model.Id" class="btn shadow mt-3 p-2 rounded text-white background-tangerine btn-block">Добави задача</a>
+                </div>
+            }
+        </div>
+    </div>
+    <!-- End header -->
+    <!-- Start lesson description -->
+    <div class="mt-2 shadow p-3 bg-white rounded">
+        <div class="row">
+            <div class="col-md-9">
+                <h2 class="font-color-dark-gray font-weight-bold text-uppercase pt-3">@this.ViewData["Title"]</h2>
+                <hr />
+                @Html.Raw(Model.Description)
+            </div>
+        </div>
+
+    </div>
+    <!-- End lesson's description -->
+    <!-- Start lesson's materials -->
+    <div class="shadow p-3 mt-4 bg-white rounded">
+        <h4 class="font-color-dark-gray font-weight-light">Прикачени материали:</h4>
+        <div class="pl-3">
+            @if (Model.Materials.Any())
+            {
+                @foreach (var material in Model.Materials)
+                {
+                    <a asp-controller="Material" asp-action="Download" asp-route-materialId="@material.Id" asp-route-extension="@material.Extension"><i class="fa fa-file fa-fw mini-icon-color" aria-hidden="true"></i>@material.Name</a><br />
+                }
+            }
+            else
+            {
+                <p>Няма прикачени файлове.</p>
+            }
+        </div>
+    </div>
+    <!-- End lessons's materials -->
+    <!-- Start lesson's assigments -->
+    <div class="shadow p-3 mt-4 bg-white rounded">
+        <h4 class="font-color-dark-gray font-weight-light">Задачи към урока:</h4>
+        <div class="pl-3">
+            @if (Model.Assignments.Any())
+            {
+                <ol>
+                    @foreach (var assignment in Model.Assignments)
+                    {
+                        if (this.User.IsInRole(GlobalConstants.TeacherRoleName))
+                        {
+                            <li><a asp-controller="Assignment" asp-action="ById" asp-route-assignmentId="@assignment.Id">Задача</a>
+                            </li>
+                        }
+                        else if (this.User.IsInRole(GlobalConstants.StudentRoleName))
+                        {
+                            <li>
+                                <a asp-controller="AssignmentReply" asp-action="Send" asp-route-assignmentId="@assignment.Id">Задача</a>
+                            </li>
+                        }
+                    }
+                </ol>
+                
+            }
+            else
+            {
+                <p>Няма прикачени файлове.</p>
+            }
+        </div>
+    </div>
+    <!-- End lessons's materials -->
+</div>

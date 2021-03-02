@@ -1,0 +1,53 @@
+﻿@using ESchool.Common
+@model ESchool.Web.ViewModels.Class.AllClassesInSchoolViewModel
+@{
+    this.ViewData["Title"] = "Всички класове";
+}
+
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+
+<div class="mt-5">
+    <!-- Start header -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">@this.ViewData["Title"]</h1>
+            </div>
+            @if (this.User.IsInRole(GlobalConstants.AdminRoleName))
+            {
+                <div class="float-right">
+                    <a asp-controller="Class" asp-action="Create" class="btn shadow p-2 rounded text-white background-fresh btn-block">Добавяне на клас</a>
+                </div>
+            }
+        </div>
+    </div>
+    <!-- End header -->
+    <!-- Start list with classes -->
+    <div class="mt-2 p-2 shadow bg-white rounded">
+        @if (Model.Classes.Any())
+        {
+            <div class="row py-3">
+                @foreach (var classInSchool in Model.Classes)
+                {
+                    <div class="col-md-3 card-min-width">
+                        <a asp-controller="Class" asp-action="ById" asp-route-classInSchoolId="@classInSchool.Id">
+                            <div class="card-info tangerine mb-3 d-flex align-items-center justify-content-center" style="height: 200px">
+                                <h1 class="title align-middle">@classInSchool.Name</h1>
+                            </div>
+                        </a>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="col-md-12">
+                <p class="font-color-dark-gray">Няма добавени класове.</p>
+            </div>
+        }
+    </div>
+    <!-- End list with classes -->
+</div>

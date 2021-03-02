@@ -1,0 +1,41 @@
+﻿@using ESchool.Common
+@model ESchool.Web.ViewModels.Subject.CreateSubjectInputModel
+@{
+    this.ViewData["Title"] = "Добавяне на предмет" ;
+}
+
+<div class="mt-5">
+    <!-- Start header -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-6">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">@this.ViewData["Title"]</h1>
+            </div>
+        </div>
+    </div>
+    <!-- End header -->
+    <!-- Start input form -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-6 shadow p-3 mt-4 bg-white rounded">
+            <form method="post">
+                <hr />
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <!-- Subject's name -->
+                <div class="form-group input-group">
+                    <div>
+                        <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.Name">Наименование:</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" asp-for="@Model.Name" class="form-control">
+                    </div>
+                    <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                </div>
+                <!-- Submit -->
+                <div class="form-group">
+                    <button type="submit" id="btn" class="btn background-fresh text-white btn-block">Добавяне на предмет</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- End input form -->
+</div>

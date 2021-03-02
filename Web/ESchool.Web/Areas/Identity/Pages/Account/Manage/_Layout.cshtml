@@ -1,0 +1,40 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout))
+    {
+        Layout = (string)parentLayout;
+    }
+    else
+    {
+        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    }
+}
+
+<div class="mt-5">
+    <!-- Start header -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">Потребителски профил</h1>
+            </div>
+        </div>
+    </div>
+    <!-- End header -->
+    <!-- Start body -->
+    <div class="mt-2 shadow p-3 bg-white rounded">
+        <div class="row">
+            <div class="col-md-3">
+                <partial name="_ManageNav" />
+            </div>
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+    <!-- body -->
+</div>
+
+
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

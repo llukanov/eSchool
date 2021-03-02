@@ -1,0 +1,82 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Вход";
+}
+
+<div class="mt-5">
+    <!-- Start header -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-9">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">@this.ViewData["Title"]</h1>
+            </div>
+        </div>
+    </div>
+    <!-- End header -->
+    <!-- Start input form -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-9 shadow p-3 mt-4 bg-white rounded">
+            <div class="row">
+                <div class="col-md-6 justify-content-center">
+                    <h5 class="font-color-dark-gray font-weight-light">
+                        <span class="font-color-tangerine font-weight-bold">еУчилище</span> е интернет приложение, чрез което се осъществява онлайн обучение на ученици.
+                    </h5>
+                    <h5 class="font-color-dark-gray font-weight-light">Проектът участва в <span class="font-color-tangerine font-weight-bold">НОИТ 2021</span> и се разработва от <span class="font-weight-bold">Лъчезар Луканов</span>, ученик от СУ „Васил Левски“, гр. Бяла Слатина.</h5>
+                    <h5 class="font-color-dark-gray font-weight-light">
+                        Крайната цел е създаването на прост продукт, който да внедрява нуждите на реалните участници в обучителния процес по по-ефективен начин.
+                    </h5>
+                    <div class="row">
+                        <div class="col-md-12 justify-content-center">
+                            <a href="/materials/Данни за вход.docx" class="btn shadow mt-3 p-2 rounded text-white background-tangerine btn-block" download>Данни за вход</a>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="col-md-6">
+                    <form id="account" method="post">
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <div class="form-group">
+                            <label class="font-color-dark-gray font-weight-bold" asp-for="Input.Email">Имейл:</label>
+                            <input asp-for="Input.Email" class="form-control" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label class="font-color-dark-gray font-weight-bold" asp-for="Input.Password">Парола:</label>
+                            <input asp-for="Input.Password" class="form-control" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label asp-for="Input.RememberMe">
+                                    <input asp-for="Input.RememberMe" /> Запомни ме
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn background-fresh text-white btn-block">Вход</button>
+                        </div>
+                        <div class="form-group">
+                            @*<p>
+                    <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                </p>*@
+                            <p>
+                                <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Регистрирайте се като нов потребитил</a>
+                            </p>
+                            @*<p>
+                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+                </p>*@
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <!-- End input form -->
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

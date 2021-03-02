@@ -1,0 +1,113 @@
+﻿@using ESchool.Common
+@using System.Security.Claims;
+@model ESchool.Web.ViewModels.Assignment.AssignmentPageViewModel
+@{
+    this.ViewData["Title"] = Model.Lesson.Name;
+}
+
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+
+<div class="mt-5">
+    <!-- Start header -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">Задача</h1>
+            </div>
+            @if (this.User.IsInRole(GlobalConstants.TeacherRoleName))
+            {
+                <div class="float-right">
+                    <a asp-controller="Lesson" asp-action="Edit" class="btn shadow p-2 rounded text-white background-fresh btn-block"><i class="fa fa-pencil-square-o pr-3" aria-hidden="true"></i>Редактиране</a>
+                </div>
+            }
+        </div>
+    </div>
+    <!-- End header -->
+    <!-- Start assignment's description -->
+    <div class="mt-2 shadow p-3 bg-white rounded">
+        <div class="row">
+            <div class="col-md-9">
+                <h2 class="font-color-dark-gray font-weight-bold text-uppercase pt-3">@this.ViewData["Title"]</h2>
+                <hr />
+                @Html.Raw(Model.Description)
+            </div>
+        </div>
+
+    </div>
+    <!-- End assignment's description -->
+    <!-- Start assignment's materials -->
+    <div class="shadow p-3 mt-4 bg-white rounded">
+        <h4 class="font-color-dark-gray font-weight-light">Прикачени материали:</h4>
+        <div class="row">
+            <div class="col-md-9">
+                @if (Model.Materials.Any())
+                {
+                    @foreach (var material in Model.Materials)
+                    {
+                        <a asp-controller="Material" asp-action="Download" asp-route-materialId="@material.Id" asp-route-extension="@material.Extension"><i class="fa fa-file fa-fw mini-icon-color" aria-hidden="true"></i>@material.Name</a><br />
+                    }
+                }
+                else
+                {
+                    <p>Няма прикачени файлове.</p>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- End assignment's materials -->
+    @if (this.User.IsInRole(GlobalConstants.StudentRoleName))
+    {
+        @if (Model.Deadline > DateTime.Now)
+        {
+            <!-- Start student's reply -->
+            <div class="shadow p-3 mt-4 bg-white rounded">
+                <h4 class="font-color-dark-gray font-weight-light">Добави отговор към задачата:</h4>
+                <div class="pl-3">
+                    <form method="post" enctype="multipart/form-data">
+                        <hr />
+                        <div asp-validation-summary="All" class="text-danger"></div>
+                        <!-- The reply's text -->
+                        <div class="form-group input-group">
+                            <div>
+                                <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.StudentReplyText">Писмен отговор:</label>
+                            </div>
+                            <div class="input-group">
+                                <textarea class="form-control" id="mytextarea" asp-for="@Model.StudentReplyText"></textarea>
+                            </div>
+                            <span asp-validation-for="@Model.StudentReplyText" class="text-danger"></span>
+                        </div>
+                        <!-- Files to reply -->
+                        <div class="form-group input-group">
+                            <div>
+                                <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.StudentReplyFiles">Добавяне на файл:</label>
+                            </div>
+                            <div class="input-group">
+                                <input type="file" asp-for="@Model.StudentReplyFiles" class="form-control">
+                            </div>
+                            <span asp-validation-for="@Model.StudentReplyFiles" class="text-danger"></span>
+                        </div>
+                        <!-- Submit -->
+                        <div class="form-group">
+                            <button type="submit" id="btn" class="btn text-white background-fresh btn-block">Изпращане на отговор</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="shadow p-3 mt-4 bg-white rounded">
+                <div class="pl-3">
+                    <h4 class="font-color-dark-gray font-weight-light">Добави отговор към задачата:</h4>
+                    <p>Срокът изтече!</p>
+                </div>
+            </div>
+        }
+
+
+        <!-- End student's reply -->
+    }
+</div>

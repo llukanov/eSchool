@@ -1,0 +1,40 @@
+﻿@using ESchool.Common
+@model ESchool.Web.ViewModels.Class.EditClassInputModel
+@{
+    this.ViewData["Title"] = "Редактиране на клас";
+}
+
+<div class="mt-5">
+    <!-- Start header -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-6">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">@this.ViewData["Title"]</h1>
+            </div>
+        </div>
+    </div>
+    <!-- End header -->
+    <!-- Start input form -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-6 shadow p-3 mt-4 bg-white rounded">
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <!-- Class's name -->
+                <div class="form-group input-group">
+                    <div>
+                        <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.Name">Наименование:</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" asp-for="@Model.Name" class="form-control">
+                    </div>
+                    <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                </div>
+                <!-- Submit -->
+                <div class="form-group float-right">
+                    <button type="submit" id="btn" class="btn text-white background-fresh btn-block">Редактиране</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- End input form -->
+</div>

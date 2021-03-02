@@ -1,0 +1,92 @@
+﻿@using ESchool.Common
+@model ESchool.Web.ViewModels.Teacher.AllTeachersInSchoolViewModel
+@{
+    this.ViewData["Title"] = "Всички учители";
+}
+
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+
+<div class="mt-5">
+    <!-- Start header -->
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <h1 class="font-color-dark-gray font-weight-light">@this.ViewData["Title"]</h1>
+            </div>
+
+        </div>
+    </div>
+    <!-- End header -->
+    <!-- Start table -->
+    <div class="mt-2 p-2 shadow bg-white rounded">
+        <div>
+            @if (this.Model.ItemsCount == 1)
+            {
+                <h2 class="font-color-dark-gray font-weight-bold text-uppercase pt-3">Във вашето училище е регистриран @this.Model.ItemsCount учител</h2>
+                <hr />
+            }
+            else if (this.Model.ItemsCount > 1)
+            {
+                <h2 class="font-color-dark-gray font-weight-bold text-uppercase pt-3">Във вашето училище са регистрирани @this.Model.ItemsCount учители</h2>
+                <hr />
+            }
+        </div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-condensed table-striped table-hover sortable">
+                @if (Model.ItemsCount == 0)
+                {
+                    <tr>
+                        <td colspan="10">Няма намерени учители.</td>
+                    </tr>
+
+                }
+                else
+                {
+                    <thead>
+                        <tr class="danger">
+                            <th data-defaultsign="_19">Име</th>
+                            <th data-defaultsort="disabled">Имейл</th>
+                            @if (this.User.IsInRole(GlobalConstants.AdminRoleName))
+                            {
+                                <th data-defaultsort="disabled">Статут</th>
+                                <th data-defaultsort="disabled">Действия</th>
+                            }
+                        </tr>
+                    </thead>
+
+                    foreach (var teacher in this.Model.Teachers)
+                    {
+                        <tr>
+                            <td>@teacher.FullName</td>
+                            <td>@teacher.Email</td>
+                            @if (this.User.IsInRole(GlobalConstants.AdminRoleName))
+                            {
+                                @if (!teacher.IsApproved)
+                                {
+                                    <td><span class="pl-3 pr-3 pb-1 text-nowrap text-white bg-danger rounded-pill">Неодобрен</span></td>
+                                    <td>
+                                        <form method="post" asp-controller="Teacher" asp-action="ApproveTeacher" id="approveForm" asp-route-schoolId="@teacher.SchoolId" asp-route-id="@teacher.Id">
+                                            <button class="btn text-white background-fresh" data-toggle="modal" data-target="#approveModal">Одобряване</button>
+                                        </form>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td><span class="pl-3 pr-3 pb-1 text-nowrap text-white background-fresh rounded-pill">Одобрен</span></td>
+                                    <td>
+                                        <a asp-controller="Teacher" asp-action="RejectTeacher" asp-route-schoolId="@teacher.SchoolId" asp-route-id="@teacher.Id" class="btn btn-danger">Премахване на статут</a>
+                                    </td>
+                                }
+                            }
+
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+    <!-- End table -->
+</div>

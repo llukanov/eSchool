@@ -1,0 +1,31 @@
+﻿<div class="m-1">
+    <!-- Start header -->
+    <div>
+        <h3 class="font-color-dark-gray font-weight-light">Ученици, които все още не са добавени в клас</h3>
+    </div>
+    <!-- End header -->
+    <!-- Start info table -->
+    <div class="row">
+        <div class="col-md-12 shadow p-3 mt-4 bg-white rounded">
+            <div class="table-responsive">
+                <table class="table table-bordered table-condensed table-striped table-hover sortable">
+                    @foreach (var student in this.Model.StudentsInSchool)
+                    {
+                        <tr>
+                            <td>
+                                @student.FullName
+                            </td>
+                            <td>
+                                <form method="post" asp-controller="Student" asp-action="AddStudentToClass" id="approveForm" asp-route-schoolId="@student.SchoolId" asp-route-classId="@Model.Id" asp-route-userId="@student.Id">
+                                    <button class="btn text-white background-fresh" data-toggle="modal" data-target="#approveModal">Добави в този клас</button>
+                                </form>
+                            </td>
+
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- End info table -->
+</div>

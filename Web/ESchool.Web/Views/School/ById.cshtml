@@ -1,0 +1,64 @@
+﻿@using ESchool.Common
+@model ESchool.Web.ViewModels.School.SchoolPageViewModel
+@{
+    this.ViewData["Title"] = Model.Name;
+}
+
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+
+<div class="mt-5">
+    <!-- Start header -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">Информация за училище</h1>
+            </div>
+        </div>
+    </div>
+    <!-- End header -->
+    <!-- Start information table -->
+    <div class="mt-2 p-5 shadow bg-white rounded">
+        <div class="row">
+            <div class="col-l-6 table-responsive">
+                <table class="table table-user-information">
+                    <tbody>
+                        <tr>
+                            <td class="font-weight-bold">Наименование</td>
+                            <td>@Model.Name</td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Населен място</td>
+                            <td>@Model.Settlement</td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Област</td>
+                            <td>@Model.Province</td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Администратор</td>
+                            <td>@Model.AdminName</td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Брой учители</td>
+                            <td>@Model.TeachersCount</td>
+                        </tr>
+                        <tr>
+                            <td class="font-weight-bold">Брой ученици</td>
+                            <td>@Model.StudentsCount</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div>
+                    <a asp-controller="School" asp-action="All" class="btn text-white background-fresh mb-2">Всички училища</a>
+                    <a asp-controller="School" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-secondary mb-2">Редактиране</a>
+                    <a asp-controller="School" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger mb-2">Изтриване</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End information table -->
+</div>

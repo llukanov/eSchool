@@ -1,0 +1,79 @@
+﻿@model ESchool.Web.ViewModels.Home.AdminIndexViewModel
+@using ESchool.Common
+@{
+    this.ViewData["Title"] = "Табло за управление";
+}
+
+@if (!Model.IsApproved)
+{
+    <div class="mt-5">
+        <!-- Information for exception -->
+        <div class="mt-2 shadow bg-white rounded">
+            <div class="container">
+                <h1 class="text-danger font-weight-bold">Достъп отказан!</h1>
+                <h2 class="text-danger font-weight-bold">Не сте въвели коректен код за присъединяване към училище или все още не сте одобрени от Администраторът на Вашето училището.</h2>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="mt-5">
+        <!-- Start header -->
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="font-color-dark-gray font-weight-light">@this.ViewData["Title"]</h1>
+            </div>
+        </div>
+        <!-- End header -->
+        <!-- Start greetings and navigation tabs -->
+        <div class="mt-2 p-3 shadow bg-white rounded">
+            <div class="container">
+                <h4 class="font-color-dark-gray font-weight-bold pt-3">Здравейте, <span>@Model.FullName</span>!</h4>
+                <h4 class="font-color-dark-gray font-weight-bold">Вие сте администратор в <span class="text-uppercase">@Model.SchoolName, @Model.School.Settlement</span></h4>
+                <hr />
+            </div>
+            <div class="container">
+                <ol class="breadcrumb mb-4">
+                    <li class="breadcrumb-item active">Основни данни</li>
+                </ol>
+            </div>
+            <div class="row m-2 justify-content-center">
+                <div class="col-md-3 card-min-width">
+                    <a asp-controller="Teacher" asp-action="AllInSchool" asp-route-schoolId="@Model.SchoolId">
+                        <div class="card-info danger card-height ">
+                            <i class="fa fa-graduation-cap fa-fw" aria-hidden="true"></i>
+                            <span class="count-numbers">@Model.TeachersCount</span>
+                            <span class="count-name">Учители</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 card-min-width">
+                    <a asp-area="" asp-controller="Student" asp-action="AllInSchool" asp-route-schoolId="@Model.SchoolId">
+                        <div class="card-info success card-height">
+                            <i class="fa fa-users fa-fw" aria-hidden="true"></i>
+                            <span class="count-numbers">@Model.StudentsCount</span>
+                            <span class="count-name">Ученици</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 card-min-width">
+                    <a asp-controller="Class" asp-action="AllInSchool" asp-route-schoolId="@Model.SchoolId">
+                        <div class="card-info primary card-height">
+                            <i class="fa fa-book fa-fw" aria-hidden="true"></i>
+                            <span class="count-numbers">@Model.ClassesCount</span>
+                            <span class="count-name">Класа</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-md-3 card-min-width">
+                    <div class="card-info info card-height p-4">
+                        <span class="count-numbers">@Model.SchoolId</span>
+                        <span class="count-name text-uppercase">Код на училището</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End greetings and navigation tabs -->
+    </div>
+}

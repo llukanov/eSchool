@@ -1,0 +1,112 @@
+﻿@using ESchool.Common
+@model ESchool.Web.ViewModels.AssignmentReply.AllAssignmentsRepliesOfStudentViewModel
+@{
+    this.ViewData["Title"] = "Всички оценки (страница " + Model.PageIndex + ")";
+}
+
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+
+<div class="m-2 mt-5">
+    <!-- Start header -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">@this.ViewData["Title"]</h1>
+            </div>
+        </div>
+    </div>
+    <!-- Start table -->
+    <div class="row mt-2 pt-2 shadow bg-white rounded">
+        <div class="col-md-12 ">
+            <div class="table-responsive">
+                <table class="table table-bordered table-condensed table-striped table-hover sortable">
+                    @if (Model.ItemsCount == 0)
+                    {
+                        <tr>
+                            <td colspan="10">
+                                Няма решени задачи.
+                            </td>
+                        </tr>
+
+                    }
+                    else
+                    {
+                        <thead>
+                            <tr class="danger">
+                                <th data-defaultsign="disabled">Задача към урок:</th>
+                                <th data-defaultsort="disabled">Добавено на:</th>
+                                <th data-defaultsort="disabled">Рецензия на учител:</th>
+                                <th data-defaultsort="disabled">Учител:</th>
+                                <th data-defaultsort="disabled">Оценка:</th>
+                            </tr>
+                        </thead>
+
+                        foreach (var reply in this.Model.AssignmentsReplies)
+                        {
+                            <tr>
+                                <td>@reply.Assignment.Lesson.Name</td>
+                                <td><span class="font-color-dark-gray font-weight-light">@reply.CreatedOn</span></td>
+                                <td><span class="font-color-dark-gray font-weight-light">@reply.TeacherReview</span></td>
+                                <td><span class="font-color-dark-gray font-weight-light">@reply.Assignment.Teacher.FirstName @reply.Assignment.Teacher.LastName</span></td>
+                                <td>
+                                    @if (reply.Grade.Name == GlobalConstants.Grade2)
+                                    {
+                                        <span class="pl-3 pr-3 pb-1 text-nowrap text-white bg-danger rounded-pill">@reply.Grade.Name</span>
+                                    }
+                                    else if (reply.Grade.Name == GlobalConstants.Grade3)
+                                    {
+                                        <span class="pl-3 pr-3 pb-1 text-nowrap text-white background-tangerine rounded-pill">@reply.Grade.Name</span>
+                                    }
+                                    else if (reply.Grade.Name == GlobalConstants.Grade4)
+                                    {
+                                        <span class="pl-3 pr-3 pb-1 text-nowrap text-white bg-warning rounded-pill">@reply.Grade.Name</span>
+                                    }
+                                    else if (reply.Grade.Name == GlobalConstants.Grade5)
+                                    {
+                                        <span class="pl-3 pr-3 pb-1 text-nowrap text-white background-fresh rounded-pill">@reply.Grade.Name</span>
+                                    }
+                                    else if (reply.Grade.Name == GlobalConstants.Grade6)
+                                    {
+                                        <span class="pl-3 pr-3 pb-1 text-nowrap text-white bg-success rounded-pill">@reply.Grade.Name</span>
+                                    }
+                                    else if (reply.Grade.Name == GlobalConstants.NoGrade)
+                                    {
+                                        <span class="pl-3 pr-3 pb-1 text-nowrap text-white bg-light rounded-pill">@reply.Grade.Name</span>
+                                    }
+                                </td>
+                        </tr>
+                    }
+                }
+                </table>
+            </div>
+            <hr />
+
+            <!-- Pagiination -->
+            <nav>
+                <ul class="pagination justify-content-center">
+                    <li class="page-item @if (!Model.HasPreviousPage) { <text>disabled</text> }"><a class="page-link" asp-action="AllOfStudent" asp-route-studentId="@Model.StudentId" asp-route-id="@Model.PreviousPageIndex">Предишна</a></li>
+                    @for (int i = Model.PageIndex - 4; i < Model.PageIndex; i++)
+                    {
+                        if (i > 0)
+                        {
+                            <li class="page-item"><a class="page-link" asp-action="AllOfStudent" asp-route-studentId="@Model.StudentId" asp-route-id="@i">@i</a></li>
+                        }
+                    }
+                    <li class="page-item active" aria-current="page"><span class="page-link">@Model.PageIndex</span></li>
+                    @for (int i = Model.PageIndex + 1; i <= Model.PageIndex + 4; i++)
+                    {
+                        if (i <= Model.PagesCount)
+                        {
+                            <li class="page-item"><a class="page-link" asp-action="AllOfStudent" asp-route-studentId="@Model.StudentId" asp-route-id="@i">@i</a></li>
+                        }
+                    }
+                    <li class="page-item @if (!Model.HasNextPage) { <text>disabled</text> }"><a class="page-link" asp-action="AllOfStudent" asp-route-studentId="@Model.StudentId" asp-route-id="@Model.NextPageIndex">Следваща</a></li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- End table -->
+</div>

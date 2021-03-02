@@ -1,0 +1,68 @@
+﻿@using ESchool.Common
+@model ESchool.Web.ViewModels.School.AllSchoolsViewModel
+@{
+    this.ViewData["Title"] = "Всички училища (страница " + Model.PageIndex + ")";
+}
+
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+
+<div class="mt-5">
+    <!-- Start header -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">@this.ViewData["Title"]</h1>
+            </div>
+            <div class="float-right">
+                <a asp-controller="School" asp-action="Create" class="btn shadow p-2 rounded text-white background-fresh btn-block"><i class="fa fa-pencil-square-o pr-3" aria-hidden="true"></i>Добавяне на училище</a>
+            </div>
+        </div>
+    </div>
+    <!-- End header -->
+    <!-- Start table -->
+    <div class="mt-2 p-2 shadow bg-white rounded">
+        <div class="table-responsive">
+            <table class="table table-bordered table-condensed table-striped table-hover sortable">
+                @if (Model.ItemsCount == 0)
+                {
+                    <tr>
+                        <td colspan="10">Няма намерени училища.</td>
+                    </tr>
+
+                }
+                else
+                {
+                    <thead>
+                        <tr class="danger">
+                            <th data-defaultsign="disabled">Област</th>
+                            <th data-defaultsign="disabled">Населено място</th>
+                            <th data-defaultsort="disabled">Училище</th>
+                            <th data-defaultsort="disabled">Код</th>
+                            <th data-defaultsort="disabled">Действия</th>
+                        </tr>
+                    </thead>
+
+                    foreach (var item in this.Model.Schools)
+                    {
+                        <tr>
+                            <td>@item.Province</td>
+                            <td>@item.Settlement</td>
+                            <td><a asp-action="ById" asp-route-id="@item.Id">@item.Name</a></td>
+                            <td>@item.Id</td>
+                            <td>
+                                <a asp-controller="School" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-secondary mb-2"><i class="fa fa-pencil-square-o pr-1" aria-hidden="true"></i>Редактиране</a>
+                                <a asp-controller="School" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger mb-2"><i class="fa fa-trash-o pr-1" aria-hidden="true"></i>Изтриване</a>
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+        <hr />
+        <partial name="_PagingPartial" model="@Model" />
+    </div>
+    <!-- End table -->
+</div>
