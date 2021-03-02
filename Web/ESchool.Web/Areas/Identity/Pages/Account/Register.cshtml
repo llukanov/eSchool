@@ -6,88 +6,105 @@
     ViewData["Title"] = "Регистрация";
 }
 
-<div class="row justify-content-md-center">
-    <div class="col-md-4">
-        <h1>@ViewData["Title"]</h1>
-        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Създаване на нов профил</h4>
-            <hr />
-            <div asp-validation-summary="All" class="text-danger"></div>
-            @* First name *@
-            <div class="form-group input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text background-fresh"> <i class="fa fa-user fa-fw"></i> </span>
-                </div>
-                <input asp-for="Input.FirstName" class="form-control" placeholder="Име" />
-                <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+<div class="mt-5">
+    <!-- Start header -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-6">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">@this.ViewData["Title"]</h1>
+                @if (this.TempData.ContainsKey("Message"))
+                {
+                    <div class="alert alert-danger">@this.TempData["Message"]</div>
+                }
             </div>
-            @* Second name *@
-            <div class="form-group input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text background-fresh"> <i class="fa fa-user fa-fw"></i> </span>
-                </div>
-                <input asp-for="Input.SecondName" class="form-control" placeholder="Презиме" />
-                <span asp-validation-for="Input.SecondName" class="text-danger"></span>
-            </div>
-            @* Last name *@
-            <div class="form-group input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text background-fresh"> <i class="fa fa-user fa-fw"></i> </span>
-                </div>
-                <input asp-for="Input.LastName" class="form-control" placeholder="Фамилия" />
-                <span asp-validation-for="Input.LastName" class="text-danger"></span>
-            </div>
-            @* Role *@
-            <div class="form-group input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text background-fresh"> <i class="fa fa-list-alt fa-fw"></i> </span>
-                </div>
-                <select asp-for="Input.Role" class="form-control" asp-items='rolesItems'></select>
-                <span asp-validation-for="Input.Role" class="text-danger"></span>
-            </div>
-            @* School code *@
-            <!--<div class="form-group input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text background-fresh"> <i class="fa fa-graduation-cap fa-fw" aria-hidden="true"></i> </span>
-                </div>
-                <input asp-for="Input.SchoolCode" class="form-control" placeholder="Код на училището" />
-                <span asp-validation-for="Input.SchoolCode" class="text-danger"></span>
-            </div>-->
-            @* Email *@
-            <div class="form-group input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text background-fresh"> <i class="fa fa-envelope fa-fw"></i> </span>
-                </div>
-                <input asp-for="Input.Email" class="form-control" placeholder="Имейл адрес" />
-                <span asp-validation-for="Input.Email" class="text-danger"></span>
-            </div>
-            @* Password *@
-            <div class="form-group input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text background-fresh"> <i class="fa fa-lock fa-fw"></i> </span>
-                </div>
-                <input asp-for="Input.Password" placeholder="Създаване на парола" class="form-control" />
-                <span asp-validation-for="Input.Password" class="text-danger"></span>
-            </div>
-            @* Confirm password *@
-            <div class="form-group input-group">
-                <div class="input-group-prepend">
-                    <span class="input-group-text background-fresh">
-                        <i class="fa fa-lock fa-fw"></i>
-                    </span>
-                </div>
-                <input asp-for="Input.ConfirmPassword" placeholder="Потвърждаване на паролата" class="form-control" />
-                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-            </div>
-            @* Submit *@
-            <div class="form-group">
-                <button type="submit" class="btn background-fresh btn-block">Създаване на профил</button>
-            </div>
-            <p class="text-center">Имаш профил? <a asp-area="Identity" asp-page="/Account/Login">Влез</a></p>
-        </form>
+        </div>
     </div>
+    <!-- End header -->
+    <!-- Start input form -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-6 shadow p-3 mt-4 bg-white rounded">
+            <form id="account" method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                @* First name *@
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text background-fresh"> <i class="fa fa-user fa-fw"></i> </span>
+                    </div>
+                    <input asp-for="Input.FirstName" class="form-control" placeholder="Име" />
+                    <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                </div>
+                @* Second name *@
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text background-fresh"> <i class="fa fa-user fa-fw"></i> </span>
+                    </div>
+                    <input asp-for="Input.SecondName" class="form-control" placeholder="Презиме" />
+                    <span asp-validation-for="Input.SecondName" class="text-danger"></span>
+                </div>
+                @* Last name *@
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text background-fresh"> <i class="fa fa-user fa-fw"></i> </span>
+                    </div>
+                    <input asp-for="Input.LastName" class="form-control" placeholder="Фамилия" />
+                    <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                </div>
+                @* Role *@
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text background-fresh"> <i class="fa fa-list-alt fa-fw"></i> </span>
+                    </div>
+                    <select asp-for="Input.Role" class="form-control" asp-items='rolesItems'></select>
+                    <span asp-validation-for="Input.Role" class="text-danger"></span>
+                </div>
+                @*School code*@
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text background-fresh"> <i class="fa fa-graduation-cap fa-fw" aria-hidden="true"></i> </span>
+                    </div>
+                    <input asp-for="Input.SchoolCode" class="form-control" placeholder="Код на училището" />
+                    <span asp-validation-for="Input.SchoolCode" class="text-danger"></span>
+                </div>
+                @* Email *@
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text background-fresh"> <i class="fa fa-envelope fa-fw"></i> </span>
+                    </div>
+                    <input asp-for="Input.Email" class="form-control" placeholder="Имейл адрес" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+                @* Password *@
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text background-fresh"> <i class="fa fa-lock fa-fw"></i> </span>
+                    </div>
+                    <input asp-for="Input.Password" placeholder="Създаване на парола" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+                @* Confirm password *@
+                <div class="form-group input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text background-fresh">
+                            <i class="fa fa-lock fa-fw"></i>
+                        </span>
+                    </div>
+                    <input asp-for="Input.ConfirmPassword" placeholder="Потвърждаване на паролата" class="form-control" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                </div>
+                @* Submit *@
+                <div class="form-group">
+                    <button type="submit" id="btn" class="btn background-fresh text-white btn-block">Създаване на профил</button>
+                </div>
+                <p class="text-center">Имаш профил? <a asp-area="Identity" asp-page="/Account/Login">Влез</a></p>
+            </form>
+        </div>
+    </div>
+    <!-- End input form -->
 </div>
 
 @section Scripts {
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js"></script>
 }

@@ -20,10 +20,11 @@
             {
                 UserName = "superadmin@eschool.com",
                 Email = "superadmin@eschool.com",
+                SchoolId = 1110,
             };
 
             await SeedSuperAdminAsync(userManager, superAdmin);
-            await SeedSuperAdminToRoleAsync(roleManager, userManager, superAdmin.Email, "Super Admin");
+            await SeedSuperAdminToRoleAsync(roleManager, userManager, superAdmin.Email, GlobalConstants.SuperAdminRoleName);
         }
 
         // Create Super Admin

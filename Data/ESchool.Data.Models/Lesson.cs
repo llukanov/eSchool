@@ -8,16 +8,18 @@
     {
         public Lesson()
         {
-            this.Files = new HashSet<File>();
+            this.Materials = new HashSet<Material>();
         }
 
         public string Name { get; set; }
+
+        public string Description { get; set; }
 
         public int SubjectId { get; set; }
 
         public Subject Subject { get; set; }
 
-        public virtual ICollection<File> Files { get; set; }
+        public virtual ICollection<Material> Materials { get; set; }
 
         public string UserId { get; set; }
 

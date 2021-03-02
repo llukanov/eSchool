@@ -28,9 +28,9 @@
         {
         }
 
-        public DbSet<Class> Classes { get; set; }
+        public DbSet<ClassInSchool> Classes { get; set; }
 
-        public DbSet<File> Files { get; set; }
+        public DbSet<Material> Materials { get; set; }
 
         public DbSet<Lesson> Lessons { get; set; }
 
@@ -39,6 +39,12 @@
         public DbSet<Subject> Subjects { get; set; }
 
         public DbSet<SubjectStudent> SubjectStudents { get; set; }
+
+        public DbSet<Assignment> Assignments { get; set; }
+
+        public DbSet<AssignmentReply> AssignmentsReplies { get; set; }
+
+        public DbSet<Grade> Grades { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 

@@ -3,7 +3,7 @@ namespace ESchool.Data.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
+
     using ESchool.Data.Common.Models;
 
     using Microsoft.AspNetCore.Identity;
@@ -25,6 +25,14 @@ namespace ESchool.Data.Models
         public string LastName { get; set; }
 
         public bool IsApproved { get; set; }
+
+        public int SchoolId { get; set; }
+
+        public School School { get; set; }
+
+        public int? ClassInSchoolId { get; set; }
+
+        public virtual ClassInSchool ClassInSchool { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

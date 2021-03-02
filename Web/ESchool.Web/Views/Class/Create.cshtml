@@ -4,19 +4,41 @@
     this.ViewData["Title"] = "Добавяне на клас";
 }
 
-<h1>@this.ViewData["Title"]</h1>
-
-<form method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-group">
-        <label asp-for="Name"></label>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
+<div class="mt-5">
+    <!-- Start header -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-6">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">@this.ViewData["Title"]</h1>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label asp-for="SchoolId"></label>
-        <input asp-for="SchoolId" class="form-control" />
-        <span asp-validation-for="SchoolId" class="text-danger"></span>
+    <!-- End header -->
+    <!-- Start input form -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-6 shadow p-3 mt-4 bg-white rounded">
+            <form method="post">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <!-- School's name -->
+                <div class="form-group input-group">
+                    <div>
+                        <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.Name">Наименование:</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" asp-for="@Model.Name" class="form-control">
+                    </div>
+                    <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input asp-for="@Model.SchoolId" type="hidden" class="form-control" />
+                    <span asp-validation-for="@Model.SchoolId" class="text-danger"></span>
+                </div>
+                <!-- Submit -->
+                <div class="form-group float-right">
+                    <button type="submit" id="btn" class="btn text-white background-fresh btn-block">Добавяне на клас</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <input type="submit" class="btn btn-primary" />
-</form>
+    <!-- End input form -->
+</div>

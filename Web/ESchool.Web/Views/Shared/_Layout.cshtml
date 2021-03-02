@@ -1,4 +1,8 @@
 ﻿@using ESchool.Common
+@using ESchool.Data.Models
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,50 +13,80 @@
     <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 </head>
-<body>
+<body class="m-0">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">@GlobalConstants.SystemName</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+        <nav class="navbar navbar-expand-sm navbar-light bg-white border-bottom box-shadow p-2">  
+            <a class="navbar-brand mr-5" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/logo.png" style="max-width: 200px; height:auto" alt=""></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <partial name="_LoginPartial" />
             </div>
         </nav>
     </header>
 
-    <partial name="_VerticalSidebarPartial" />
 
-    <div class="container">
-        <partial name="_CookieConsentPartial" />
-        <main role="main" class="pb-3">
-            @this.RenderBody()
-        </main>
+    <div class="m-0">
+        @if (this.SignInManager.IsSignedIn(this.User))
+        {
+            <div class="row m-0">
+                <div class="col-sm-3 mt-2">
+                    <partial name="_VerticalSidebarPartial" />
+                </div>
+                <div class="col-sm-9">
+                    <partial name="_CookieConsentPartial" />
+                    <main role="main" class="pb-3">
+                        @this.RenderBody()
+                    </main>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="container">
+                <partial name="_CookieConsentPartial" />
+                <main role="main" class="pb-3">
+                    @this.RenderBody()
+                </main>
+            </div>
+        }
+
+        <!-- Footer -->
+    <div class="footer mt-5">
+        <footer class="bg-white border-top box-shadow p-2 mt-5">
+            <div class="container p-4">
+                <div class="row">
+                    <div class="col-lg-9 mb-4 mb-md-0">
+                        <a class="navbar-brand mr-5" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/logo.png" style="max-width: 200px; height:auto" alt=""></a>
+                        <p>
+                            Проект № 141 за НОИТ 2021 на Лъчезар Луканов - <a href="http://www.su-bsl.com/">СУ „Васил Левски“, гр. Бяла Слатина</a>
+                        </p>
+                    </div>
+                    <div class="col-lg-3 mb-4 mb-md-0">
+                        <h5 class="text-uppercase">Връзки</h5>
+
+                        <ul class="list-unstyled mb-0">
+                            <li>
+                                <a class="text-dark" asp-controller="Home" asp-action="Index">Начало</a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+        
+        <!-- Footer -->
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js" asp-append-version="true"></script>
     <script src="~/lib/jquery-validation-unobtrusive/dist/jquery.validate.unobtrusive.min.js" asp-append-version="true"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" asp-append-version="true"></script>
-    <script src="~/js/site.min.js" asp-append-version="true"></script>
+    @*<script src="~/js/site.min.js" asp-append-version="true"></script>*@
     @await this.RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

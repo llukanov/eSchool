@@ -3,7 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using ESchool.Common;
     using ESchool.Data.Models;
 
     using Microsoft.AspNetCore.Identity;
@@ -16,10 +16,10 @@
         {
             var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
 
-            await SeedRoleAsync(roleManager, "Super Admin");
-            await SeedRoleAsync(roleManager, "Admin");
-            await SeedRoleAsync(roleManager, "Teacher");
-            await SeedRoleAsync(roleManager, "Student");
+            await SeedRoleAsync(roleManager, GlobalConstants.SuperAdminRoleName);
+            await SeedRoleAsync(roleManager, GlobalConstants.AdminRoleName);
+            await SeedRoleAsync(roleManager, GlobalConstants.TeacherRoleName);
+            await SeedRoleAsync(roleManager, GlobalConstants.StudentRoleName);
         }
 
         private static async Task SeedRoleAsync(RoleManager<ApplicationRole> roleManager, string roleName)

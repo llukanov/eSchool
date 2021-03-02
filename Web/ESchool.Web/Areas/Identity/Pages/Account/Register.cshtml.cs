@@ -1,12 +1,13 @@
 ﻿namespace ESchool.Web.Areas.Identity.Pages.Account
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Text;
     using System.Text.Encodings.Web;
     using System.Threading.Tasks;
-
+    using ESchool.Data.Common.Repositories;
     using ESchool.Data.Models;
     using ESchool.Services.Data.Contracts;
     using Microsoft.AspNetCore.Authentication;
@@ -27,6 +28,8 @@
         private readonly IEmailSender emailSender;
         private readonly RoleManager<ApplicationRole> roleManager;
         private readonly IRolesService rolesService;
+        private readonly ISchoolsService schoolsService;
+        private readonly IDeletableEntityRepository<School> schoolsRepository;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -34,7 +37,9 @@
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
             RoleManager<ApplicationRole> roleManager,
-            IRolesService rolesService)
+            IRolesService rolesService,
+            ISchoolsService schoolsService,
+            IDeletableEntityRepository<School> schoolsRepository)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
@@ -42,6 +47,8 @@
             this.emailSender = emailSender;
             this.roleManager = roleManager;
             this.rolesService = rolesService;
+            this.schoolsService = schoolsService;
+            this.schoolsRepository = schoolsRepository;
         }
 
         [BindProperty]
@@ -104,21 +111,38 @@
         {
             returnUrl ??= this.Url.Content("~/");
             var role = this.roleManager.FindByIdAsync(this.Input.Role).Result;
+
             this.ExternalLogins = (await this.signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
             if (this.ModelState.IsValid)
             {
+                var school = this.schoolsRepository
+                    .AllAsNoTracking()
+                    .Where(x => x.Id == this.Input.SchoolCode)
+                    .FirstOrDefault();
+
+                if (school == null)
+                {
+                    this.TempData["Message"] = "Невалиден код за присъединяване към училище!";
+                    return this.LocalRedirect("/Identity/Account/Register");
+                }
+
                 var user = new ApplicationUser {
                     UserName = this.Input.Email,
                     Email = this.Input.Email,
                     FirstName = this.Input.FirstName,
                     SecondName = this.Input.SecondName,
                     LastName = this.Input.LastName,
+                    SchoolId = this.Input.SchoolCode,
                 };
+
                 var result = await this.userManager.CreateAsync(user, this.Input.Password);
+
                 if (result.Succeeded)
                 {
                     this.logger.LogInformation("Потребителят създаде нов акаунт с парола.");
 
+                    //await this.schoolsService.AddUserToSchool(user, this.Input.SchoolCode);
                     await this.userManager.AddToRoleAsync(user, role.Name);
 
                     var code = await this.userManager.GenerateEmailConfirmationTokenAsync(user);

@@ -8,18 +8,15 @@
     {
         public School()
         {
-            this.Classes = new HashSet<Class>();
-            this.Users = new HashSet<ApplicationUser>();
+            this.Classes = new HashSet<ClassInSchool>();
         }
 
         public string Name { get; set; }
 
-        public virtual ICollection<Class> Classes { get; set; }
+        public string Settlement { get; set; }
 
-        public string AdminId { get; set; }
+        public string Province { get; set; }
 
-        public ApplicationUser Admin { get; set; }
-
-        public virtual ICollection<ApplicationUser> Users { get; set; }
+        public virtual ICollection<ClassInSchool> Classes { get; set; }
     }
 }

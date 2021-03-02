@@ -53,6 +53,12 @@
                         options.MinimumSameSitePolicy = SameSiteMode.None;
                     });
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                // User settings
+                options.User.RequireUniqueEmail = true;
+            });
+
             services.AddControllersWithViews(
                 options =>
                     {
@@ -74,6 +80,14 @@
             services.AddTransient<ISubjectsService, SubjetsServices>();
             services.AddTransient<ISchoolsService, SchoolsService>();
             services.AddTransient<IRolesService, RolesService>();
+            services.AddTransient<IStudentsService, StudentsService>();
+            services.AddTransient<ITeachersService, TeachersService>();
+            services.AddTransient<IAdminsService, AdminsService>();
+            services.AddTransient<ILessonsService, LessonsService>();
+            services.AddTransient<IAssignmentsService, AssignmentsService>();
+            services.AddTransient<IAssignmentRepliesService, AssignmentRepliesService>();
+            services.AddTransient<IGradesService, GradesService>();
+            services.AddTransient<IMaterialsService, MaterialsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -116,6 +130,7 @@
                         endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                         endpoints.MapRazorPages();
                     });
+
         }
     }
 }

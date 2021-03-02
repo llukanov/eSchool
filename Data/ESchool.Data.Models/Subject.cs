@@ -17,7 +17,7 @@
 
         public int ClassId { get; set; }
 
-        public Class Class { get; set; }
+        public ClassInSchool Class { get; set; }
 
         public string TeacherId { get; set; }
 
