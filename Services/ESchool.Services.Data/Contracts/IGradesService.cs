@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ESchool.Services.Data.Contracts
+﻿namespace ESchool.Services.Data.Contracts
 {
+    using System.Collections.Generic;
+
     public interface IGradesService
     {
         IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs();

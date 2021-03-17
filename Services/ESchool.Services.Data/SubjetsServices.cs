@@ -25,6 +25,7 @@
             this.classesService = classesService;
         }
 
+        // Create Subject
         public async Task CreateAsync(CreateSubjectInputModel input, int classInSchoolId, string teacherId)
         {
             var subject = new Subject
@@ -38,6 +39,7 @@
             await this.subjectsRepository.SaveChangesAsync();
         }
 
+        // Get all subjects of teacher
         public IEnumerable<SubjectAtListViewModel> GetAllSubjectOfTeacher<T>(string teacherId)
         {
             var subjects = this.subjectsRepository
@@ -50,6 +52,7 @@
             return subjects;
         }
 
+        // Get all subject of student
         public IEnumerable<SubjectAtListViewModel> GetAllSubjectsOfStudent<T>(ApplicationUser student)
         {
             var studentClass = this.classesService.GetClassOfStudent<ClassInSchool>(student);
@@ -69,16 +72,7 @@
             return new List<SubjectAtListViewModel>();
         }
 
-        public IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePair()
-        {
-            return this.subjectsRepository.All().Select(x => new
-            {
-                x.Id,
-                x.Name,
-            }).ToList().Select(x => new KeyValuePair<string, string>(x.Id.ToString(), x.Name));
-        }
-
-
+        // Get subject by id
         public T GetById<T>(int id)
         {
             var subject = this.subjectsRepository.AllAsNoTracking()

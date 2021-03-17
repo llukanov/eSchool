@@ -8,9 +8,10 @@
 @if (this.SignInManager.IsSignedIn(this.User))
 {
     <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse vertical-navbar background-fresh" id="navbarsExampleDefault">
-        <ul class="nav flex-column m-0">
+        <ul class="nav flex-column m-0" style="min-width: 150px">
             @if (this.User.IsInRole(GlobalConstants.SuperAdminRoleName))
             {
+                <!-- Navigation if current user is Super Admin -->
                 <li class="nav-item">
                     <a class="nav-link font-weight-bold font-color-aluminium" asp-area="" asp-controller="Home" asp-action="Index">Начало</a>
                 </li>
@@ -26,6 +27,7 @@
             }
             else if (this.User.IsInRole(GlobalConstants.AdminRoleName))
             {
+                <!-- Navigation if current user is Admin -->
                 <li class="nav-item">
                     <a class="nav-link font-weight-bold font-color-aluminium" asp-area="" asp-controller="Home" asp-action="Index">Начало</a>
                 </li>
@@ -44,6 +46,7 @@
             }
             else if (this.User.IsInRole(GlobalConstants.TeacherRoleName))
             {
+                <!-- Navigation if current user is Teacher -->
                 <li class="nav-item">
                     <a class="nav-link font-weight-bold font-color-aluminium" asp-area="" asp-controller="Home" asp-action="Index">Начало</a>
                 </li>
@@ -57,12 +60,13 @@
                     <a class="nav-link waves-effect waves-light" asp-controller="Student" asp-action="AllInSchool">Ученици</a>
                 </li>
                 @*<li class="nav-item">
-                    <a class="nav-link waves-effect waves-light" asp-controller="Subject" asp-action="AllSubjectsOfTeacher" asp-route-schoolId="">Всички предмети</a>
-                </li>*@
+                <a class="nav-link waves-effect waves-light" asp-controller="Subject" asp-action="AllSubjectsOfTeacher" asp-route-schoolId="">Всички предмети</a>
+            </li>*@
             }
             else if (this.User.IsInRole(GlobalConstants.StudentRoleName))
             {
-                <li class="nav-item">
+                <!-- Navigation if current user is Student -->
+                <li class="nav-item" style="min-width:150px">
                     <a class="nav-link font-weight-bold font-color-aluminium" asp-area="" asp-controller="Home" asp-action="Index">Начало</a>
                 </li>
                 <li class="nav-item">

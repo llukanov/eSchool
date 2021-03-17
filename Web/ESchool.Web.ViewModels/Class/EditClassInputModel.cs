@@ -9,7 +9,7 @@
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето „Наименование“ е задължително!")]
         public string Name { get; set; }
     }
 }

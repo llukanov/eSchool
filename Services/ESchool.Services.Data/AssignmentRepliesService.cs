@@ -3,19 +3,20 @@
     using System;
     using System.Collections.Generic;
     using System.IO;
-    using System.Text;
+    using System.Linq;
     using System.Threading.Tasks;
 
+    using ESchool.Common;
     using ESchool.Data.Common.Repositories;
     using ESchool.Data.Models;
     using ESchool.Services.Data.Contracts;
-    using ESchool.Web.ViewModels.AssignmentReply;
-    using System.Linq;
     using ESchool.Services.Mapping;
-    using ESchool.Common;
+    using ESchool.Web.ViewModels.AssignmentReply;
 
     public class AssignmentRepliesService : IAssignmentRepliesService
     {
+        private readonly string[] allowedExtensions = new[] { ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".png", ".jpg", ".jpeg" };
+
         private readonly IDeletableEntityRepository<AssignmentReply> assignmentRepliesRepository;
         private readonly IDeletableEntityRepository<Material> materialRepository;
 
@@ -27,6 +28,7 @@
             this.materialRepository = materialRepository;
         }
 
+        // Get all replies of some assignment by AssignmentId
         public IEnumerable<AssignmentReplyAtListViewModel> GetAllRepliesOfAssignment<T>(string assignmentId)
         {
             var replies = this.assignmentRepliesRepository
@@ -39,6 +41,7 @@
             return replies;
         }
 
+        // Get all replies of some student by StudentId
         public IEnumerable<AssignmentReplyAtListViewModel> GetAllRepliesOfStudent<T>(string studentId, int page, int itemsPerPage = 20)
         {
             var replies = this.assignmentRepliesRepository
@@ -52,6 +55,7 @@
             return replies;
         }
 
+        // Get all replies of some assignment by replyId
         public T GetById<T>(string assignmentReplyId)
         {
             var assignmentReply = this.assignmentRepliesRepository.AllAsNoTracking()
@@ -62,6 +66,7 @@
             return assignmentReply;
         }
 
+        // Get count of all replies of student
         public int GetCountRepliesOfStudent(string studentId)
         {
             return this.assignmentRepliesRepository
@@ -70,8 +75,14 @@
                 .Count();
         }
 
+        // Send reply and processing uploaded files
         public async Task SendAsync(SendAssignmentReplyInputModel input, string materialPath)
         {
+            if (input.Description == null || input.Description.Length <= 100)
+            {
+                throw new Exception("");
+            }
+
             var assignmentReply = new AssignmentReply
             {
                 Text = input.StudentReplyText,
@@ -91,10 +102,10 @@
                     var extension = Path.GetExtension(files.FileName);
 
 
-                    //if (!this.allowedExtensions.Any(x => extension.EndsWith(x)))
-                    //{
-                    //    throw new Exception($"Invalid image extension {extension}");
-                    //}
+                    if (!this.allowedExtensions.Any(x => extension.EndsWith(x)))
+                    {
+                        throw new Exception($"Невалиден файлов формат: {extension}");
+                    }
 
                     var dbMaterial = new Material
                     {
@@ -115,6 +126,7 @@
             }
         }
 
+        // Update reply - reviewing and setting grade of student reply
         public async Task UpdateAsync(ReturnAssignmentReplyInputModel input, string assignmentReplyId)
         {
             var assignmentReply = this.assignmentRepliesRepository

@@ -27,5 +27,7 @@
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime CreatedOn { get; set; }
+
+        public DateTime LocalCreatedOn => this.CreatedOn.AddHours(2.00);
     }
 }

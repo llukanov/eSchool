@@ -53,7 +53,7 @@
             {
                 <div class="row shadow p-3 mb-2 bg-white rounded">
                     <div class="col-md-9">
-                        <h4><a asp-controller="Lesson" asp-action="ById" asp-route-lessonId="@lesson.Id" class="font-color-dark-gray font-weight-light text-decoration-none"><i class="fa fa-book fa-fw mini-icon-color pr-3" aria-hidden="true"></i>@lesson.Name</a></h4> <span class="font-color-dark-gray font-weight-light">(Добавена: @lesson.CreatedOn)</span>
+                        <h4><a asp-controller="Lesson" asp-action="ById" asp-route-lessonId="@lesson.Id" class="font-color-dark-gray font-weight-light text-decoration-none"><i class="fa fa-book fa-fw mini-icon-color pr-3" aria-hidden="true"></i>@lesson.Name</a></h4> <span class="font-color-dark-gray font-weight-light">(Добавена: @lesson.LocalCreatedOn)</span>
                     </div>
                     @if (this.User.IsInRole(GlobalConstants.TeacherRoleName))
                     {

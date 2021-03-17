@@ -1,10 +1,9 @@
-﻿using ESchool.Web.ViewModels.Subject;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ESchool.Web.ViewModels.Assignment
+﻿namespace ESchool.Web.ViewModels.Assignment
 {
+    using System.Collections.Generic;
+
+    using ESchool.Web.ViewModels.Subject;
+
     public class AllAssignmentsInSubjectViewModel : PagingViewModel
     {
         public int SubjectId { get; set; }

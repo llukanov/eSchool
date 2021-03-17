@@ -1,17 +1,18 @@
-﻿using ESchool.Data.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace ESchool.Web.ViewModels.Assignment
+﻿namespace ESchool.Web.ViewModels.Assignment
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Web.Mvc;
+
+    using ESchool.Data.Models;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+
     public class CreateAssignmentInputModel
     {
-        [Required]
-        [MinLength(100)]
+        [Required(ErrorMessage = "Полето „Инструкции“ е задължително и трябва да съдържа поне 15 символа!")]
+        [AllowHtml]
         public string Description { get; set; }
 
         public int LessonId { get; set; }
@@ -23,7 +24,9 @@ namespace ESchool.Web.ViewModels.Assignment
 
         public ApplicationUser Teacher { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето „Краен срок“ е задължително!")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime Deadline { get; set; }
     }
 }

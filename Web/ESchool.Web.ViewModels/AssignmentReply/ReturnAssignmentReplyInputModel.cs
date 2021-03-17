@@ -29,7 +29,8 @@
 
         //public string StudentFullName => this.Student.FirstName + " " + this.Student.SecondName + " " + this.Student.LastName;
 
-        [Required]
+        [Required(ErrorMessage = "Полето е задължително!")]
+        [MinLength(5, ErrorMessage = "Полето трябва да съдържа поне 5 символа")]
         public string TeacherReview { get; set; }
 
         public IEnumerable<KeyValuePair<string, string>> Grades { get; set; }

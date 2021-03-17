@@ -14,6 +14,8 @@ namespace ESchool.Services.Data
 {
     public class AssignmentsService : IAssignmentsService
     {
+        private readonly string[] allowedExtensions = new[] { ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".png", ".jpg", ".jpeg" };
+
         private readonly IDeletableEntityRepository<Assignment> assignmentRepository;
         private readonly IDeletableEntityRepository<Material> materialRepository;
 
@@ -25,8 +27,14 @@ namespace ESchool.Services.Data
             this.materialRepository = materialRepository;
         }
 
+        // Create Assignment
         public async Task CreateAsync(CreateAssignmentInputModel input, string materialPath)
         {
+            if (input.Description == null || input.Description.Length == 15)
+            {
+                throw new Exception("");
+            }
+
             var assignment = new Assignment
             {
                 Description = input.Description,
@@ -45,11 +53,10 @@ namespace ESchool.Services.Data
                 {
                     var extension = Path.GetExtension(material.FileName);
 
-
-                    //if (!this.allowedExtensions.Any(x => extension.EndsWith(x)))
-                    //{
-                    //    throw new Exception($"Invalid image extension {extension}");
-                    //}
+                    if (!this.allowedExtensions.Any(x => extension.EndsWith(x)))
+                    {
+                        throw new Exception($"Невалиден файлов формат: {extension}");
+                    }
 
                     var dbMaterial = new Material
                     {
@@ -75,6 +82,7 @@ namespace ESchool.Services.Data
             throw new NotImplementedException();
         }
 
+        // Get all assignments in lesson by lessonId
         public IEnumerable<AssignmentAtListViewModel> GetAllAssignmensInLesson<T>(int lessonId)
         {
             var assigments = this.assignmentRepository
@@ -87,6 +95,7 @@ namespace ESchool.Services.Data
             return assigments;
         }
 
+        // Get all assignment in some project
         public IEnumerable<AssignmentAtListViewModel> GetAllInSubject<T>(int subjectId, int page, int itemsPerPage = 20)
         {
             var assignments = this.assignmentRepository
@@ -100,6 +109,7 @@ namespace ESchool.Services.Data
             return assignments;
         }
 
+        // Get assignment by Id
         public T GetById<T>(string assignmentId)
         {
             var assignment = this.assignmentRepository.AllAsNoTracking()
@@ -110,6 +120,7 @@ namespace ESchool.Services.Data
             return assignment;
         }
 
+        // Get count of assignments in subject
         public int GetCountInSubject(int subjectId)
         {
             return this.assignmentRepository
@@ -118,6 +129,7 @@ namespace ESchool.Services.Data
                 .Count();
         }
 
+        // Edit assignment
         public async Task UpdateAsync(EditAssignmentInputModel input, string assignmentId)
         {
             var assignment = this.assignmentRepository

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ESchool.Web.ViewModels.AssignmentReply
+﻿namespace ESchool.Web.ViewModels.AssignmentReply
 {
+    using System.Collections.Generic;
+
     public class AllAssignmentsRepliesOfStudentViewModel : PagingViewModel
     {
         public string StudentId { get; set; }

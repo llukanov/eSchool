@@ -1,10 +1,8 @@
 ﻿namespace ESchool.Web.ViewModels.Assignment
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Text;
-
+    using System.Web.Mvc;
     using ESchool.Data.Models;
 
     using ESchool.Services.Mapping;
@@ -13,9 +11,13 @@
     {
         public string Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето „Инструкции“ е задължително и трябва да съдържа поне 15 символа!")]
+        [AllowHtml]
         public string Description { get; set; }
 
+        [Required(ErrorMessage = "Полето „Краен срок“ е задължително!")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:d}")]
         public DateTime Deadline { get; set; }
     }
 }

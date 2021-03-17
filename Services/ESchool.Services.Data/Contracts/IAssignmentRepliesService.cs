@@ -1,11 +1,10 @@
-﻿using ESchool.Web.ViewModels.AssignmentReply;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ESchool.Services.Data.Contracts
+﻿namespace ESchool.Services.Data.Contracts
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using ESchool.Web.ViewModels.AssignmentReply;
+
     public interface IAssignmentRepliesService
     {
         Task SendAsync(SendAssignmentReplyInputModel input, string materialPath);

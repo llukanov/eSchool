@@ -1,14 +1,11 @@
-﻿using ESchool.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-
-namespace ESchool.Web.ViewModels.Subject
+﻿namespace ESchool.Web.ViewModels.Subject
 {
+    using System.ComponentModel.DataAnnotations;
+
     public class CreateSubjectInputModel
     {
-        [Required]
+        [Required(ErrorMessage = "Полето „Наименование“ е задължително!")]
+        [MinLength(2, ErrorMessage = "Дължината на „Наименование“ трябва да бъде поне 2 символа.")]
         public string Name { get; set; }
     }
 }

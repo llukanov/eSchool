@@ -4,7 +4,7 @@
 
     public class CreateClassInputModel
     {
-        [Required]
+        [Required(ErrorMessage = "Полето „Наименование“ е задължително!")]
         public string Name { get; set; }
 
         [Required]

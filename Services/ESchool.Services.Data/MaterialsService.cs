@@ -1,15 +1,14 @@
-﻿using ESchool.Data.Common.Repositories;
-using ESchool.Data.Models;
-using ESchool.Services.Data.Contracts;
-using ESchool.Services.Mapping;
-using ESchool.Web.ViewModels.Material;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ESchool.Services.Data
+﻿namespace ESchool.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using ESchool.Data.Common.Repositories;
+    using ESchool.Data.Models;
+    using ESchool.Services.Data.Contracts;
+    using ESchool.Services.Mapping;
+    using ESchool.Web.ViewModels.Material;
+
     public class MaterialsService : IMaterialsService
     {
         private readonly IDeletableEntityRepository<Material> materialRepository;
@@ -20,6 +19,7 @@ namespace ESchool.Services.Data
             this.materialRepository = materialRepository;
         }
 
+        // Get all materials in subject
         public IEnumerable<MaterialAtListViewModel> GetAllInSubject<T>(int subjectId, int page, int itemsPerPage = 20)
         {
             var materials = this.materialRepository
@@ -45,6 +45,7 @@ namespace ESchool.Services.Data
             return material;
         }
 
+        // Get material's count in subject
         public int GetCountInSubject(int subjectId)
         {
             return this.materialRepository

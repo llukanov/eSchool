@@ -58,7 +58,7 @@
                             <tr>
                                 <td><a asp-controller="Material" asp-action="Download" asp-route-materialId="@material.Id" asp-route-extension="@material.Extension"><i class="fa fa-file fa-fw mini-icon-color" aria-hidden="true"></i>@material.Name</a><br /></td>
                                 <td><a asp-controller="Lesson" asp-action="ById" asp-route-lessonId="@material.Lesson.Id" class="font-color-dark-gray font-weight-light text-decoration-none">@material.Lesson.Name</a></td>
-                                <td><span class="font-color-dark-gray font-weight-light">@material.Lesson.CreatedOn</span></td>
+                                <td><span class="font-color-dark-gray font-weight-light">@material.Lesson.LocalCreatedOn</span></td>
                             </tr>
                         }
                     }

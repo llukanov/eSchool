@@ -41,6 +41,7 @@ namespace ESchool.Web.Controllers
             this.environment = environment;
         }
 
+        // Send assignment
         [Authorize(Roles = GlobalConstants.StudentRoleName)]
         public IActionResult Send(string assignmentId)
         {
@@ -67,7 +68,6 @@ namespace ESchool.Web.Controllers
             viewModel.Teacher = assignment.Teacher;
             viewModel.StudentId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             viewModel.Deadline = assignment.Deadline;
-
 
             return this.View(viewModel);
         }
@@ -101,6 +101,7 @@ namespace ESchool.Web.Controllers
             return this.RedirectToAction(actionName: "ById", controllerName: "Lesson", new { lessonId = input.Lesson.Id });
         }
 
+        // Return assignment
         [Authorize(Roles = GlobalConstants.TeacherRoleName)]
         public IActionResult Return(string assignmentReplyId)
         {
@@ -123,23 +124,6 @@ namespace ESchool.Web.Controllers
             }
 
             await this.assignmentRepliesService.UpdateAsync(input, assignmentReplyId);
-
-            //try
-            //{
-            //    //var assignmentReply = this.assignmentRepliesService.GetById<ReturnAssignmentReplyInputModel>(assignmentReplyId);
-
-            //    //assignmentReply.Student = assignmentReply.Student;
-
-
-            //    await this.assignmentRepliesService.UpdateAsync(input, assignmentReplyId);
-            //}
-            //catch (Exception ex)
-            //{
-            //    this.ModelState.AddModelError(string.Empty, ex.Message);
-            //    return this.View(input);
-            //}
-
-            
 
             var assignmentReply = this.assignmentRepliesService.GetById<ReturnAssignmentReplyInputModel>(assignmentReplyId);
 

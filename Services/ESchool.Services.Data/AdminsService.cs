@@ -84,7 +84,5 @@
                 .GetUsersInRoleAsync(GlobalConstants.AdminRoleName).Result
                 .Count();
         }
-
-        // Get school's name
     }
 }

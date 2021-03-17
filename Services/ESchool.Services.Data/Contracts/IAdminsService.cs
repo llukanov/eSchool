@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+
     using ESchool.Web.ViewModels.Admin;
 
     public interface IAdminsService

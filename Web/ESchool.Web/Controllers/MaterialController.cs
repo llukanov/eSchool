@@ -40,6 +40,24 @@
             this.environment = environment;
         }
 
+        // Mime Types
+        private Dictionary<string, string> GetMimeTypes()
+        {
+            return new Dictionary<string, string>
+            {
+                { ".pdf", "application/pdf" },
+                { ".doc", "application/vnd.ms-word" },
+                { ".docx", "application/vnd.ms-word" },
+                { ".xls", "application/vnd.ms-excel" },
+                { ".xlsx", "application/vnd.ms-excel" },
+                { ".ppt", "application/vnd.ms-powerpoint" },
+                { ".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation" },
+                { ".png", "image/png" },
+                { ".jpg", "image/jpeg" },
+                { ".jpeg", "image/jpeg" },
+            };
+        }
+
         // Get all materials in some subject
         [Authorize(Roles = GlobalConstants.TeacherRoleName + "," + GlobalConstants.StudentRoleName)]
         public IActionResult AllInSubject(int subjectId, int id = 1)
@@ -73,6 +91,7 @@
             return this.View(viewModel);
         }
 
+        // Download files
         public async Task<IActionResult> Download(string materialId, string extension)
         {
             // Search file in database
@@ -101,28 +120,12 @@
             return this.File(memory, this.GetContentType(filePath), material.Name + extension);
         }
 
+        // Get Mime content type
         private string GetContentType(string path)
         {
             var types = this.GetMimeTypes();
             var ext = Path.GetExtension(path).ToLowerInvariant();
             return types[ext];
-        }
-
-        private Dictionary<string, string> GetMimeTypes()
-        {
-            return new Dictionary<string, string>
-            {
-                { ".pdf", "application/pdf" },
-                { ".doc", "application/vnd.ms-word" },
-                { ".docx", "application/vnd.ms-word" },
-                { ".xls", "application/vnd.ms-excel" },
-                { ".xlsx", "application/vnd.ms-excel" },
-                { ".ppt", "application/vnd.ms-powerpoint" },
-                { ".pptx", "application/vnd.openxmlformats-officedocument.presentationml.presentation" },
-                { ".png", "image/png" },
-                { ".jpg", "image/jpeg" },
-                { ".jpeg", "image/jpeg" },
-            };
         }
     }
 }

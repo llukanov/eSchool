@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.Text;
-
+    using System.Web.Mvc;
     using ESchool.Data.Models;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
@@ -25,8 +25,8 @@
 
         public DateTime Deadline { get; set; }
 
-        [Required]
-        [MinLength(100)]
+        [Required(ErrorMessage = "Полето „Отговор“ е задължително и трябва да съдържа поне 100 символа!")]
+        [AllowHtml]
         public string StudentReplyText { get; set; }
 
         [BindProperty]

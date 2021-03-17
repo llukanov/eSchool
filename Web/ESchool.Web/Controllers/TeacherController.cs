@@ -26,11 +26,6 @@
             this.userManager = userManager;
         }
 
-        public IActionResult Index()
-        {
-            return this.View();
-        }
-
         // Approve teacher by id
         [HttpPost]
         [Authorize(Roles = GlobalConstants.AdminRoleName)]
@@ -68,7 +63,7 @@
             return this.RedirectToAction(nameof(this.AllInSchool), new { schoolId = schoolId });
         }
 
-        // Get admins
+        // Get all teachers in schools
         [Authorize(Roles = GlobalConstants.AdminRoleName + "," + GlobalConstants.TeacherRoleName)]
         public IActionResult AllInSchool(int schoolId, int id = 1)
         {

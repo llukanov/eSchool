@@ -14,12 +14,12 @@
     {
         public int Id { get; set; }
 
-        [Required]
-        [MinLength(4)]
+        [Required(ErrorMessage = "Полето „Тема“ е задължително!")]
+        [MinLength(4, ErrorMessage = "Дължината на „Тема“ трябва да бъде поне 4 символа.")]
         public string Name { get; set; }
 
-        [Required]
-        [MinLength(100)]
+        [Required(ErrorMessage = "Полето „Инструкции“ е задължително и трябва да съдържа поне 15 символа!")]
+        [MinLength(15, ErrorMessage = "Дължината на „Инструкции“ трябва да бъде поне 15 символа.")]
         public string Description { get; set; }
 
         public int SubjectId { get; set; }

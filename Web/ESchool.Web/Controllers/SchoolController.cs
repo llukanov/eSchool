@@ -24,6 +24,7 @@
             this.userManager = userManager;
         }
 
+        // Create school
         [Authorize(Roles = GlobalConstants.SuperAdminRoleName)]
         public IActionResult Create()
         {

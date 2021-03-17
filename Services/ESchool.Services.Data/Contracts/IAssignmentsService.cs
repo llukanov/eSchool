@@ -1,11 +1,10 @@
-﻿using ESchool.Web.ViewModels.Assignment;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ESchool.Services.Data.Contracts
+﻿namespace ESchool.Services.Data.Contracts
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using ESchool.Web.ViewModels.Assignment;
+
     public interface IAssignmentsService
     {
         Task CreateAsync(CreateAssignmentInputModel input, string materialPath);

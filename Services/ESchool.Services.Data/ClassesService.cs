@@ -50,7 +50,7 @@
             await this.classesRepository.SaveChangesAsync();
         }
 
-        // Delete a school by id
+        // Delete a class by id
         public async Task DeleteAsync(int id)
         {
             var classForDeletion = this.classesRepository
@@ -60,11 +60,7 @@
             await this.classesRepository.SaveChangesAsync();
         }
 
-        public IEnumerable<ClassAtListViewModel> GetAll<T>(int page, int itemsPerPage = 20)
-        {
-            throw new System.NotImplementedException();
-        }
-
+        // Get class of student
         public ClassInSchool GetClassOfStudent<T>(ApplicationUser student)
         {
             var classInSchool = this.classesRepository
@@ -88,22 +84,8 @@
             return classes;
         }
 
-        // List with classes in some school as KeyValuePair - it is used for adding student to some class
-        public IEnumerable<KeyValuePair<string, string>> GetAllClassesInSchoolAsKeyValuePairs(int schoolId)
-        {
-            return this.classesRepository
-                .AllAsNoTracking()
-                .Where(x => x.SchoolId == schoolId)
-                .Select(x => new
-                {
-                    x.Id,
-                    x.Name,
-                })
-                .OrderBy(x => x.Name)
-                .ToList()
-                .Select(x => new KeyValuePair<string, string>(x.Id.ToString(), x.Name));
-        }
 
+        // Get a class by Id
         public T GetById<T>(int id)
         {
             var wantedClass = this.classesRepository.AllAsNoTracking()
@@ -112,11 +94,6 @@
                 .FirstOrDefault();
 
             return wantedClass;
-        }
-
-        public int GetCount()
-        {
-            throw new System.NotImplementedException();
         }
 
         // Get classes' count in some school

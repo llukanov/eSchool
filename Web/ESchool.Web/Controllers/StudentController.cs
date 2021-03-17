@@ -29,22 +29,6 @@ namespace ESchool.Web.Controllers
             this.userManager = userManager;
         }
 
-        public IActionResult Index()
-        {
-            return this.View();
-        }
-
-        // Edit student's info - add student to a class
-        [Authorize(Roles = GlobalConstants.AdminRoleName)]
-        public IActionResult Edit(int schoolId, string userId)
-        {
-            var inputModel = this.studentsService.GetById<EditStudentViewModel>(userId);
-
-            inputModel.Classes = this.classesService.GetAllClassesInSchoolAsKeyValuePairs(schoolId);
-
-            return this.View(inputModel);
-        }
-
         // Approve student by id
         [HttpPost]
         [Authorize(Roles = GlobalConstants.AdminRoleName)]

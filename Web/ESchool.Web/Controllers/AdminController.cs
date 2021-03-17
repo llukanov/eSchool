@@ -48,7 +48,7 @@
             return this.RedirectToAction(nameof(this.All));
         }
 
-        // Approve admin
+        // Reject admin
         [Authorize(Roles = GlobalConstants.SuperAdminRoleName)]
         public async Task<IActionResult> RejectAdmin(string id)
         {

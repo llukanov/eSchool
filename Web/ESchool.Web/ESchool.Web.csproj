@@ -38,8 +38,6 @@
     <ProjectReference Include="..\..\Services\ESchool.Services.Data\ESchool.Services.Data.csproj" />
     <ProjectReference Include="..\..\Services\ESchool.Services.Mapping\ESchool.Services.Mapping.csproj" />
     <ProjectReference Include="..\..\Services\ESchool.Services.Messaging\ESchool.Services.Messaging.csproj" />
-    <ProjectReference Include="..\..\Services\ESchool.Services\ESchool.Services.csproj" />
-    <ProjectReference Include="..\ESchool.Web.Infrastructure\ESchool.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\ESchool.Web.ViewModels\ESchool.Web.ViewModels.csproj" />
   </ItemGroup>
 </Project>

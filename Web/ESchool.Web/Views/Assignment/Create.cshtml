@@ -26,7 +26,7 @@
                             <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.Description">Инструкции:</label>
                         </div>
                         <div class="input-group">
-                            <textarea class="form-control" id="mytextarea" asp-for="@Model.Description"></textarea>
+                            <textarea class="form-control" id="mytextarea" asp-for="@Model.Description" required></textarea>
                         </div>
                         <span asp-validation-for="@Model.Description" class="text-danger"></span>
                     </div>
@@ -64,7 +64,7 @@
 
 
 @section Scripts {
-    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/5csufy9ta4cszywqv2nvl3ahc4u6n6rnpowf4a9kibn1xndp/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
     <script type="text/javascript">
         tinymce.init({
             selector: '#mytextarea',

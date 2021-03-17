@@ -6,6 +6,7 @@
 
     using ESchool.Data.Models;
     using ESchool.Services.Mapping;
+    using ESchool.Web.ViewModels.Lesson;
 
     public class MaterialAtListViewModel : IMapFrom<Material>
     {
@@ -13,7 +14,7 @@
 
         public string Name { get; set; }
 
-        public Lesson Lesson { get; set; }
+        public LessonAtListViewModel Lesson { get; set; }
 
         public string Extension { get; set; }
     }

@@ -1,14 +1,13 @@
-﻿using ESchool.Common;
-using ESchool.Data.Common.Repositories;
-using ESchool.Data.Models;
-using ESchool.Services.Data.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace ESchool.Services.Data
+﻿namespace ESchool.Services.Data
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using ESchool.Common;
+    using ESchool.Data.Common.Repositories;
+    using ESchool.Data.Models;
+    using ESchool.Services.Data.Contracts;
+
     public class GradesService : IGradesService
     {
         private readonly IDeletableEntityRepository<Grade> gradeRepository;

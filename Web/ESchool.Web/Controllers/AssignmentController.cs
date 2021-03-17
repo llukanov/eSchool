@@ -1,21 +1,21 @@
-﻿using ESchool.Common;
-using ESchool.Data.Models;
-using ESchool.Services.Data.Contracts;
-using ESchool.Web.ViewModels.Assignment;
-using ESchool.Web.ViewModels.AssignmentReply;
-using ESchool.Web.ViewModels.Subject;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace ESchool.Web.Controllers
+﻿namespace ESchool.Web.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using ESchool.Common;
+    using ESchool.Data.Models;
+    using ESchool.Services.Data.Contracts;
+    using ESchool.Web.ViewModels.Assignment;
+    using ESchool.Web.ViewModels.AssignmentReply;
+    using ESchool.Web.ViewModels.Subject;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
     public class AssignmentController : Controller
     {
         private readonly IAssignmentsService assignmentsService;
@@ -38,6 +38,7 @@ namespace ESchool.Web.Controllers
             this.environment = environment;
         }
 
+        // Create assignment
         [Authorize(Roles = GlobalConstants.TeacherRoleName)]
         public IActionResult Create(string teacherId, int lessonId)
         {
@@ -68,12 +69,12 @@ namespace ESchool.Web.Controllers
                 return this.View(input);
             }
 
-            this.TempData["Message"] = "Задачата е добавено.";
+            this.TempData["Message"] = "Задачата е добавена.";
 
             return this.RedirectToAction(actionName: "ById", controllerName: "Lesson", new { lessonId = input.LessonId });
         }
 
-        // Edit lesson by its Id
+        // Edit assignment by its Id
         [Authorize(Roles = GlobalConstants.TeacherRoleName)]
         public IActionResult Edit(string assignmentId)
         {

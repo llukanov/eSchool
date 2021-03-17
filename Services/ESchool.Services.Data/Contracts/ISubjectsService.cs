@@ -1,12 +1,11 @@
-﻿using ESchool.Data.Models;
-using ESchool.Web.ViewModels.Subject;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ESchool.Services.Data.Contracts
+﻿namespace ESchool.Services.Data.Contracts
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    using ESchool.Data.Models;
+    using ESchool.Web.ViewModels.Subject;
+
     public interface ISubjectsService
     {
         Task CreateAsync(CreateSubjectInputModel input, int classInSchoolId, string teacherId);
@@ -14,8 +13,6 @@ namespace ESchool.Services.Data.Contracts
         IEnumerable<SubjectAtListViewModel> GetAllSubjectOfTeacher<T>(string teacherId);
 
         IEnumerable<SubjectAtListViewModel> GetAllSubjectsOfStudent<T>(ApplicationUser student);
-
-        IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePair();
 
         T GetById<T>(int id);
     }

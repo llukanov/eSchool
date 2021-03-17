@@ -16,6 +16,7 @@
             this.rolesRepository = rolesRepository;
         }
 
+        // Get roles as key-value-pair
         public IEnumerable<KeyValuePair<string, string>> GetAllAsKeyValuePairs()
         {
             return this.rolesRepository.AllAsNoTracking()

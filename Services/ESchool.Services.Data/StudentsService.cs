@@ -28,7 +28,7 @@
             this.roleManager = roleManager;
         }
 
-        // Update School by id
+        // Update student by id - add student in class
         public async Task UpdateAsync(EditStudentViewModel input, string userId)
         {
             var student = this.userManager.Users

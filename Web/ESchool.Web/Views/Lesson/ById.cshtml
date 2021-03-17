@@ -5,6 +5,11 @@
     this.ViewData["Title"] = Model.Name;
 }
 
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+
 <div class="mt-5">
     <!-- Start header -->
     <div class="row">
@@ -63,7 +68,8 @@
                     {
                         if (this.User.IsInRole(GlobalConstants.TeacherRoleName))
                         {
-                            <li><a asp-controller="Assignment" asp-action="ById" asp-route-assignmentId="@assignment.Id">Задача</a>
+                            <li>
+                                <a asp-controller="Assignment" asp-action="ById" asp-route-assignmentId="@assignment.Id">Задача</a>
                             </li>
                         }
                         else if (this.User.IsInRole(GlobalConstants.StudentRoleName))
@@ -74,11 +80,11 @@
                         }
                     }
                 </ol>
-                
+
             }
             else
             {
-                <p>Няма прикачени файлове.</p>
+                <p>Няма поставени задачи. Добавете задача чрез бутона в горната част на тази страница.</p>
             }
         </div>
     </div>

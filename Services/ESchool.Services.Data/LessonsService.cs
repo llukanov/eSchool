@@ -30,6 +30,11 @@ namespace ESchool.Services.Data
 
         public async Task CreateAsync(CreateLessonInputModel input, string materialPath)
         {
+            if (input.Description == null || input.Description.Length <= 15)
+            {
+                throw new Exception("");
+            }
+
             var lesson = new Lesson
             {
                 Name = input.Name,
@@ -75,6 +80,11 @@ namespace ESchool.Services.Data
 
         public async Task UpdateAsync(EditLessonInputModel input, int id)
         {
+            if (input.Description == null || input.Description.Length <= 15)
+            {
+                throw new Exception("");
+            }
+
             var lesson = this.lessonRepository
                 .All()
                 .FirstOrDefault(x => x.Id == id);
@@ -83,11 +93,6 @@ namespace ESchool.Services.Data
             lesson.Description = input.Description;
 
             await this.lessonRepository.SaveChangesAsync();
-        }
-
-        public IEnumerable<LessonAtListViewModel> GetAll<T>(int page, int itemsPerPage = 20)
-        {
-            throw new NotImplementedException();
         }
 
 

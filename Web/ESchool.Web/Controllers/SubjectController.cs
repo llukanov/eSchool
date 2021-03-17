@@ -1,19 +1,18 @@
-﻿using ESchool.Common;
-using ESchool.Data.Models;
-using ESchool.Services.Data.Contracts;
-using ESchool.Web.ViewModels.Class;
-using ESchool.Web.ViewModels.Subject;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-
-namespace ESchool.Web.Controllers
+﻿namespace ESchool.Web.Controllers
 {
+    using System;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Threading.Tasks;
+
+    using ESchool.Common;
+    using ESchool.Data.Models;
+    using ESchool.Services.Data.Contracts;
+    using ESchool.Web.ViewModels.Subject;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+
     public class SubjectController : Controller
     {
         private readonly IClassesService classesService;
@@ -33,6 +32,7 @@ namespace ESchool.Web.Controllers
             this.userManager = userManager;
         }
 
+        // Create subject
         [Authorize(Roles = GlobalConstants.TeacherRoleName)]
         public IActionResult Create(int classInSchoolId)
         {
@@ -61,7 +61,7 @@ namespace ESchool.Web.Controllers
             return this.RedirectToAction(actionName: "ById", controllerName: "Class", new { classInSchoolId = classInSchoolId });
         }
 
-        // Get specific school by its id
+        // Get specific subject by its id
         [HttpGet]
         [Authorize(Roles = GlobalConstants.StudentRoleName)]
         public IActionResult AllSubjectsOfStudent()
@@ -79,7 +79,7 @@ namespace ESchool.Web.Controllers
             return this.View(viewModel);
         }
 
-        // Get specific school by its id
+        // Get specific subject by its id
         [HttpGet]
         [Authorize(Roles = GlobalConstants.TeacherRoleName + "," + GlobalConstants.StudentRoleName)]
         public IActionResult ById(int subjectId)
