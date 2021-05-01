@@ -1,31 +1,32 @@
-﻿using ESchool.Data.Common.Repositories;
-using ESchool.Data.Models;
-using ESchool.Services.Data.Contracts;
-using ESchool.Services.Mapping;
-using ESchool.Web.ViewModels.Lesson;
-using ESchool.Web.ViewModels.Material;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ESchool.Services.Data
+﻿namespace ESchool.Services.Data
 {
+    using System;
+    using System.IO;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using ESchool.Data.Common.Repositories;
+    using ESchool.Data.Models;
+    using ESchool.Services.Data.Contracts;
+    using ESchool.Services.Mapping;
+    using ESchool.Web.ViewModels.Lesson;
+
     public class LessonsService : ILessonsService
     {
         private readonly string[] allowedExtensions = new[] { ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".png", ".jpg", ".jpeg" };
 
         private readonly IDeletableEntityRepository<Lesson> lessonRepository;
         private readonly IDeletableEntityRepository<Material> materialRepository;
+        private readonly IDeletableEntityRepository<Chat> chatRepository;
 
         public LessonsService(
             IDeletableEntityRepository<Lesson> lessonRepository,
-            IDeletableEntityRepository<Material> materialRepository)
+            IDeletableEntityRepository<Material> materialRepository,
+            IDeletableEntityRepository<Chat> chatRepository)
         {
             this.lessonRepository = lessonRepository;
             this.materialRepository = materialRepository;
+            this.chatRepository = chatRepository;
         }
 
         public async Task CreateAsync(CreateLessonInputModel input, string materialPath)
@@ -45,6 +46,18 @@ namespace ESchool.Services.Data
 
             await this.lessonRepository.AddAsync(lesson);
             await this.lessonRepository.SaveChangesAsync();
+
+            // Chat
+            var chat = new Chat
+            {
+                Name = lesson.Name,
+            };
+
+            await this.chatRepository.AddAsync(chat);
+            await this.chatRepository.SaveChangesAsync();
+
+            lesson.ChatId = chat.Id;
+            await this.chatRepository.SaveChangesAsync();
 
             if (input.Materials != null)
             {

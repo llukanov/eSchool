@@ -1,0 +1,17 @@
+﻿@model ESchool.Web.ViewModels.Question.QuestionPageViewModel
+@{
+    ViewData["Title"] = "Take Quiz";
+}
+
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+<div>
+        <h1>@Model.Question.Number</h1>
+        <h2>@Model.Question.Text</h2>
+        @foreach (var answer in Model.Question.Answers)
+        {
+            <a asp-controller="Question" asp-action="AnswerQuestion" asp-route-solvedQuestionId="@Model.Id" asp-route-answerText="@answer.Text" asp-route-quizId="@Model.QuizId" class="btn shadow mt-3 p-2 rounded text-white background-tangerine btn-block">@answer.Text</a>
+        }
+</div>

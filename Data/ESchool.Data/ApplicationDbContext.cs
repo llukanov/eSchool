@@ -46,6 +46,26 @@
 
         public DbSet<Grade> Grades { get; set; }
 
+        public DbSet<Chat> Chats { get; set; }
+
+        public DbSet<Message> Messages { get; set; }
+
+        public DbSet<ChatUser> ChatUsers { get; set; }
+
+        public DbSet<Comment> Comments { get; set; }
+
+        public DbSet<Post> Posts { get; set; }
+
+        public DbSet<Quiz> Quizzes { get; set; }
+
+        public DbSet<Question> Questions { get; set; }
+
+        public DbSet<Answer> Answers { get; set; }
+
+        public DbSet<SolvedQuiz> SolvedQuizzes { get; set; }
+
+        public DbSet<SolvedQuestion> SolvedQuestions { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -70,6 +90,7 @@
             // Needed for Identity models configuration
             base.OnModelCreating(builder);
 
+
             this.ConfigureUserIdentityRelations(builder);
 
             EntityIndexesConfiguration.Configure(builder);
@@ -92,6 +113,9 @@
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
+
+            builder.Entity<ChatUser>()
+                .HasKey(x => new { x.ChatId, x.UserId });
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

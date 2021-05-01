@@ -4,55 +4,22 @@ using ESchool.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ESchool.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210427142628_Post-Comments")]
+    partial class PostComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.1");
-
-            modelBuilder.Entity("ESchool.Data.Models.Answer", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsRightAnswer")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("QuestionId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("QuestionId");
-
-                    b.ToTable("Answers");
-                });
 
             modelBuilder.Entity("ESchool.Data.Models.ApplicationRole", b =>
                 {
@@ -591,81 +558,6 @@ namespace ESchool.Data.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("ESchool.Data.Models.Question", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
-
-                    b.Property<string>("QuizId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("QuizId");
-
-                    b.ToTable("Questions");
-                });
-
-            modelBuilder.Entity("ESchool.Data.Models.Quiz", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatorId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("LessonId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CreatorId");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("LessonId");
-
-                    b.ToTable("Quizzes");
-                });
-
             modelBuilder.Entity("ESchool.Data.Models.School", b =>
                 {
                     b.Property<int>("Id")
@@ -699,77 +591,6 @@ namespace ESchool.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Schools");
-                });
-
-            modelBuilder.Entity("ESchool.Data.Models.SolvedQuestion", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("QuestionId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SolvedQuizId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("StudentAnswer")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("SolvedQuizId");
-
-                    b.ToTable("SolvedQuestions");
-                });
-
-            modelBuilder.Entity("ESchool.Data.Models.SolvedQuiz", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("QuizId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("StudentId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("QuizId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("SolvedQuizzes");
                 });
 
             modelBuilder.Entity("ESchool.Data.Models.Subject", b =>
@@ -943,15 +764,6 @@ namespace ESchool.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("ESchool.Data.Models.Answer", b =>
-                {
-                    b.HasOne("ESchool.Data.Models.Question", "Question")
-                        .WithMany("Answers")
-                        .HasForeignKey("QuestionId");
-
-                    b.Navigation("Question");
-                });
-
             modelBuilder.Entity("ESchool.Data.Models.ApplicationUser", b =>
                 {
                     b.HasOne("ESchool.Data.Models.ClassInSchool", "ClassInSchool")
@@ -1123,60 +935,6 @@ namespace ESchool.Data.Migrations
                     b.Navigation("Chat");
                 });
 
-            modelBuilder.Entity("ESchool.Data.Models.Question", b =>
-                {
-                    b.HasOne("ESchool.Data.Models.Quiz", "Quiz")
-                        .WithMany("Questions")
-                        .HasForeignKey("QuizId");
-
-                    b.Navigation("Quiz");
-                });
-
-            modelBuilder.Entity("ESchool.Data.Models.Quiz", b =>
-                {
-                    b.HasOne("ESchool.Data.Models.ApplicationUser", "Creator")
-                        .WithMany()
-                        .HasForeignKey("CreatorId");
-
-                    b.HasOne("ESchool.Data.Models.Lesson", "Lesson")
-                        .WithMany()
-                        .HasForeignKey("LessonId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Creator");
-
-                    b.Navigation("Lesson");
-                });
-
-            modelBuilder.Entity("ESchool.Data.Models.SolvedQuestion", b =>
-                {
-                    b.HasOne("ESchool.Data.Models.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId");
-
-                    b.HasOne("ESchool.Data.Models.SolvedQuiz", null)
-                        .WithMany("SolvedQuestions")
-                        .HasForeignKey("SolvedQuizId");
-
-                    b.Navigation("Question");
-                });
-
-            modelBuilder.Entity("ESchool.Data.Models.SolvedQuiz", b =>
-                {
-                    b.HasOne("ESchool.Data.Models.Quiz", "Quiz")
-                        .WithMany()
-                        .HasForeignKey("QuizId");
-
-                    b.HasOne("ESchool.Data.Models.ApplicationUser", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId");
-
-                    b.Navigation("Quiz");
-
-                    b.Navigation("Student");
-                });
-
             modelBuilder.Entity("ESchool.Data.Models.Subject", b =>
                 {
                     b.HasOne("ESchool.Data.Models.ClassInSchool", "Class")
@@ -1307,24 +1065,9 @@ namespace ESchool.Data.Migrations
                     b.Navigation("Comments");
                 });
 
-            modelBuilder.Entity("ESchool.Data.Models.Question", b =>
-                {
-                    b.Navigation("Answers");
-                });
-
-            modelBuilder.Entity("ESchool.Data.Models.Quiz", b =>
-                {
-                    b.Navigation("Questions");
-                });
-
             modelBuilder.Entity("ESchool.Data.Models.School", b =>
                 {
                     b.Navigation("Classes");
-                });
-
-            modelBuilder.Entity("ESchool.Data.Models.SolvedQuiz", b =>
-                {
-                    b.Navigation("SolvedQuestions");
                 });
 
             modelBuilder.Entity("ESchool.Data.Models.Subject", b =>

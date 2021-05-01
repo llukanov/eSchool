@@ -1,0 +1,64 @@
+﻿@using ESchool.Common
+@model ESchool.Web.ViewModels.Question.AddQuestionInputModel
+@{
+    this.ViewData["Title"] = "Добавяне на нов въпрос";
+}
+
+<div class="mt-5 p-3">
+    <!-- Start header -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-9">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">@this.ViewData["Title"]</h1>
+            </div>
+        </div>
+    </div>
+    <!-- End header -->
+    <!-- Start input -->
+    <div class="mt-2 row justify-content-md-center shadow bg-white rounded">
+        <div class="col-md-9">
+            <div>
+                <form method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <!-- Lesson's description -->
+                    <div class="form-group input-group">
+                        @Model.Quiz.Name
+                        <div>
+                            <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.Text">Инструкции:</label>
+                        </div>
+                        <div class="input-group">
+                            <textarea type="text" asp-for="@Model.Text" class="form-control" placeholder="..."></textarea>
+                        </div>
+                        <span asp-validation-for="@Model.Text" class="text-danger"></span>
+                    </div>
+                    <!-- Lesson's materials -->
+                    <div id="IngredientsContainer">
+                        <label asp-for="@Model.Answers"></label>
+                        <a class="btn btn-success" onclick="AddMoreIngredients()">+</a>
+
+
+
+                    </div>
+                    <!-- Submit -->
+                    <div class="form-group float-right">
+                        <button id="submitButton" type="submit" class="btn text-white background-fresh btn-block">Add Question</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End input -->
+</div>
+
+
+
+@section Scripts {
+    <script>
+        var ingredientIndex = 0;
+        function AddMoreIngredients() {
+            $("#IngredientsContainer").
+                append("<div class='form-control'>Name: <input type='text' name='Answers[" + ingredientIndex + "].Text' /> <input type ='checkbox' value = 'true' name='Answers[" + ingredientIndex + "].IsRightAnswer'> </div>");
+            ingredientIndex++;
+        }
+    </script>
+}

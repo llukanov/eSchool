@@ -17,22 +17,30 @@
             <div class="float-left">
                 <h1 class="font-color-dark-gray font-weight-light">Тема</h1>
             </div>
-            @if (this.User.IsInRole(GlobalConstants.TeacherRoleName))
-            {
-                <div class="float-right">
-                    <a asp-controller="Lesson" asp-action="Edit" asp-route-lessonId="@Model.Id" class="btn shadow p-2 rounded text-white background-fresh btn-block"><i class="fa fa-pencil-square-o pr-3" aria-hidden="true"></i>Редактиране</a>
-                    <a asp-controller="Assignment" asp-action="Create" asp-route-teacherId="@this.User.FindFirstValue(ClaimTypes.NameIdentifier)" asp-route-lessonId="@Model.Id" class="btn shadow mt-3 p-2 rounded text-white background-tangerine btn-block">Добави задача</a>
-                </div>
-            }
         </div>
     </div>
     <!-- End header -->
     <!-- Start lesson description -->
     <div class="mt-2 shadow p-3 bg-white rounded">
+        <!-- Description-card-Header -->
         <div class="row">
             <div class="col-md-9">
                 <h2 class="font-color-dark-gray font-weight-bold text-uppercase pt-3">@this.ViewData["Title"]</h2>
                 <hr />
+            </div>
+            <div class="col-md-3">
+                @if (this.User.IsInRole(GlobalConstants.TeacherRoleName))
+                {
+                    <div class="float-right">
+                        <a asp-controller="Lesson" asp-action="Edit" asp-route-lessonId="@Model.Id" class="btn shadow p-2 rounded text-white background-fresh btn-block"><i class="fa fa-pencil-square-o pr-3" aria-hidden="true"></i>Редактиране</a>
+                    </div>
+                }
+            </div>
+        </div>
+        <!-- Description-card-Body -->
+        <div class="row">
+            <div class="col-md-9">
+                
                 @Html.Raw(Model.Description)
             </div>
         </div>
@@ -59,7 +67,23 @@
     <!-- End lessons's materials -->
     <!-- Start lesson's assigments -->
     <div class="shadow p-3 mt-4 bg-white rounded">
-        <h4 class="font-color-dark-gray font-weight-light">Задачи към урока:</h4>
+        <!-- Assigment-card-Header -->
+        <div class="row">
+            <div class="col-12">
+                <div class="float-left">
+                    <h4 class="font-color-dark-gray font-weight-light">Задачи към урока:</h4>
+                </div>
+                <div class="float-right">
+                    @if (this.User.IsInRole(GlobalConstants.TeacherRoleName))
+                    {
+                        <div class="float-right">
+                            <a asp-controller="Assignment" asp-action="Create" asp-route-teacherId="@this.User.FindFirstValue(ClaimTypes.NameIdentifier)" asp-route-lessonId="@Model.Id" class="btn shadow mt-3 p-2 rounded text-white background-tangerine btn-block">Добави задача</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- Assignment-card-Body -->
         <div class="pl-3">
             @if (Model.Assignments.Any())
             {
@@ -84,9 +108,57 @@
             }
             else
             {
-                <p>Няма поставени задачи. Добавете задача чрез бутона в горната част на тази страница.</p>
+                <p>Няма поставени задачи.</p>
             }
         </div>
     </div>
-    <!-- End lessons's materials -->
+    <!-- End lessons's assignments -->
+    <!-- Start lesson's quizzes -->
+    <div class="shadow p-3 mt-4 bg-white rounded">
+        <!-- Quiz-card-Header -->
+        <div class="row">
+            <div class="col-12">
+                <div class="float-left">
+                    <h4 class="font-color-dark-gray font-weight-light">Тестове към урока:</h4>
+                </div>
+                <div class="float-right">
+                    @if (this.User.IsInRole(GlobalConstants.TeacherRoleName))
+                    {
+                        <div class="float-right">
+                            <a asp-controller="Quiz" asp-action="Create" asp-route-lessonId="@Model.Id" class="btn shadow mt-3 p-2 rounded text-white background-tangerine btn-block">Добави тест</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <!-- Quiz-card-Body -->
+        <div class="pl-3">
+            @if (Model.Quizzes.Any())
+            {
+                <ol>
+                    @foreach (var quiz in Model.Quizzes)
+                    {
+                        if (this.User.IsInRole(GlobalConstants.TeacherRoleName))
+                        {
+                            <li>
+                                <a asp-controller="Quiz" asp-action="ById" asp-route-quizId="@quiz.Id">@quiz.Name</a>
+                            </li>
+                        }
+                        else if (this.User.IsInRole(GlobalConstants.StudentRoleName))
+                        {
+                            <li>
+                                <a asp-controller="Quiz" asp-action="Take" asp-route-quizId="@quiz.Id">@quiz.Name</a>
+                            </li>
+                        }
+                    }
+                </ol>
+
+            }
+            else
+            {
+                <p>Няма добавени тестове.</p>
+            }
+        </div>
+    </div>
+    <!-- End lessons's quizzes -->
 </div>

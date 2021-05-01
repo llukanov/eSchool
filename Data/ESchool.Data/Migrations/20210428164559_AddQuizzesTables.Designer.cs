@@ -4,14 +4,16 @@ using ESchool.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ESchool.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210428164559_AddQuizzesTables")]
+    partial class AddQuizzesTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -701,77 +703,6 @@ namespace ESchool.Data.Migrations
                     b.ToTable("Schools");
                 });
 
-            modelBuilder.Entity("ESchool.Data.Models.SolvedQuestion", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("QuestionId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("SolvedQuizId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("StudentAnswer")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("QuestionId");
-
-                    b.HasIndex("SolvedQuizId");
-
-                    b.ToTable("SolvedQuestions");
-                });
-
-            modelBuilder.Entity("ESchool.Data.Models.SolvedQuiz", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("QuizId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("StudentId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("IsDeleted");
-
-                    b.HasIndex("QuizId");
-
-                    b.HasIndex("StudentId");
-
-                    b.ToTable("SolvedQuizzes");
-                });
-
             modelBuilder.Entity("ESchool.Data.Models.Subject", b =>
                 {
                     b.Property<int>("Id")
@@ -1149,34 +1080,6 @@ namespace ESchool.Data.Migrations
                     b.Navigation("Lesson");
                 });
 
-            modelBuilder.Entity("ESchool.Data.Models.SolvedQuestion", b =>
-                {
-                    b.HasOne("ESchool.Data.Models.Question", "Question")
-                        .WithMany()
-                        .HasForeignKey("QuestionId");
-
-                    b.HasOne("ESchool.Data.Models.SolvedQuiz", null)
-                        .WithMany("SolvedQuestions")
-                        .HasForeignKey("SolvedQuizId");
-
-                    b.Navigation("Question");
-                });
-
-            modelBuilder.Entity("ESchool.Data.Models.SolvedQuiz", b =>
-                {
-                    b.HasOne("ESchool.Data.Models.Quiz", "Quiz")
-                        .WithMany()
-                        .HasForeignKey("QuizId");
-
-                    b.HasOne("ESchool.Data.Models.ApplicationUser", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId");
-
-                    b.Navigation("Quiz");
-
-                    b.Navigation("Student");
-                });
-
             modelBuilder.Entity("ESchool.Data.Models.Subject", b =>
                 {
                     b.HasOne("ESchool.Data.Models.ClassInSchool", "Class")
@@ -1320,11 +1223,6 @@ namespace ESchool.Data.Migrations
             modelBuilder.Entity("ESchool.Data.Models.School", b =>
                 {
                     b.Navigation("Classes");
-                });
-
-            modelBuilder.Entity("ESchool.Data.Models.SolvedQuiz", b =>
-                {
-                    b.Navigation("SolvedQuestions");
                 });
 
             modelBuilder.Entity("ESchool.Data.Models.Subject", b =>

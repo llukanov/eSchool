@@ -19,6 +19,10 @@
 
         public Subject Subject { get; set; }
 
+        public string ChatId { get; set; }
+
+        public Chat Chat { get; set; }
+
         public virtual ICollection<Material> Materials { get; set; }
 
         public string UserId { get; set; }

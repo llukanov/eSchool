@@ -4,14 +4,16 @@ using ESchool.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ESchool.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210501083732_AddSolvedQuestions")]
+    partial class AddSolvedQuestions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -758,16 +760,11 @@ namespace ESchool.Data.Migrations
                     b.Property<string>("QuizId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("StudentId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("IsDeleted");
 
                     b.HasIndex("QuizId");
-
-                    b.HasIndex("StudentId");
 
                     b.ToTable("SolvedQuizzes");
                 });
@@ -1168,13 +1165,7 @@ namespace ESchool.Data.Migrations
                         .WithMany()
                         .HasForeignKey("QuizId");
 
-                    b.HasOne("ESchool.Data.Models.ApplicationUser", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId");
-
                     b.Navigation("Quiz");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("ESchool.Data.Models.Subject", b =>

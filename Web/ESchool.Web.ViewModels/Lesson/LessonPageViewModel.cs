@@ -1,15 +1,12 @@
 ﻿namespace ESchool.Web.ViewModels.Lesson
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
 
     using ESchool.Data.Models;
     using ESchool.Services.Mapping;
     using ESchool.Web.ViewModels.Assignment;
     using ESchool.Web.ViewModels.Material;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
+    using ESchool.Web.ViewModels.Quiz;
 
     public class LessonPageViewModel : IMapFrom<Lesson>
     {
@@ -22,5 +19,7 @@
         public ICollection<MaterialAtListViewModel> Materials { get; set; }
 
         public IEnumerable<AssignmentAtListViewModel> Assignments { get; set; }
+
+        public IEnumerable<QuizAtListViewModel> Quizzes { get; set; }
     }
 }

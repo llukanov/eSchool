@@ -1,0 +1,13 @@
+﻿@model ESchool.Web.ViewModels.Quiz.TakeQuizViewModel
+@{
+    ViewData["Title"] = "Take Quiz";
+}
+
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+<div>
+    Стартирайте теста!
+    <a asp-controller="Question" asp-action="NextQuestion" asp-route-quizId="@Model.Id" class="btn shadow mt-3 p-2 rounded text-white background-tangerine btn-block">.Text</a>
+</div>

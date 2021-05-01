@@ -23,6 +23,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using ESchool.Web.Hubs;
 
     public class Startup
     {
@@ -88,6 +89,11 @@
             services.AddTransient<IAssignmentRepliesService, AssignmentRepliesService>();
             services.AddTransient<IGradesService, GradesService>();
             services.AddTransient<IMaterialsService, MaterialsService>();
+            services.AddTransient<IChatService, ChatService>();
+            services.AddTransient<IQuizzesService, QuizzesService>();
+            services.AddTransient<IQuestionsService, QuestionsService>();
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -122,6 +128,11 @@
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapHub<ChatHub>("/chathub");
+            });
 
             app.UseEndpoints(
                 endpoints =>

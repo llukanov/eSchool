@@ -9,6 +9,7 @@
     using ESchool.Services.Data.Contracts;
     using ESchool.Web.ViewModels.Assignment;
     using ESchool.Web.ViewModels.Lesson;
+    using ESchool.Web.ViewModels.Quiz;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
@@ -17,15 +18,18 @@
     {
         private readonly ILessonsService lessonsService;
         private readonly IAssignmentsService assignmentsService;
+        private readonly IQuizzesService quizzesService;
         private readonly IWebHostEnvironment environment;
 
         public LessonController(
             ILessonsService lessonsService,
             IAssignmentsService assignmentsService,
+            IQuizzesService quizzesService,
             IWebHostEnvironment environment)
         {
             this.lessonsService = lessonsService;
             this.assignmentsService = assignmentsService;
+            this.quizzesService = quizzesService;
             this.environment = environment;
         }
 
@@ -60,7 +64,7 @@
                 return this.View(input);
             }
 
-            this.TempData["Message"] = "Темата е добавено.";
+            this.TempData["Message"] = "Темата е добавена.";
 
             return this.RedirectToAction(actionName: "ById", controllerName: "Subject", new { subjectId = input.SubjectId });
         }
@@ -99,6 +103,8 @@
             var lesson = this.lessonsService.GetById<LessonPageViewModel>(lessonId);
 
             lesson.Assignments = this.assignmentsService.GetAllAssignmensInLesson<AssignmentAtListViewModel>(lessonId);
+
+            lesson.Quizzes = this.quizzesService.GetAllQuizzesInLesson<QuizAtListViewModel>(lessonId);
 
             return this.View(lesson);
         }
