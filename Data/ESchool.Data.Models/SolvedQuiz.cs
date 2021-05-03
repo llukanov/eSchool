@@ -22,5 +22,7 @@
         public virtual ApplicationUser Student { get; set; }
 
         public virtual ICollection<SolvedQuestion> SolvedQuestions { get; set; }
+
+        public int Scores { get; set; }
     }
 }

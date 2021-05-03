@@ -44,7 +44,7 @@
                     <div class="row mx-4 mb-3 text-white">
                         <button type="submit" id="btn" class="btn text-white background-fresh btn-block col-md-5 mt-5">Напред</button>
                         <div class="col-1 mr-4"></div>
-                        <a asp-controller="Home" asp-action="Index" class="btn btn-danger col-md-5 mt-5">Отмяна</a>
+                        <a asp-controller="Lesson" asp-action="ById" asp-route-lessonId="@Model.LessonId" class="btn btn-danger col-md-5 mt-5">Отмяна</a>
                     </div>
                 </form>
             </div>

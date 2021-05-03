@@ -4,6 +4,11 @@
     this.ViewData["Title"] = "Табло за управление";
 }
 
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+
 @if (!Model.IsApproved)
 {
     <div class="mt-5">
@@ -42,11 +47,11 @@ else
                 <div class="col-md-3 card-min-width">
                     @if (Model.ClassInSchool != null)
                     {
-                            <div class="card-info primary card-height">
-                                <i class="fa fa-book fa-fw" aria-hidden="true"></i>
-                                <span class="count-numbers">@Model.ClassInSchool.Name</span>
-                                <span class="count-name">Клас</span>
-                            </div>
+                        <div class="card-info primary card-height">
+                            <i class="fa fa-book fa-fw" aria-hidden="true"></i>
+                            <span class="count-numbers">@Model.ClassInSchool.Name</span>
+                            <span class="count-name">Клас</span>
+                        </div>
                     }
                     else
                     {
@@ -56,12 +61,12 @@ else
                     }
                 </div>
                 <div class="col-md-3 card-min-width">
-                        <a asp-controller="AssignmentReply" asp-action="AllOfStudent" asp-route-studentId="@Model.Id">
-                            <div class="card-info info card-height">
-                                <i class="fa fa-book fa-fw" aria-hidden="true"></i>
-                                <span class="count-numbers">Оценки</span>
-                            </div>
-                        </a>
+                    <a asp-controller="AssignmentReply" asp-action="AllOfStudent" asp-route-studentId="@Model.Id">
+                        <div class="card-info info card-height">
+                            <i class="fa fa-book fa-fw" aria-hidden="true"></i>
+                            <span class="count-numbers">Оценки</span>
+                        </div>
+                    </a>
                 </div>
             </div>
             <div class="container">
@@ -70,15 +75,15 @@ else
                 </ol>
             </div>
             <div class="row m-2 justify-content-center">
-                    @foreach (var subject in Model.Subjects)
-                    {
-                        <div class="card border-info m-2 col-md-3 d-flex justify-content-center card-min-width" style="height: 150px">
-                            <a asp-controller="Subject" asp-action="ById" asp-route-subjectId="@subject.Id" class="card-link">
-                                <h4 class="card-title text-info">@subject.Name</h4>
-                                <h5 class="card-subtitle text-muted">@subject.Class.Name</h5>
-                            </a>
-                        </div>
-                    }
+                @foreach (var subject in Model.Subjects)
+                {
+                    <div class="card border-info m-2 col-md-3 d-flex justify-content-center card-min-width" style="height: 150px">
+                        <a asp-controller="Subject" asp-action="ById" asp-route-subjectId="@subject.Id" class="card-link">
+                            <h4 class="card-title text-info">@subject.Name</h4>
+                            <h5 class="card-subtitle text-muted">@subject.Class.Name</h5>
+                        </a>
+                    </div>
+                }
             </div>
         </div>
         <!-- End greetings and navigation tabs -->
@@ -87,5 +92,5 @@ else
 
 
 @section Scripts {
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js" ></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
 }

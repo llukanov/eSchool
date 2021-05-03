@@ -17,48 +17,67 @@
     <!-- Start input -->
     <div class="mt-2 row justify-content-md-center shadow bg-white rounded">
         <div class="col-md-9">
-            <div>
-                <form method="post" enctype="multipart/form-data">
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <!-- Lesson's description -->
-                    <div class="form-group input-group">
-                        @Model.Quiz.Name
-                        <div>
-                            <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.Text">Инструкции:</label>
-                        </div>
-                        <div class="input-group">
-                            <textarea type="text" asp-for="@Model.Text" class="form-control" placeholder="..."></textarea>
-                        </div>
-                        <span asp-validation-for="@Model.Text" class="text-danger"></span>
-                    </div>
-                    <!-- Lesson's materials -->
-                    <div id="IngredientsContainer">
-                        <label asp-for="@Model.Answers"></label>
-                        <a class="btn btn-success" onclick="AddMoreIngredients()">+</a>
-
-
-
-                    </div>
-                    <!-- Submit -->
-                    <div class="form-group float-right">
-                        <button id="submitButton" type="submit" class="btn text-white background-fresh btn-block">Add Question</button>
-                    </div>
-                </form>
+            <h2 class="font-color-dark-gray font-weight-bold text-uppercase pt-3">Тест: @Model.Quiz.Name</h2>
+            <hr />
+            <div class="row mb-2">
+                <div class="col-md-3">
+                    <h4 class="text-danger font-weight-bold text-uppercase pt-3">Внимание</h4>
+                </div>
+                <div class="col-md-9">
+                    <p class="text-danger font-weight-bold">
+                        Всяко поле на отговор трябва да бъде попълнено!<br />
+                        Трябва да бъде отбелязан ЕДИН отговор като верен!<br />
+                    </p>
+                </div>
             </div>
-        </div>
+            <form method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="All" class="text-danger"></div>
+                <!-- Question's text -->
+                <div class="form-group input-group">
+                    <div>
+                        <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.Text">Въпрос</label>
+                    </div>
+                    <div class="input-group">
+                        <textarea type="text" asp-for="@Model.Text" class="form-control" placeholder="Въведете въпроса тук"></textarea>
+                    </div>
+                    <span asp-validation-for="@Model.Text" class="text-danger"></span>
+                </div>
+                <!-- Question's scores-->
+                <div class="form-group input-group">
+                    <div>
+                        <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.Scores"></label>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" asp-for="@Model.Scores" class="form-control" placeholder="Въведете точките тук" />
+                    </div>
+                    <span asp-validation-for="@Model.Text" class="text-danger"></span>
+                </div>
+                <!-- Answers -->
+                <div id="AnswersContainer">
+                    <a class="btn shadow mt-3 p-2 rounded text-white background-tangerine" onclick="AddMoreAnswers()">Добавяне на отговор</a>
+                </div>
+                <!-- Submit -->
+                <div class="row mt-2 mb-2">
+                    <div class="col-md-6">
+                        <button type="submit" class="btn shadow p-2 rounded text-white background-fresh btn-block">Запамети въпрос</button>
+                    </div>
+                    <div class="col-md-6 ">
+                        <a asp-controller="Quiz" asp-action="ById" asp-route-quizId="@Model.QuizId" class="btn shadow p-2 rounded text-white btn-danger btn-block">Отмяна</a>
+                    </div>
+
+                </div>
+            </form>
     </div>
     <!-- End input -->
 </div>
 
-
-
 @section Scripts {
     <script>
-        var ingredientIndex = 0;
-        function AddMoreIngredients() {
-            $("#IngredientsContainer").
-                append("<div class='form-control'>Name: <input type='text' name='Answers[" + ingredientIndex + "].Text' /> <input type ='checkbox' value = 'true' name='Answers[" + ingredientIndex + "].IsRightAnswer'> </div>");
-            ingredientIndex++;
+        var answerIndex = 0;
+        function AddMoreAnswers() {
+            $("#AnswersContainer").
+                append("<div class='input-group m-1 mt-2 mb-2 row'><input type='text' name='Answers[" + answerIndex + "].Text' class='form-control col-md-11' placeholder='Въведете отговор тук' /> <input type ='checkbox' value = 'true' name='Answers[" + answerIndex + "].IsRightAnswer' class='col-md-1 mt-1' style='width: 30px; height: 30px;'> </div>");
+            answerIndex++;
         }
     </script>
 }

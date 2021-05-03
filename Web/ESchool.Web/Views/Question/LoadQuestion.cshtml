@@ -1,0 +1,47 @@
+﻿@model ESchool.Web.ViewModels.Question.QuestionPageViewModel
+@{
+    ViewData["Title"] = "Решаване на тест";
+}
+
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+
+
+
+
+<div class="mt-5 p-3">
+    <!-- Start header -->
+    <div class="row justify-content-md-center">
+        <div class="col-md-9">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">@this.ViewData["Title"]</h1>
+            </div>
+        </div>
+    </div>
+    <!-- End header -->
+    <!-- Start input -->
+    <div class="mt-2 row justify-content-md-center shadow bg-white rounded">
+        <div class="col-md-9">
+            <div class="row mt-3 mb-3">
+                <div class="col-md-3">
+                    <h4 class="text-danger font-weight-bold text-uppercase pt-3">Внимание</h4>
+                </div>
+                <div class="col-md-9">
+                    <p class="text-danger font-weight-bold">
+                        Не напускайте страницата, докато не решите теста!<br />
+                        На всеки въпрос може да бъде отговорено веднъж!<br />
+                    </p>
+                </div>
+            </div>
+            <div class="mb-3">
+                <h2>@Model.Question.Text</h2>
+                @foreach (var answer in Model.Question.Answers)
+                {
+                    <a asp-controller="Question" asp-action="AnswerQuestion" asp-route-solvedQuestionId="@Model.Id" asp-route-answerId="@answer.Id" asp-route-quizId="@Model.QuizId" class="btn shadow mt-3 p-2 rounded text-white background-tangerine btn-block">@answer.Text</a>
+                }
+            </div>
+        </div>
+        <!-- End input -->
+    </div>

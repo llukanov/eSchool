@@ -89,7 +89,6 @@
             services.AddTransient<IAssignmentRepliesService, AssignmentRepliesService>();
             services.AddTransient<IGradesService, GradesService>();
             services.AddTransient<IMaterialsService, MaterialsService>();
-            services.AddTransient<IChatService, ChatService>();
             services.AddTransient<IQuizzesService, QuizzesService>();
             services.AddTransient<IQuestionsService, QuestionsService>();
 

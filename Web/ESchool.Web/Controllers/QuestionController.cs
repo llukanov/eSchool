@@ -26,21 +26,23 @@
         }
 
         // Add Question to some quiz
-        [HttpGet]
         [Authorize(Roles = GlobalConstants.TeacherRoleName)]
-        public async Task<IActionResult> AddQuestion(string quizId)
+        public IActionResult AddQuestion(string quizId)
         {
             var viewModel = new AddQuestionInputModel();
 
-            viewModel.Quiz = await this.quizzesService.GetQuizByIdAsync<QuizPageViewModel>(quizId);
+            viewModel.Quiz =  this.quizzesService.GetQuizByIdAsync<QuizPageViewModel>(quizId);
 
             return this.View(viewModel);
         }
 
         [HttpPost]
         [Authorize(Roles = GlobalConstants.TeacherRoleName)]
-        public async Task<IActionResult> AddQuestion(AddQuestionInputModel input)
+        public async Task<IActionResult> AddQuestion(string quizId, AddQuestionInputModel input)
         {
+            input.Quiz = this.quizzesService.GetQuizByIdAsync<QuizPageViewModel>(quizId);
+            
+
             try
             {
                 await this.questionsService.CreateQuestionAsync(input);
@@ -55,26 +57,64 @@
         }
 
         // Go on Next Question
-        [HttpGet]
+        //[HttpGet]
+        //[Authorize(Roles = GlobalConstants.StudentRoleName)]
+        //public async Task<IActionResult> NextQuestion(string quizId)
+        //{
+        //    var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        //    var quizModel = await this.questionsService.GetNextQuestion<QuestionPageViewModel>(quizId, currentUserId);
+
+        //    quizModel.QuizId = quizId;
+
+        //    return this.View(quizModel);
+        //}
+
+        //// Go on Next Question
+        //[Authorize(Roles = GlobalConstants.StudentRoleName)]
+        //public async Task<IActionResult> AnswerQuestion(string solvedQuestionId, string answerText, string quizId)
+        //{
+        //    try
+        //    {
+        //        await this.questionsService.AnswerQuestion(solvedQuestionId, answerText);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        this.ModelState.AddModelError(string.Empty, ex.Message);
+        //        return this.RedirectToAction("Index", "Home");
+        //    }
+
+        //    return this.RedirectToAction(nameof(this.NextQuestion), new { quizId = quizId });
+        //}
+
+
+
+
+        // Add Lesson in current subject from current teacher
         [Authorize(Roles = GlobalConstants.StudentRoleName)]
-        public async Task<IActionResult> NextQuestion(string quizId)
+        public IActionResult LoadQuestion(string quizId)
         {
             var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var quizModel = await this.questionsService.GetNextQuestion<QuestionPageViewModel>(quizId, currentUserId);
+            var viewModel = this.questionsService.GetNextQuestion<QuestionPageViewModel>(quizId, currentUserId);
 
-            quizModel.QuizId = quizId;
+            if (viewModel == null)
+            {
+                return this.RedirectToAction(actionName: "FinishQuiz", controllerName: "Quiz", new { quizId = quizId });
+            }
 
-            return this.View(quizModel);
+            viewModel.QuizId = quizId;
+
+            return this.View(viewModel);
         }
 
-        // Go on Next Question
+
         [Authorize(Roles = GlobalConstants.StudentRoleName)]
-        public async Task<IActionResult> AnswerQuestion(string solvedQuestionId, string answerText, string quizId)
+        public async Task<IActionResult> AnswerQuestion(string solvedQuestionId, string answerId, string quizId)
         {
             try
             {
-                await this.questionsService.AnswerQuestion(solvedQuestionId, answerText);
+                await this.questionsService.AnswerQuestion(solvedQuestionId, answerId);
             }
             catch (Exception ex)
             {
@@ -82,7 +122,7 @@
                 return this.RedirectToAction("Index", "Home");
             }
 
-            return this.RedirectToAction(nameof(this.NextQuestion), new { quizId = quizId });
+            return this.RedirectToAction(nameof(this.LoadQuestion), new { quizId = quizId });
         }
     }
 }

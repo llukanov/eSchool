@@ -10,7 +10,9 @@ namespace ESchool.Services.Data.Contracts
     {
         Task<string> CreateQuizAsync(string name, string description, string creatorId, int lessonId);
 
-        Task StartQuiz(string quizId, string studentId);
+        Task<bool> StartQuiz(string quizId, string studentId);
+
+        Task FinishQuiz(string quizId, string studentId);
 
         //Task<IList<T>> GetAllUnAssignedToEventAsync<T>(string creatorId = null);
 
@@ -24,9 +26,11 @@ namespace ESchool.Services.Data.Contracts
 
         //Task<IList<T>> GetAllByCategoryIdAsync<T>(string id);
 
-        Task<T> GetQuizByIdAsync<T>(string id);
+        T GetQuizByIdAsync<T>(string id);
 
         T GetSolvedQuiz<T>(string quizId, string studentId);
+
+        T GetSolvedQuizByIdAsync<T>(string id);
 
         //Task<string> GetCreatorIdByQuizIdAsync(string id);
 
@@ -49,5 +53,7 @@ namespace ESchool.Services.Data.Contracts
         //Task<int> GetAllQuizzesCountAsync(string creatorId = null, string searchCriteria = null, string searchText = null, string categoryId = null);
 
         IEnumerable<QuizAtListViewModel> GetAllQuizzesInLesson<T>(int lessonId);
+
+        Task<int> GetQuizTotalScores(string quizId);
     }
 }

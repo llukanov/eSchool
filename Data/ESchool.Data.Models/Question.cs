@@ -18,6 +18,8 @@
 
         public virtual ICollection<Answer> Answers { get; set; }
 
+        public int Scores { get; set; }
+
         public string QuizId { get; set; }
 
         public virtual Quiz Quiz { get; set; }

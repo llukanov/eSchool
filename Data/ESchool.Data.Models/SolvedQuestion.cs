@@ -18,6 +18,8 @@
 
         public string StudentAnswer { get; set; }
 
+        public int Scores { get; set; }
+
         public string SolvedQuizId { get; set; }
 
         public virtual SolvedQuiz SolvedQuiz { get; set; }

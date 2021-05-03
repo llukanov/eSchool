@@ -165,10 +165,6 @@ color: #F7F7F7;
 
 .vertical-navbar li:hover {
     background-color: #32897c;
-    -webkit-transition: all 1s ease;
-    -moz-transition: all 1s ease;
-    -o-transition: all 1s ease;
-    -ms-transition: all 1s ease;
     transition: all 1s ease;
 }
 
@@ -255,4 +251,64 @@ color: #F7F7F7;
 
 .card-min-width {
     min-width: 240px;
+}
+
+/* Quiz */
+.quiz .container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    user-select: none;
+}
+
+    .quiz .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+.quiz .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+    border-radius: 50%;
+}
+
+.quiz .container:hover input ~ .checkmark {
+    background-color: #ccc;
+}
+
+.quiz .container input:checked ~ .checkmark {
+    background-color: #F19F4D;
+}
+
+.quiz .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.quiz .container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.quiz .container .checkmark:after {
+    top: 9px;
+    left: 9px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+}
+
+
+/* Custom */
+.border-width-answer {
+    border-width: 3px !important;
 }

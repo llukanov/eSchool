@@ -15,5 +15,6 @@
         public string Description { get; set; }
 
         public ICollection<TakeQuestionViewModel> Questions { get; set; }
+
     }
 }

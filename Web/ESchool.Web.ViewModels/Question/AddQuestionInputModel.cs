@@ -12,12 +12,17 @@
     {
         public string Id { get; set; }
 
-        [Required]
-        //[StringLength(
-        //   5,
-        //   ErrorMessage = "Повече символи",
-        //   MinimumLength = 1000)]
+        [Required(ErrorMessage = "Полето \"{0}\" е задължително!")]
+        [StringLength(
+           1000,
+           ErrorMessage = "Полето \"{0}\" трябва да бъде с дължина поне {2} и максимум {1} символа.",
+           MinimumLength = 5)]
+        [Display(Name = "Въпрос")]
         public string Text { get; set; }
+
+        [Required(ErrorMessage = "Полето {0} е задължително!")]
+        [Display(Name = "Точки")]
+        public int Scores { get; set; }
 
         public IEnumerable<AnswerInputModel> Answers { get; set; }
 

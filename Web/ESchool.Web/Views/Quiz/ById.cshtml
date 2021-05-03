@@ -33,7 +33,7 @@
             <div class="col-md-9">
                 @foreach (var question in Model.Questions)
                 {
-                    <h4 class="font-color-dark-gray font-weight-bold text-uppercase pt-3">@question.Text</h4>
+                    <h4 class="font-color-dark-gray font-weight-bold text-uppercase pt-3">@question.Number. @question.Text</h4>
                     @foreach (var answer in question.Answers)
                     {
                         <p class="font-color-dark-gray p-3">@answer.Text</p>

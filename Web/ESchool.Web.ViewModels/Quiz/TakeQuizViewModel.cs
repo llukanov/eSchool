@@ -1,8 +1,6 @@
 ﻿namespace ESchool.Web.ViewModels.Quiz
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
 
     using ESchool.Data.Models;
     using ESchool.Services.Mapping;

@@ -1,13 +1,6 @@
 ﻿namespace ESchool.Web.ViewModels.Quiz
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Text;
-
-    using ESchool.Data.Models;
-    using ESchool.Services.Mapping;
-    using ESchool.Web.ViewModels.Question;
 
     public class CreateQuizInputModel
     {

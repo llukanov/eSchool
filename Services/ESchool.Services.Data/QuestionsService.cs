@@ -39,6 +39,30 @@ namespace ESchool.Services.Data
 
         public async Task CreateQuestionAsync(AddQuestionInputModel input)
         {
+            if (input.Answers.Count() <= 1 || input.Answers == null)
+            {
+                throw new Exception($"Трябва да бъдат добавени поне два възможни отговора!");
+            }
+
+            int counterIsRight = 0;
+
+            foreach (var answer in input.Answers)
+            {
+                if (answer.IsRightAnswer)
+                {
+                    counterIsRight++;
+                }
+            }
+
+            if (counterIsRight == 0)
+            {
+                throw new Exception($"Нито един отговор не е отбелязан като верен!");
+            }
+            else if (counterIsRight > 1)
+            {
+                throw new Exception($"Трябва само един отговор да бъде отбелязан като верен!");
+            }
+
             var quiz = await this.quizRepository
                 .AllAsNoTracking()
                 .Select(x => new
@@ -52,6 +76,7 @@ namespace ESchool.Services.Data
             {
                 Number = quiz.Questions + 1,
                 Text = input.Text,
+                Scores = input.Scores,
                 QuizId = input.QuizId,
             };
 
@@ -119,32 +144,68 @@ namespace ESchool.Services.Data
         //public async Task<int> GetAllByQuizIdCountAsync(string id)
         //=> await this.repository.AllAsNoTracking().Where(x => x.QuizId == id).CountAsync();
 
-        public async Task<T> GetNextQuestion<T>(string quizId, string studentId)
+        public T GetNextQuestion<T>(string quizId, string studentId)
         {
             var solvedQuiz = this.solvedQuizRepository
                 .AllAsNoTracking()
                 .Where(x => x.QuizId == quizId && x.StudentId == studentId)
                 .FirstOrDefault();
 
-            return await this.solvedQuestionRepository
+            return this.solvedQuestionRepository
                 .AllAsNoTracking()
                 .Where(x => x.SolvedQuizId == solvedQuiz.Id && x.StudentAnswer == null)
                 .OrderBy(x => x.CreatedOn)
                 .To<T>()
-                .FirstOrDefaultAsync();
+                .FirstOrDefault();
         }
 
-        public async Task AnswerQuestion(string solvedQuestionId, string answerText)
+        public async Task AnswerQuestion(string solvedQuestionId, string answerId)
         {
             var solvedQuestion = this.solvedQuestionRepository
                 .AllAsNoTracking()
                 .Where(x => x.Id == solvedQuestionId)
                 .FirstOrDefault();
 
-            solvedQuestion.StudentAnswer = answerText;
+            var question = this.questionRepository
+                .AllAsNoTracking()
+                .Where(x => x.Id == solvedQuestion.QuestionId)
+                .FirstOrDefault();
+
+            var correctAnswer = this.answerRepository
+                .AllAsNoTracking()
+                .Where(x => x.QuestionId == solvedQuestion.QuestionId && x.IsRightAnswer == true)
+                .FirstOrDefault();
+
+            var answer = this.answerRepository
+                .AllAsNoTracking()
+                .Where(x => x.Id == answerId)
+                .FirstOrDefault();
+
+            solvedQuestion.StudentAnswer = answer.Text;
+
+            if (correctAnswer.Text == answer.Text)
+            {
+                solvedQuestion.Scores = question.Scores;
+            }
+            else
+            {
+                solvedQuestion.Scores = 0;
+            }
 
             this.solvedQuestionRepository.Update(solvedQuestion);
             await this.solvedQuestionRepository.SaveChangesAsync();
+        }
+
+        public IEnumerable<SolvedQuestionAtListViewModel> GetAllSolvedQuestionInQuiz<T>(string solvedQuizId)
+        {
+            var questions = this.solvedQuestionRepository
+                .AllAsNoTracking()
+                .Where(x => x.SolvedQuizId == solvedQuizId)
+                .OrderBy(x => x.CreatedOn)
+                .To<SolvedQuestionAtListViewModel>()
+                .ToList();
+
+            return questions;
         }
     }
 }

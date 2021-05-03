@@ -63,13 +63,22 @@
         [Authorize(Roles = GlobalConstants.StudentRoleName)]
         public async Task<IActionResult> Take(string quizId)
         {
-            var quizModel = await this.quizzesService.GetQuizByIdAsync<TakeQuizViewModel>(quizId);
+            var quizModel = this.quizzesService.GetQuizByIdAsync<TakeQuizViewModel>(quizId);
 
             var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await this.quizzesService.StartQuiz(quizId, currentUserId);
+            var ifQuizSolved = await this.quizzesService.StartQuiz(quizId, currentUserId);
 
-            return this.View(quizModel);
+            if (!ifQuizSolved)
+            {
+                return this.View(quizModel);
+            }
+            else
+            {
+                this.TempData["Message"] = "Вече сте решили този тест.";
+
+                return this.RedirectToAction(actionName: "ById", controllerName: "SolvedQuiz", new { quizId = quizId, studentId = currentUserId });
+            }
         }
 
         // Get quiz by its id
@@ -77,9 +86,20 @@
         [Authorize(Roles = GlobalConstants.TeacherRoleName + "," + GlobalConstants.StudentRoleName)]
         public async Task<IActionResult> ById(string quizId)
         {
-            var quiz = await this.quizzesService.GetQuizByIdAsync<QuizPageViewModel>(quizId);
+            var quiz =  this.quizzesService.GetQuizByIdAsync<QuizPageViewModel>(quizId);
 
             return this.View(quiz);
+        }
+
+        // Start a quiz by Id
+        [Authorize(Roles = GlobalConstants.StudentRoleName)]
+        public async Task<IActionResult> FinishQuiz(string quizId)
+        {
+            var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            await this.quizzesService.FinishQuiz(quizId, currentUserId);
+
+            return this.RedirectToAction("Index", "Home" );
         }
     }
 }

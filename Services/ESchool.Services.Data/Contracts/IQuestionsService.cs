@@ -18,12 +18,14 @@ namespace ESchool.Services.Data.Contracts
 
         //Task<T> GetByIdAsync<T>(string id);
 
-        Task<T> GetNextQuestion<T>(string quizId, string studentId);
+        T GetNextQuestion<T>(string quizId, string studentId);
 
-        Task AnswerQuestion(string solvedQuestionId, string answerText);
+        Task AnswerQuestion(string solvedQuestionId, string answerId);
 
         //Task<IList<T>> GetAllByQuizIdAsync<T>(string id);
 
         //Task<int> GetAllByQuizIdCountAsync(string id);
+
+        IEnumerable<SolvedQuestionAtListViewModel> GetAllSolvedQuestionInQuiz<T>(string solvedQuizId);
     }
 }

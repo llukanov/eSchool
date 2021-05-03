@@ -17,16 +17,13 @@
 
         private readonly IDeletableEntityRepository<Lesson> lessonRepository;
         private readonly IDeletableEntityRepository<Material> materialRepository;
-        private readonly IDeletableEntityRepository<Chat> chatRepository;
 
         public LessonsService(
             IDeletableEntityRepository<Lesson> lessonRepository,
-            IDeletableEntityRepository<Material> materialRepository,
-            IDeletableEntityRepository<Chat> chatRepository)
+            IDeletableEntityRepository<Material> materialRepository)
         {
             this.lessonRepository = lessonRepository;
             this.materialRepository = materialRepository;
-            this.chatRepository = chatRepository;
         }
 
         public async Task CreateAsync(CreateLessonInputModel input, string materialPath)
@@ -46,18 +43,6 @@
 
             await this.lessonRepository.AddAsync(lesson);
             await this.lessonRepository.SaveChangesAsync();
-
-            // Chat
-            var chat = new Chat
-            {
-                Name = lesson.Name,
-            };
-
-            await this.chatRepository.AddAsync(chat);
-            await this.chatRepository.SaveChangesAsync();
-
-            lesson.ChatId = chat.Id;
-            await this.chatRepository.SaveChangesAsync();
 
             if (input.Materials != null)
             {

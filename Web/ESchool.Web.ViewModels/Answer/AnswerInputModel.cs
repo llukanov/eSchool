@@ -9,7 +9,12 @@
     {
         public string Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Полето \"{0}\" е задължително!")]
+        [StringLength(
+           1000,
+           ErrorMessage = "Полето \"{0}\" трябва да бъде с дължина поне {2} и максимум {1} символа.",
+           MinimumLength = 5)]
+        [Display(Name = "Отговор")]
         public string Text { get; set; }
 
         //public string SanitizedText => new HtmlSanitizer().Sanitize(this.Text);

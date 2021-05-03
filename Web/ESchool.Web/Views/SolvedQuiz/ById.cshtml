@@ -1,0 +1,94 @@
+﻿@using ESchool.Common
+@using System.Security.Claims;
+@model ESchool.Web.ViewModels.SolvedQuiz.SolvedQuizPageViewModel
+@{
+    this.ViewData["Title"] = "Modemm";
+}
+@if (this.TempData.ContainsKey("Message"))
+{
+    <div class="alert alert-success">@this.TempData["Message"]</div>
+}
+
+<div class="mt-5">
+    <!-- Start header -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="float-left">
+                <h1 class="font-color-dark-gray font-weight-light">Тест</h1>
+            </div>
+        </div>
+    </div>
+    <!-- End header -->
+    <!-- Start Quiz's info -->
+    <div class="mt-2 shadow p-3 bg-white rounded">
+        <!-- Quiz-card-Header -->
+        <div class="row">
+            <div class="col-md-9">
+                <h2 class="font-color-dark-gray font-weight-bold text-uppercase pt-3">@this.ViewData["Title"]</h2>
+                <span>@Model.Scores / @Model.TotalScores</span>
+                <hr />
+            </div>
+        </div>
+        <!-- Quiz-card-Body -->
+        <div class="row p-3 user-select-none">
+            <div class="col-md-9">
+                @foreach (var solvedQuestion in Model.SolvedQuestions)
+                {
+                    <div class="row">
+                        <div class="col-12 background-fresh">
+                            <h5 class="text-white font-weight-bold text-uppercase pt-3">@solvedQuestion.Question.Text                         <span class="font-weight-lighter">(@solvedQuestion.Scores / @solvedQuestion.Question.Scores)</span>
+                            </h5>
+                        </div> 
+                    </div>
+                    @foreach (var question in solvedQuestion.Question.Answers)
+                    {
+                        @if (question.Text == solvedQuestion.StudentAnswer)
+                        {
+                            @if (question.IsRightAnswer)
+                            {
+                                <div class="row mt-2 mb-2">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-11 border border-success border-width-answer pt-2 pb-2">
+                                        <span class="text-danger align-middle">@question.Text</span>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="row mt-2 mb-2">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-11 border border-danger border-width-answer pt-2 pb-2">
+                                        <span class="text-danger align-middle">@question.Text</span>
+                                    </div>
+                                </div>
+                            }
+
+                        }
+                        else
+                        {
+                            @if (question.IsRightAnswer)
+                            {
+                                <div class="row mt-2 mb-2">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-11 border border-success border-width-answer pt-2 pb-2">
+                                        <span class="text-danger align-middle">@question.Text</span>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="row mt-2 mb-2">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-11 border border-secondary border-width-answer pt-2 pb-2">
+                                        <span class="align-middle">@question.Text</span>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                }
+            </div>
+        </div>
+    </div>
+    <!-- End Quiz's info -->
+</div>

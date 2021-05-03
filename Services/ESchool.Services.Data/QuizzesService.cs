@@ -3,6 +3,7 @@ using ESchool.Data.Models;
 using ESchool.Services.Data.Contracts;
 using ESchool.Services.Mapping;
 using ESchool.Web.ViewModels.Quiz;
+using ESchool.Web.ViewModels.SolvedQuiz;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,17 +17,19 @@ namespace ESchool.Services.Data
     {
         private readonly IDeletableEntityRepository<Quiz> quizRepository;
         private readonly IDeletableEntityRepository<SolvedQuiz> solvedQuizzesRepository;
-
-        //private readonly IExpressionBuilder expressionBuilder;
+        private readonly IDeletableEntityRepository<SolvedQuestion> solvedQuestionsRepository;
+        private readonly IDeletableEntityRepository<Question> questionRepository;
 
         public QuizzesService(
             IDeletableEntityRepository<Quiz> quizRepository,
-            IDeletableEntityRepository<SolvedQuiz> solvedQuizzesRepository
-            /*IExpressionBuilder expressionBuilder*/ )
+            IDeletableEntityRepository<SolvedQuiz> solvedQuizzesRepository,
+            IDeletableEntityRepository<SolvedQuestion> solvedQuestionsRepository,
+            IDeletableEntityRepository<Question> questionRepository)
         {
             this.quizRepository = quizRepository;
             this.solvedQuizzesRepository = solvedQuizzesRepository;
-            //this.expressionBuilder = expressionBuilder;
+            this.solvedQuestionsRepository = solvedQuestionsRepository;
+            this.questionRepository = questionRepository;
         }
 
         public async Task<string> CreateQuizAsync(string name, string description, string creatorId, int lessonId)
@@ -45,13 +48,14 @@ namespace ESchool.Services.Data
             return quiz.Id;
         }
 
-        public async Task StartQuiz(string quizId, string studentId)
+        public async Task<bool> StartQuiz(string quizId, string studentId)
         {
             var solvedQuiz = this.solvedQuizzesRepository
                 .AllAsNoTracking()
                 .Where(x => x.QuizId == quizId && x.StudentId == studentId)
                 .FirstOrDefault();
 
+            // Check if quiz is solved by student
             if (solvedQuiz == null)
             {
                 var quiz = this.quizRepository
@@ -80,6 +84,56 @@ namespace ESchool.Services.Data
 
                 await this.solvedQuizzesRepository.AddAsync(newSolvedQuiz);
                 await this.solvedQuizzesRepository.SaveChangesAsync();
+
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        public async Task FinishQuiz(string quizId, string studentId)
+        {
+            var solvedQuiz = this.solvedQuizzesRepository
+                .AllAsNoTracking()
+                .Where(x => x.QuizId == quizId && x.StudentId == studentId)
+                .FirstOrDefault();
+
+            var solvedQuestions = this.solvedQuestionsRepository
+                .AllAsNoTracking()
+                .Where(x => x.SolvedQuizId == solvedQuiz.Id)
+                .ToList();
+
+            var quiz = this.quizRepository
+                .AllAsNoTracking()
+                .Where(x => x.Id == quizId)
+                .To<QuizPageViewModel>()
+                .FirstOrDefault();
+
+            int totalStudentScores = 0;
+            int totalScores = 0;
+
+            if (solvedQuiz != null && solvedQuestions.Any())
+            {
+                foreach (var question in solvedQuestions)
+                {
+                    totalStudentScores += question.Scores;
+                }
+
+                solvedQuiz.Scores = totalStudentScores;
+
+                this.solvedQuizzesRepository.Update(solvedQuiz);
+                await this.solvedQuizzesRepository.SaveChangesAsync();
+            }
+
+            // Find total quiz's scores
+            if (quiz != null)
+            {
+                foreach (var question in quiz.Questions)
+                {
+                    totalScores += question.Scores;
+                }
             }
         }
 
@@ -109,12 +163,22 @@ namespace ESchool.Services.Data
         //         .ToListAsync();
         // }
 
-        public async Task<T> GetQuizByIdAsync<T>(string id)
-       => await this.quizRepository
+        public T GetQuizByIdAsync<T>(string id)
+       => this.quizRepository
                .AllAsNoTracking()
                .Where(x => x.Id == id)
                .To<T>()
-               .FirstOrDefaultAsync();
+               .FirstOrDefault();
+
+        public T GetSolvedQuizByIdAsync<T>(string id)
+        {
+            return this.solvedQuizzesRepository
+                          .AllAsNoTracking()
+                          .Where(x => x.Id == id)
+                          .To<T>()
+                          .FirstOrDefault();
+        }
+
 
         // public async Task DeleteByIdAsync(string id)
         // {
@@ -324,6 +388,23 @@ namespace ESchool.Services.Data
                 .ToList();
 
             return quizzes;
+        }
+
+        public async Task<int> GetQuizTotalScores(string quizId)
+        {
+            int totalScores = 0;
+
+            var questions = await this.questionRepository
+                .AllAsNoTracking()
+                .Where(x => x.QuizId == quizId)
+                .ToListAsync();
+
+            foreach (var question in questions)
+            {
+                totalScores += question.Scores;
+            }
+
+            return totalScores;
         }
     }
 }

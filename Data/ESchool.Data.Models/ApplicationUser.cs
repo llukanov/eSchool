@@ -16,7 +16,6 @@ namespace ESchool.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
-            this.Chats = new HashSet<ChatUser>();
         }
 
         public string FirstName { get; set; }
@@ -35,7 +34,6 @@ namespace ESchool.Data.Models
 
         public virtual ClassInSchool ClassInSchool { get; set; }
 
-        public virtual ICollection<ChatUser> Chats { get; set; }
 
         // Audit info
         public DateTime CreatedOn { get; set; }

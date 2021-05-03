@@ -614,6 +614,9 @@ namespace ESchool.Data.Migrations
                     b.Property<string>("QuizId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("Scores")
+                        .HasColumnType("int");
+
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
@@ -721,6 +724,9 @@ namespace ESchool.Data.Migrations
                     b.Property<string>("QuestionId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("Scores")
+                        .HasColumnType("int");
+
                     b.Property<string>("SolvedQuizId")
                         .HasColumnType("nvarchar(450)");
 
@@ -757,6 +763,9 @@ namespace ESchool.Data.Migrations
 
                     b.Property<string>("QuizId")
                         .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Scores")
+                        .HasColumnType("int");
 
                     b.Property<string>("StudentId")
                         .HasColumnType("nvarchar(450)");
@@ -1155,11 +1164,13 @@ namespace ESchool.Data.Migrations
                         .WithMany()
                         .HasForeignKey("QuestionId");
 
-                    b.HasOne("ESchool.Data.Models.SolvedQuiz", null)
+                    b.HasOne("ESchool.Data.Models.SolvedQuiz", "SolvedQuiz")
                         .WithMany("SolvedQuestions")
                         .HasForeignKey("SolvedQuizId");
 
                     b.Navigation("Question");
+
+                    b.Navigation("SolvedQuiz");
                 });
 
             modelBuilder.Entity("ESchool.Data.Models.SolvedQuiz", b =>
