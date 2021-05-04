@@ -30,13 +30,22 @@ namespace ESchool.Web.Controllers
             this.solvedQuestionRepository = solvedQuestionRepository;
         }
 
-        public IActionResult Index()
+        // Get list with all solved quizzes by quizId
+        [HttpGet]
+        [Authorize(Roles = GlobalConstants.TeacherRoleName)]
+        public async Task<IActionResult> AllSolvedQuizzes(string quizId)
         {
-            return View();
+            var viewModel = new AllSolvedQuizzesViewModel
+            {
+                QuizName = await this.quizzesService.GetQuizNameByIdAsync(quizId),
+                SolvedQuizzes = this.quizzesService.GetAllSolvedQuizzesByQuizId<SolvedQuizAtListViewModel>(quizId),
+            };
+
+            return this.View(viewModel);
         }
 
         [HttpGet]
-        [Authorize(Roles = GlobalConstants.StudentRoleName)]
+        [Authorize(Roles = GlobalConstants.TeacherRoleName + "," + GlobalConstants.StudentRoleName)]
         public async Task<IActionResult> ById(string quizId, string studentId)
         {
             var viewModel = this.quizzesService.GetSolvedQuiz<SolvedQuizPageViewModel>(quizId, studentId);
