@@ -56,7 +56,7 @@
                 return this.View(viewModel);
             }
 
-            return this.RedirectToAction("AddQuestion", "Question", new { quizId = quizId });
+            return this.RedirectToAction(nameof(this.ById), new { quizId = quizId });
         }
 
         // Start a quiz by Id

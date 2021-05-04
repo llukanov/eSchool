@@ -34,7 +34,7 @@
                         <div class="float-right">
                             @if (!Model.IsActivated)
                             {
-                                <a asp-controller="Quiz" asp-action="ActivateQuiz" asp-route-quizId="@Model.Id" class="btn shadow p-2 rounded text-white background-tangerine btn-block">Активиране</a>
+                                <a asp-controller="Quiz" asp-action="ActivateQuiz" asp-route-quizId="@Model.Id" class="btn shadow p-2 rounded text-white background-fresh btn-block">Активиране</a>
                             }
                             else
                             {
@@ -51,16 +51,34 @@
         <!-- Quiz-card-Body -->
         <div class="row p-3 user-select-none">
             <div class="col-md-9">
+                @if (!Model.IsActivated)
+                {
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <a asp-controller="Question" asp-action="AddOneChoiceQuestion" asp-route-quizId="@Model.Id" class="btn shadow p-2 rounded text-white bg-warning btn-block">Един отговор</a>
+                        </div>
+                        <div class="col-md-3">
+                            <a asp-controller="Question" asp-action="AddTrueFalseQuestion" asp-route-quizId="@Model.Id" class="btn shadow p-2 rounded text-white bg-warning btn-block">Вярно/Грешно</a>
+                        </div>
+                        <div class="col-md-3">
+                            <a asp-controller="Question" asp-action="AddQuestionOpenAnswer" asp-route-quizId="@Model.Id" class="btn shadow p-2 rounded text-white bg-warning btn-block">Свободен отговор</a>
+                        </div>
+                    </div>
+                }
+
                 @foreach (var question in Model.Questions)
                 {
                     <div class="row">
                         <div class="col-12 background-fresh">
-                            <h5 class="text-white font-weight-bold text-uppercase pt-3">@question.Text<span class="font-weight-lighter">(@question.Scores)</span>
+                            <h5 class="text-white font-weight-bold text-uppercase pt-3">
+                                @question.Text<span class="font-weight-lighter">(@question.Scores)</span>
                             </h5>
                         </div>
                     </div>
-                    @foreach (var answer in question.Answers)
+                    @if (question.Answers.Any())
                     {
+                        @foreach (var answer in question.Answers)
+                        {
                             @if (answer.IsRightAnswer)
                             {
                                 <div class="row mt-2 mb-2">
@@ -81,6 +99,16 @@
                             }
                         }
                     }
+                    else
+                    {
+                        <div class="row mt-2 mb-2">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-11 border border-secondary border-width-answer pt-2 pb-2">
+                                <span class="align-middle">@GlobalConstants.QuestionOpenAnswer</span>
+                            </div>
+                        </div>
+                    }
+                }
             </div>
         </div>
     </div>

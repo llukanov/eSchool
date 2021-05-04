@@ -1,14 +1,10 @@
 ﻿namespace ESchool.Web.ViewModels.Question
 {
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using ESchool.Data.Models;
-    using ESchool.Services.Mapping;
-    using ESchool.Web.ViewModels.Answer;
     using ESchool.Web.ViewModels.Quiz;
 
-    public class AddQuestionInputModel
+    public class AddQuestionOSInputModel
     {
         public string Id { get; set; }
 
@@ -24,16 +20,9 @@
         [Display(Name = "Точки")]
         public int Scores { get; set; }
 
-        public IEnumerable<AnswerInputModel> Answers { get; set; }
-
-        [Required(ErrorMessage = "Полето {0} е задължително!")]
-        public string TrueFalseQuestion { get; set; }
-
         [Required(ErrorMessage = "Полето е задължително!")]
         public string QuizId { get; set; }
 
         public QuizPageViewModel Quiz { get; set; }
-
-        public string QuestionType { get; set; }
     }
 }

@@ -8,7 +8,11 @@ namespace ESchool.Services.Data.Contracts
 {
     public interface IQuestionsService
     {
-        Task CreateQuestionAsync(AddQuestionInputModel input);
+        Task CreateOneChoiceQuestionAsync(AddQuestionInputModel input);
+
+        Task CreateTrueFalseQuestionAsync(AddTFQuestionInputModel input);
+
+        Task CreateQuestionOpenAnswerAsync(AddQuestionOSInputModel input);
 
         //Task DeleteQuestionByIdAsync(string id);
 

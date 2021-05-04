@@ -31,7 +31,7 @@
         {
             var viewModel = new AddQuestionInputModel();
 
-            viewModel.Quiz =  this.quizzesService.GetQuizByIdAsync<QuizPageViewModel>(quizId);
+            viewModel.Quiz = this.quizzesService.GetQuizByIdAsync<QuizPageViewModel>(quizId);
 
             return this.View(viewModel);
         }
@@ -41,11 +41,10 @@
         public async Task<IActionResult> AddQuestion(string quizId, AddQuestionInputModel input)
         {
             input.Quiz = this.quizzesService.GetQuizByIdAsync<QuizPageViewModel>(quizId);
-            
 
             try
             {
-                await this.questionsService.CreateQuestionAsync(input);
+                await this.questionsService.CreateOneChoiceQuestionAsync(input);
             }
             catch (Exception ex)
             {
@@ -55,6 +54,99 @@
 
             return this.RedirectToAction("AddQuestion", "Question", new { quizId = input.QuizId });
         }
+
+        // Add Question with one choice to some quiz
+        [Authorize(Roles = GlobalConstants.TeacherRoleName)]
+        public IActionResult AddOneChoiceQuestion(string quizId)
+        {
+            var viewModel = new AddQuestionInputModel();
+
+            viewModel.Quiz = this.quizzesService.GetQuizByIdAsync<QuizPageViewModel>(quizId);
+
+            viewModel.QuestionType = GlobalConstants.QuestionOneChoice;
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = GlobalConstants.TeacherRoleName)]
+        public async Task<IActionResult> AddOneChoiceQuestion(string quizId, AddQuestionInputModel input)
+        {
+            input.Quiz = this.quizzesService.GetQuizByIdAsync<QuizPageViewModel>(quizId);
+
+            try
+            {
+                await this.questionsService.CreateOneChoiceQuestionAsync(input);
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.Message);
+                return this.View(input);
+            }
+
+            return this.RedirectToAction("ById", "Quiz", new { quizId = input.QuizId });
+        }
+
+        // Add True/False Question to some quiz
+        [Authorize(Roles = GlobalConstants.TeacherRoleName)]
+        public IActionResult AddTrueFalseQuestion(string quizId)
+        {
+            var viewModel = new AddTFQuestionInputModel();
+
+            viewModel.Quiz = this.quizzesService.GetQuizByIdAsync<QuizPageViewModel>(quizId);
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = GlobalConstants.TeacherRoleName)]
+        public async Task<IActionResult> AddTrueFalseQuestion(string quizId, AddTFQuestionInputModel input)
+        {
+            input.Quiz = this.quizzesService.GetQuizByIdAsync<QuizPageViewModel>(quizId);
+
+            try
+            {
+                await this.questionsService.CreateTrueFalseQuestionAsync(input);
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.Message);
+                return this.View(input);
+            }
+
+            return this.RedirectToAction("ById", "Quiz", new { quizId = input.QuizId });
+        }
+
+        // Add Open Question to some quiz
+        [Authorize(Roles = GlobalConstants.TeacherRoleName)]
+        public IActionResult AddQuestionOpenAnswer(string quizId)
+        {
+            var viewModel = new AddQuestionOSInputModel();
+
+            viewModel.Quiz = this.quizzesService.GetQuizByIdAsync<QuizPageViewModel>(quizId);
+
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = GlobalConstants.TeacherRoleName)]
+        public async Task<IActionResult> AddQuestionOpenAnswer(string quizId, AddQuestionOSInputModel input)
+        {
+            input.Quiz = this.quizzesService.GetQuizByIdAsync<QuizPageViewModel>(quizId);
+
+            try
+            {
+                await this.questionsService.CreateQuestionOpenAnswerAsync(input);
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.Message);
+                return this.View(input);
+            }
+
+            return this.RedirectToAction("ById", "Quiz", new { quizId = input.QuizId });
+        }
+
 
         // Go on Next Question
         //[HttpGet]

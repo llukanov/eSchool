@@ -1,4 +1,6 @@
-﻿namespace ESchool.Common
+﻿using System.Collections.Generic;
+
+namespace ESchool.Common
 {
     public static class GlobalConstants
     {
@@ -37,5 +39,15 @@
         public const string Grade5 = "Много добър (5)";
 
         public const string Grade6 = "Отличен (6)";
+
+        public const string QuestionOneChoice = "Въпрос с един възможен отговор";
+
+        public const string QuestionTrueFalse = "Вярно/Грешно";
+
+        public const string QuestionOpenAnswer = "Въпрос със свободен отговор";
+
+        public const string AnswerTrue = "Вярно";
+
+        public const string AnswerFalse = "Грешно";
     }
 }

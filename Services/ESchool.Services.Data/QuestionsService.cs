@@ -1,4 +1,5 @@
-﻿using ESchool.Data.Common.Repositories;
+﻿using ESchool.Common;
+using ESchool.Data.Common.Repositories;
 using ESchool.Data.Models;
 using ESchool.Services.Data.Contracts;
 using ESchool.Services.Mapping;
@@ -37,7 +38,7 @@ namespace ESchool.Services.Data
             this.quizzesService = quizzesService;
         }
 
-        public async Task CreateQuestionAsync(AddQuestionInputModel input)
+        public async Task CreateOneChoiceQuestionAsync(AddQuestionInputModel input)
         {
             if (input.Answers.Count() <= 1 || input.Answers == null)
             {
@@ -78,6 +79,7 @@ namespace ESchool.Services.Data
                 Text = input.Text,
                 Scores = input.Scores,
                 QuizId = input.QuizId,
+                QuestionType = input.QuestionType,
             };
 
             foreach (var currentAnswer in input.Answers)
@@ -93,6 +95,86 @@ namespace ESchool.Services.Data
             await this.questionRepository.AddAsync(question);
             await this.questionRepository.SaveChangesAsync();
         }
+
+        public async Task CreateTrueFalseQuestionAsync(AddTFQuestionInputModel input)
+        {
+            var quiz = await this.quizRepository
+                .AllAsNoTracking()
+                .Select(x => new
+                {
+                    x.Id,
+                    Questions = x.Questions.Count(),
+                })
+                .FirstOrDefaultAsync(x => x.Id == input.QuizId);
+
+            var question = new Question
+            {
+                Number = quiz.Questions + 1,
+                Text = input.Text,
+                Scores = input.Scores,
+                QuizId = input.QuizId,
+                QuestionType = GlobalConstants.QuestionTrueFalse,
+            };
+
+            if (input.TrueFalseQuestion == GlobalConstants.AnswerTrue)
+            {
+                question.Answers.Add(
+                    new Answer
+                    {
+                        Text = GlobalConstants.AnswerTrue,
+                        IsRightAnswer = true,
+                    });
+                question.Answers.Add(
+                    new Answer
+                    {
+                        Text = GlobalConstants.AnswerFalse,
+                        IsRightAnswer = false,
+                    });
+            }
+            else
+            {
+                question.Answers.Add(
+                    new Answer
+                    {
+                        Text = GlobalConstants.AnswerTrue,
+                        IsRightAnswer = false,
+                    });
+                question.Answers.Add(
+                    new Answer
+                    {
+                        Text = GlobalConstants.AnswerFalse,
+                        IsRightAnswer = true,
+                    });
+            }
+
+            await this.questionRepository.AddAsync(question);
+            await this.questionRepository.SaveChangesAsync();
+        }
+
+        public async Task CreateQuestionOpenAnswerAsync(AddQuestionOSInputModel input)
+        {
+            var quiz = await this.quizRepository
+                .AllAsNoTracking()
+                .Select(x => new
+                {
+                    x.Id,
+                    Questions = x.Questions.Count(),
+                })
+                .FirstOrDefaultAsync(x => x.Id == input.QuizId);
+
+            var question = new Question
+            {
+                Number = quiz.Questions + 1,
+                Text = input.Text,
+                Scores = input.Scores,
+                QuizId = input.QuizId,
+                QuestionType = GlobalConstants.QuestionOpenAnswer,
+            };
+
+            await this.questionRepository.AddAsync(question);
+            await this.questionRepository.SaveChangesAsync();
+        }
+
 
         //public async Task DeleteQuestionByIdAsync(string id)
         //{

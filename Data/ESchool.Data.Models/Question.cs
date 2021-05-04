@@ -23,5 +23,7 @@
         public string QuizId { get; set; }
 
         public virtual Quiz Quiz { get; set; }
+
+        public string QuestionType { get; set; }
     }
 }
