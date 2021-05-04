@@ -83,10 +83,12 @@
 
         // Get quiz by its id
         [HttpGet]
-        [Authorize(Roles = GlobalConstants.TeacherRoleName + "," + GlobalConstants.StudentRoleName)]
+        [Authorize(Roles = GlobalConstants.TeacherRoleName)]
         public async Task<IActionResult> ById(string quizId)
         {
-            var quiz =  this.quizzesService.GetQuizByIdAsync<QuizPageViewModel>(quizId);
+            var quiz = this.quizzesService.GetQuizByIdAsync<QuizPageViewModel>(quizId);
+
+            quiz.TotalScores = await this.quizzesService.GetQuizTotalScores(quizId);
 
             return this.View(quiz);
         }
@@ -100,6 +102,26 @@
             await this.quizzesService.FinishQuiz(quizId, currentUserId);
 
             return this.RedirectToAction("Index", "Home" );
+        }
+
+        // Activate a quiz by Id
+        [Authorize(Roles = GlobalConstants.TeacherRoleName)]
+        public async Task<IActionResult> ActivateQuiz(string quizId)
+        {
+            try
+            {
+                await this.quizzesService.ActivateQuiz(quizId);
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.Message);
+
+                return this.RedirectToAction(nameof(this.ById), new { quizId = quizId });
+            }
+
+            this.TempData["Message"] = "Тестът е активиран успешно.";
+
+            return this.RedirectToAction(nameof(this.ById), new { quizId = quizId });
         }
     }
 }

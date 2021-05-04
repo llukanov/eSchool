@@ -14,7 +14,10 @@
 
         public string Description { get; set; }
 
-        public ICollection<TakeQuestionViewModel> Questions { get; set; }
+        public ICollection<QuestionAtListViewModel> Questions { get; set; }
 
+        public int TotalScores { get; set; }
+
+        public bool IsActivated { get; set; }
     }
 }

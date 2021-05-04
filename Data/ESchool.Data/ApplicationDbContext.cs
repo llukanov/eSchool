@@ -46,6 +46,12 @@
 
         public DbSet<Grade> Grades { get; set; }
 
+        public DbSet<Chat> Chats { get; set; }
+
+        public DbSet<Message> Messages { get; set; }
+
+        public DbSet<ChatUser> ChatUsers { get; set; }
+
         public DbSet<Comment> Comments { get; set; }
 
         public DbSet<Post> Posts { get; set; }
@@ -107,6 +113,9 @@
             {
                 foreignKey.DeleteBehavior = DeleteBehavior.Restrict;
             }
+
+            builder.Entity<ChatUser>()
+                .HasKey(x => new { x.ChatId, x.UserId });
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

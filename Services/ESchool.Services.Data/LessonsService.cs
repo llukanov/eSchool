@@ -1,16 +1,18 @@
-﻿namespace ESchool.Services.Data
+﻿using ESchool.Data.Common.Repositories;
+using ESchool.Data.Models;
+using ESchool.Services.Data.Contracts;
+using ESchool.Services.Mapping;
+using ESchool.Web.ViewModels.Lesson;
+using ESchool.Web.ViewModels.Material;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ESchool.Services.Data
 {
-    using System;
-    using System.IO;
-    using System.Linq;
-    using System.Threading.Tasks;
-
-    using ESchool.Data.Common.Repositories;
-    using ESchool.Data.Models;
-    using ESchool.Services.Data.Contracts;
-    using ESchool.Services.Mapping;
-    using ESchool.Web.ViewModels.Lesson;
-
     public class LessonsService : ILessonsService
     {
         private readonly string[] allowedExtensions = new[] { ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".png", ".jpg", ".jpeg" };
@@ -28,11 +30,6 @@
 
         public async Task CreateAsync(CreateLessonInputModel input, string materialPath)
         {
-            if (input.Description == null || input.Description.Length <= 15)
-            {
-                throw new Exception("");
-            }
-
             var lesson = new Lesson
             {
                 Name = input.Name,
@@ -78,11 +75,6 @@
 
         public async Task UpdateAsync(EditLessonInputModel input, int id)
         {
-            if (input.Description == null || input.Description.Length <= 15)
-            {
-                throw new Exception("");
-            }
-
             var lesson = this.lessonRepository
                 .All()
                 .FirstOrDefault(x => x.Id == id);
@@ -91,6 +83,11 @@
             lesson.Description = input.Description;
 
             await this.lessonRepository.SaveChangesAsync();
+        }
+
+        public IEnumerable<LessonAtListViewModel> GetAll<T>(int page, int itemsPerPage = 20)
+        {
+            throw new NotImplementedException();
         }
 
 

@@ -26,5 +26,7 @@
         public virtual Lesson Lesson { get; set; }
 
         public virtual ICollection<Question> Questions { get; set; }
+
+        public bool IsActivated { get; set; }
     }
 }

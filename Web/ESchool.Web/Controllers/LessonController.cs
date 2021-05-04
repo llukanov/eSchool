@@ -33,7 +33,7 @@
             this.environment = environment;
         }
 
-        // Add Lesson in current subject from current teacher
+        // Add Lesson in in current subject from current teacher
         [Authorize(Roles = GlobalConstants.TeacherRoleName)]
         public IActionResult Create(int subjectId, string teacherId)
         {
@@ -64,7 +64,7 @@
                 return this.View(input);
             }
 
-            this.TempData["Message"] = "Темата е добавена.";
+            this.TempData["Message"] = "Темата е добавено.";
 
             return this.RedirectToAction(actionName: "ById", controllerName: "Subject", new { subjectId = input.SubjectId });
         }
@@ -95,7 +95,7 @@
             return this.RedirectToAction(nameof(this.ById), new { lessonId });
         }
 
-        // Get specific lesson by its id
+        // Get specific school by its id
         [HttpGet]
         [Authorize(Roles = GlobalConstants.TeacherRoleName + "," + GlobalConstants.StudentRoleName)]
         public IActionResult ById(int lessonId)

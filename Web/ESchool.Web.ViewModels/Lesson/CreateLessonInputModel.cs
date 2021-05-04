@@ -8,15 +8,14 @@
 
     public class CreateLessonInputModel
     {
-        [Required(ErrorMessage = "Полето „Тема“ е задължително!")]
-        [MinLength(4, ErrorMessage = "Дължината на „Тема“ трябва да бъде поне 4 символа.")]
+        [Required]
+        [MinLength(4)]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = "Полето „Инструкции“ е задължително и трябва да съдържа поне 15 символа!")]
-        [MinLength(15, ErrorMessage = "Дължината на „Инструкции“ трябва да бъде поне 15 символа.")]
+        [Required]
+        [MinLength(100)]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Полето е задължително!")]
         public int SubjectId { get; set; }
 
         [BindProperty]

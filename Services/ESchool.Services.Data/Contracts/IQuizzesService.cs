@@ -14,6 +14,8 @@ namespace ESchool.Services.Data.Contracts
 
         Task FinishQuiz(string quizId, string studentId);
 
+        Task ActivateQuiz(string quizId);
+
         //Task<IList<T>> GetAllUnAssignedToEventAsync<T>(string creatorId = null);
 
         //Task<IEnumerable<T>> GetAllPerPageAsync<T>(

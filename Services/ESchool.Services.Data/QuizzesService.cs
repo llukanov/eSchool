@@ -406,5 +406,21 @@ namespace ESchool.Services.Data
 
             return totalScores;
         }
+
+        public async Task ActivateQuiz(string quizId)
+        {
+            var quiz = this.quizRepository
+               .AllAsNoTracking()
+               .Where(x => x.Id == quizId)
+               .FirstOrDefault();
+
+            if (quiz != null)
+            {
+                quiz.IsActivated = true;
+
+                this.quizRepository.Update(quiz);
+                await this.quizRepository.SaveChangesAsync();
+            }
+        }
     }
 }
