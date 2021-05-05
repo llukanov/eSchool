@@ -24,5 +24,7 @@
         public IList<TakeQuizAnswerViewModel> Answers { get; set; }
 
         public int Scores { get; set; }
+
+        public string QuestionType { get; set; }
     }
 }

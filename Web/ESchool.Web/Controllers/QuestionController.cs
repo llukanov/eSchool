@@ -200,13 +200,28 @@
             return this.View(viewModel);
         }
 
-
         [Authorize(Roles = GlobalConstants.StudentRoleName)]
         public async Task<IActionResult> AnswerQuestion(string solvedQuestionId, string answerId, string quizId)
         {
             try
             {
                 await this.questionsService.AnswerQuestion(solvedQuestionId, answerId);
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.Message);
+                return this.RedirectToAction("Index", "Home");
+            }
+
+            return this.RedirectToAction(nameof(this.LoadQuestion), new { quizId = quizId });
+        }
+
+        [Authorize(Roles = GlobalConstants.StudentRoleName)]
+        public async Task<IActionResult> AnswerOpenQuestion(string solvedQuestionId, string quizId, QuestionPageViewModel input)
+        {
+            try
+            {
+                await this.questionsService.AnswerOpenQuestion(solvedQuestionId, input);
             }
             catch (Exception ex)
             {

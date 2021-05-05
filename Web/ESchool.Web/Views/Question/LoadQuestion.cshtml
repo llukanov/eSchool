@@ -1,4 +1,5 @@
-﻿@model ESchool.Web.ViewModels.Question.QuestionPageViewModel
+﻿@using ESchool.Common
+@model ESchool.Web.ViewModels.Question.QuestionPageViewModel
 @{
     ViewData["Title"] = "Решаване на тест";
 }
@@ -7,9 +8,6 @@
 {
     <div class="alert alert-success">@this.TempData["Message"]</div>
 }
-
-
-
 
 <div class="mt-5 p-3">
     <!-- Start header -->
@@ -36,12 +34,39 @@
                 </div>
             </div>
             <div class="mb-3">
-                <h2>@Model.Question.Text</h2>
-                @foreach (var answer in Model.Question.Answers)
+                @if (Model.Question.QuestionType == GlobalConstants.QuestionOneChoice || Model.Question.QuestionType == GlobalConstants.QuestionTrueFalse)
                 {
-                    <a asp-controller="Question" asp-action="AnswerQuestion" asp-route-solvedQuestionId="@Model.Id" asp-route-answerId="@answer.Id" asp-route-quizId="@Model.QuizId" class="btn shadow mt-3 p-2 rounded text-white background-tangerine btn-block">@answer.Text</a>
+                    <h2>@Model.Question.Text</h2>
+                    @foreach (var answer in Model.Question.Answers)
+                    {
+                        <a asp-controller="Question" asp-action="AnswerQuestion" asp-route-solvedQuestionId="@Model.Id" asp-route-answerId="@answer.Id" asp-route-quizId="@Model.QuizId" class="btn shadow mt-3 p-2 rounded text-white background-tangerine btn-block">@answer.Text</a>
+                    }
+                }
+                else
+                {
+                    <div class="pl-3">
+                        <form method="post" asp-action="AnswerOpenQuestion" asp-controller="Question" asp-route-solvedQuestionId="@Model.Id" asp-route-quizId="@Model.QuizId" enctype="multipart/form-data">
+                            <hr />
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <!-- The reply's text -->
+                            <div class="form-group input-group">
+                                <div>
+                                    <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.StudentAnswer">Писмен отговор:</label>
+                                </div>
+                                <div class="input-group">
+                                    <textarea class="form-control" id="mytextarea" asp-for="@Model.StudentAnswer"></textarea>
+                                </div>
+                                <span asp-validation-for="@Model.StudentAnswer" class="text-danger"></span>
+                            </div>
+                            <!-- Submit -->
+                            <div class="form-group float-right">
+                                <button type="submit" id="btn" class="btn text-white background-fresh btn-block">Изпращане на отговор</button>
+                            </div>
+                        </form>
+                    </div>
                 }
             </div>
         </div>
         <!-- End input -->
     </div>
+</div>

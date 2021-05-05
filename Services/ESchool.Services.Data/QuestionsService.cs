@@ -278,6 +278,19 @@ namespace ESchool.Services.Data
             await this.solvedQuestionRepository.SaveChangesAsync();
         }
 
+        public async Task AnswerOpenQuestion(string solvedQuestionId, QuestionPageViewModel input)
+        {
+            var solvedQuestion = this.solvedQuestionRepository
+                .AllAsNoTracking()
+                .Where(x => x.Id == solvedQuestionId)
+                .FirstOrDefault();
+
+            solvedQuestion.StudentAnswer = input.StudentAnswer;
+
+            this.solvedQuestionRepository.Update(solvedQuestion);
+            await this.solvedQuestionRepository.SaveChangesAsync();
+        }
+
         public IEnumerable<SolvedQuestionAtListViewModel> GetAllSolvedQuestionInQuiz<T>(string solvedQuizId)
         {
             var questions = this.solvedQuestionRepository
