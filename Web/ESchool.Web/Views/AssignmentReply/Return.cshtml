@@ -21,7 +21,7 @@
         <div class="row">
             <div class="col-md-9">
                 <h2 class="font-color-tangerine font-weight-bold text-uppercase pt-3"><span class="font-color-dark-gray ml-4">Тема: </span> </h2>
-                <h4 class="font-color-tangerine font-weight-bold text-uppercase pt-3"><span class="font-color-dark-gray ml-4">Ученик: </span> </h4>
+                <h4 class="font-color-tangerine font-weight-bold text-uppercase pt-3"><span class="font-color-dark-gray ml-4">Ученик: @Model.Student.FullName</span> </h4>
                 <hr />
                 <h4 class="font-color-dark-gray font-weight-light">Изпратен отговор:</h4>
                 <div class="ml-3">
@@ -73,9 +73,19 @@
                         <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.GradeId">Оценка:</label>
                     </div>
                     <div class="input-group">
-                        <select asp-for="@Model.GradeId" class="form-control" asp-items="grades"></select>
+                        <select asp-for="@Model.GradeId" class="form-control" asp-items="grades">
+                            <option disabled selected value="">--- ИЗБЕРИ ---</option>
+                        </select>
                     </div>
                     <span asp-validation-for="@Model.GradeId" class="text-danger"></span>
+                </div>
+                <div class="form-group input-group">
+                    <div>
+                        <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.GradeId">Добавяне на оценката в дневника:</label>
+                    </div>
+                    <div class="input-group">
+                        <input type="checkbox" value="true" asp-for="@Model.IsPublishClassbooks" class='col-md-1 mt-1' style='width: 30px; height: 30px;'>
+                    </div>
                 </div>
                 <!-- Submit -->
                 <div class="row">
@@ -83,7 +93,7 @@
                         <div class="form-group float-right">
                             <button type="submit" id="btn" class="btn text-white background-fresh btn-block">Добави оценката</button>
                         </div>
-                    </div>    
+                    </div>
                 </div>
             </form>
         </div>

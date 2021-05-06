@@ -62,5 +62,18 @@ namespace ESchool.Services.Data
 
             return students;
         }
+
+        // Get all grades in some project
+        public IEnumerable<T> GetAllOfStudents<T>(string studentId)
+        {
+            var grades = this.studentGradeRepository
+                .AllAsNoTracking()
+                .Where(x => x.StudentId == studentId)
+                .OrderBy(x => x.CreatedOn)
+                .To<T>()
+                .ToList();
+
+            return grades;
+        }
     }
 }

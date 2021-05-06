@@ -25,7 +25,7 @@
 
         public string StudentId { get; set; }
 
-        public ApplicationUser Student { get; set; }
+        public StudentAtListViewModel Student { get; set; }
 
         //public string StudentFullName => this.Student.FirstName + " " + this.Student.SecondName + " " + this.Student.LastName;
 
@@ -39,5 +39,7 @@
         public int GradeId { get; set; }
 
         public Grade Grade { get; set; }
+
+        public bool IsPublishClassbooks { get; set; }
     }
 }

@@ -17,6 +17,10 @@
 
         public ApplicationUser Student { get; set; }
 
+        public int SubjectId { get; set; }
+
+        public Subject Subject { get; set; }
+
         public int GradeId { get; set; }
 
         public virtual Grade Grade { get; set; }

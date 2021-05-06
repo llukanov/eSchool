@@ -2,6 +2,7 @@
 using ESchool.Data.Models;
 using ESchool.Services.Data.Contracts;
 using ESchool.Web.ViewModels.Grade;
+using ESchool.Web.ViewModels.Student;
 using ESchool.Web.ViewModels.Subject;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -20,17 +21,20 @@ namespace ESchool.Web.Controllers
         private readonly ISubjectsService subjectsService;
         private readonly IStudentGradesServices studentGradesServices;
         private readonly IGradesService gradesService;
+        private readonly IStudentsService studentsService;
 
         public GradeController(
             UserManager<ApplicationUser> userManager,
             ISubjectsService subjectsService,
             IStudentGradesServices studentGradesServices,
-            IGradesService gradesService)
+            IGradesService gradesService,
+            IStudentsService studentsService)
         {
             this.userManager = userManager;
             this.subjectsService = subjectsService;
             this.studentGradesServices = studentGradesServices;
             this.gradesService = gradesService;
+            this.studentsService = studentsService;
         }
 
         public IActionResult Index()
@@ -38,7 +42,7 @@ namespace ESchool.Web.Controllers
             return View();
         }
 
-        // Get all assignment in some subject
+        // Get all grades of students in a subject
         [Authorize(Roles = GlobalConstants.TeacherRoleName)]
         public IActionResult AllInSubject(int subjectId)
         {
@@ -58,6 +62,33 @@ namespace ESchool.Web.Controllers
                 Subject = this.subjectsService.GetById<SubjectAtListViewModel>(subjectId),
                 Students = this.studentGradesServices.GetAllInSubject<StudentGradeAtListViewModel>(subjectId),
                 Grades = this.gradesService.GetAllAsKeyValuePairs(),
+            };
+
+            return this.View(viewModel);
+        }
+
+        // Get all grades of a student
+        [Authorize(Roles = GlobalConstants.StudentRoleName)]
+        public IActionResult AllOfStudent(string studentId)
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = this.userManager.Users
+                .Where(x => x.Id == userId)
+                .FirstOrDefault();
+
+            var student = this.userManager.Users
+                .Where(x => x.Id == studentId)
+                .FirstOrDefault();
+
+            if (!user.IsApproved)
+            {
+                return this.View("UnApproved");
+            }
+
+            var viewModel = new AllGradesOfStudentsViewModel
+            {
+                Student = this.studentsService.GetById<StudentAtListViewModel>(studentId),
+                Grades = this.studentGradesServices.GetAllOfStudents<GradesOfStudentAtListViewModel>(studentId),
             };
 
             return this.View(viewModel);

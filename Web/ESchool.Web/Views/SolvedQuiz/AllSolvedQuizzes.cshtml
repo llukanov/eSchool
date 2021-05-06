@@ -3,6 +3,8 @@
 @model ESchool.Web.ViewModels.SolvedQuiz.AllSolvedQuizzesViewModel
 @{
     this.ViewData["Title"] = "Решения на тест";
+
+    var grades = this.Model.Grades.Select(x => new SelectListItem(x.Value, x.Key));
 }
 @if (this.TempData.ContainsKey("Message"))
 {
@@ -52,8 +54,23 @@
                         <tr>
                             <td>@solvedQuiz.Student.FullName</td>
                             <td>@solvedQuiz.Scores</td>
-                            <td>
-                                <a asp-controller="SolvedQuiz" asp-action="ById" asp-route-quizId="@solvedQuiz.QuizId" asp-route-studentId="@solvedQuiz.Student.Id" class="btn shadow p-2 rounded text-white background-fresh ">Проверка</a>
+                            <td class="d-flex" style="max-width: 100px">
+                                <div class="m-1">
+                                    <a asp-controller="SolvedQuiz" asp-action="ById" asp-route-quizId="@solvedQuiz.QuizId" asp-route-studentId="@solvedQuiz.Student.Id" class="btn shadow p-2 rounded text-white background-fresh ">Проверка</a>
+                                </div>
+                                
+                                <div class="pb-0" style="max-width: 90px">
+                                    <form id="form" method="post" asp-action="Add" asp-controller="Grade" asp-route-subjectId="@Model.SubjectId" asp-route-studentId="@solvedQuiz.Student.Id">
+                                        <!-- Add Grade -->
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <select name="gradeId" class="form-control" asp-items="grades"></select>
+                                            </div>
+                                            <button type="submit" class="btn shadow mt-2 p-2 rounded text-white bg-warning btn-block">Запамети</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                
                             </td>
                         </tr>
                     }

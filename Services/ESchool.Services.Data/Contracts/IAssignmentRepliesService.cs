@@ -9,7 +9,7 @@
     {
         Task SendAsync(SendAssignmentReplyInputModel input, string materialPath);
 
-        Task UpdateAsync(ReturnAssignmentReplyInputModel input, string assignmentReplyId);
+        Task UpdateAsync(ReturnAssignmentReplyInputModel input, string assignmentReplyId, string teacherId);
 
         IEnumerable<AssignmentReplyAtListViewModel> GetAllRepliesOfAssignment<T>(string assignmentId);
 

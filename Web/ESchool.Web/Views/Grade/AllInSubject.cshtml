@@ -45,7 +45,6 @@
                                 Няма ученици в този клас.<br />
                             </td>
                         </tr>
-
                     }
                     else
                     {
@@ -56,7 +55,6 @@
                                 <th data-defaultsort="disabled">Действия</th>
                             </tr>
                         </thead>
-
                         foreach (var student in this.Model.Students)
                         {
                             <tr>
@@ -64,29 +62,27 @@
                                 <td>
                                     @if (student.StudentGrades.Any())
                                     {
-                                        <div class="d-flex">
-                                            @foreach (var grade in student.StudentGrades)
+                                    <div class="d-flex">
+                                        @foreach (var grade in student.StudentGrades)
                                         {
-                                            <div class="shadow m-1 p-2 rounded text-white bg-warning text-center font-weight-bold" style="width: 40px">
-                                                @grade.Grade.Name
-                                            </div>
+                                            if (grade.SubjectId == Model.SubjectId)
+                                            {
+                                                <div class="shadow m-1 p-2 rounded text-white bg-warning text-center font-weight-bold grade" style="width: 40px">
+                                                    @grade.Grade.Name
+                                                </div>
+                                                <div class="hide">@grade.Text</div>
+                                            }
                                         }
-                                        </div>
-                                        
+                                    </div>
                                     }
-
                                 </td>
                                 <td class="pb-0" style="max-width: 90px">
                                     <form id="form" method="post" asp-action="Add" asp-controller="Grade" asp-route-subjectId="@Model.SubjectId" asp-route-studentId="@student.Id">
-                                        <!-- Question's scores-->
-                                        <div class="form-group input-group">
-                                            @*<div>
-                                                <label class="font-color-dark-gray font-weight-bold" asp-for="@solvedQuestion.Scores"></label>
-                                            </div>*@
+                                        <!-- Add Grade -->
+                                        <div class="form-group">
                                             <div class="input-group">
                                                 <select name="gradeId"  class="form-control" asp-items="grades"></select>
                                             </div>
-                                        <!-- Submit -->
                                              <button type="submit" class="btn shadow mt-2 p-2 rounded text-white bg-warning btn-block">Запамети</button>
                                         </div>
                                     </form>

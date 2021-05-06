@@ -16,15 +16,23 @@
     public class AssignmentRepliesService : IAssignmentRepliesService
     {
         private readonly string[] allowedExtensions = new[] { ".pdf", ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".png", ".jpg", ".jpeg" };
-
+        private readonly IStudentGradesServices studentGradesServices;
         private readonly IDeletableEntityRepository<AssignmentReply> assignmentRepliesRepository;
+        private readonly IDeletableEntityRepository<Assignment> assignmentRepository;
+        private readonly IDeletableEntityRepository<Lesson> lessonRepository;
         private readonly IDeletableEntityRepository<Material> materialRepository;
 
         public AssignmentRepliesService(
+            IStudentGradesServices studentGradesServices,
             IDeletableEntityRepository<AssignmentReply> assignmentRepliesRepository,
+            IDeletableEntityRepository<Assignment> assignmentRepository,
+            IDeletableEntityRepository<Lesson> lessonRepository,
             IDeletableEntityRepository<Material> materialRepository)
         {
+            this.studentGradesServices = studentGradesServices;
             this.assignmentRepliesRepository = assignmentRepliesRepository;
+            this.assignmentRepository = assignmentRepository;
+            this.lessonRepository = lessonRepository;
             this.materialRepository = materialRepository;
         }
 
@@ -127,7 +135,7 @@
         }
 
         // Update reply - reviewing and setting grade of student reply
-        public async Task UpdateAsync(ReturnAssignmentReplyInputModel input, string assignmentReplyId)
+        public async Task UpdateAsync(ReturnAssignmentReplyInputModel input, string assignmentReplyId, string teacherId)
         {
             var assignmentReply = this.assignmentRepliesRepository
                 .All()
@@ -136,6 +144,20 @@
             assignmentReply.TeacherReview = input.TeacherReview;
             assignmentReply.GradeId = input.GradeId;
 
+            if (input.IsPublishClassbooks)
+            {
+                var assignment = this.assignmentRepository
+                .AllAsNoTracking()
+                .FirstOrDefault(x => x.Id == assignmentReply.AssignmentId);
+
+                var lesson = this.lessonRepository
+                    .AllAsNoTracking()
+                    .FirstOrDefault(x => x.Id == assignment.LessonId);
+
+                await this.studentGradesServices.AddGrade(lesson.SubjectId, assignmentReply.StudentId, teacherId, input.GradeId);
+            }
+
+            this.assignmentRepliesRepository.Update(assignmentReply);
             await this.assignmentRepliesRepository.SaveChangesAsync();
         }
     }

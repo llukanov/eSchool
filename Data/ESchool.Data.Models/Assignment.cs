@@ -1,16 +1,18 @@
-﻿using ESchool.Data.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ESchool.Data.Models
+﻿namespace ESchool.Data.Models
 {
+    using System;
+    using System.Collections.Generic;
+
+    using ESchool.Data.Common.Models;
+
     public class Assignment : BaseDeletableModel<string>
     {
         public Assignment()
         {
             this.Id = Guid.NewGuid().ToString();
         }
+
+        public string Name { get; set; }
 
         public string Description { get; set; }
 

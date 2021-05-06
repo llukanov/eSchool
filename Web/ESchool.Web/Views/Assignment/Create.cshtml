@@ -23,6 +23,16 @@
                     <!-- Assignment's description -->
                     <div class="form-group input-group">
                         <div>
+                            <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.Name"></label>
+                        </div>
+                        <div class="input-group">
+                            <input type="text" class="form-control" asp-for="@Model.Name" required />
+                        </div>
+                        <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                    </div>
+                    <!-- Assignment's description -->
+                    <div class="form-group input-group">
+                        <div>
                             <label class="font-color-dark-gray font-weight-bold" asp-for="@Model.Description">Инструкции:</label>
                         </div>
                         <div class="input-group">

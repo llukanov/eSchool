@@ -9,7 +9,7 @@
     <div class="alert alert-success">@this.TempData["Message"]</div>
 }
 
-<div class="mt-5">
+<div class="m-2 mt-5">
     <!-- Start header -->
     <div class="row">
         <div class="col-md-12">
@@ -22,6 +22,12 @@
                     <a asp-controller="Assignment" asp-action="Edit" asp-route-assignmentId="@Model.Id" class="btn shadow p-2 rounded text-white background-fresh btn-block"><i class="fa fa-pencil-square-o pr-3" aria-hidden="true"></i>Редактиране</a>
                 </div>
             }
+        </div>
+    </div>
+    <div class="m-1 mb-3 row shadow p-3 bg-white rounded">
+        <div class="col-md-9">
+            <!-- Navigarion tabs -->
+            <partial name="_SubjectNavbar" model="@Model" />
         </div>
     </div>
     <!-- End header -->

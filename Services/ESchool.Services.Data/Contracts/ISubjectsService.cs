@@ -15,5 +15,7 @@
         IEnumerable<SubjectAtListViewModel> GetAllSubjectsOfStudent<T>(ApplicationUser student);
 
         T GetById<T>(int id);
+
+        int GetIdByQuizId(string quizId);
     }
 }

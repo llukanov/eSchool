@@ -116,6 +116,7 @@ namespace ESchool.Web.Controllers
         [Authorize(Roles = GlobalConstants.TeacherRoleName)]
         public async Task<IActionResult> Return(string assignmentReplyId, ReturnAssignmentReplyInputModel input)
         {
+            var teacherId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (!this.ModelState.IsValid)
             {
@@ -123,13 +124,13 @@ namespace ESchool.Web.Controllers
                 return this.View(input);
             }
 
-            await this.assignmentRepliesService.UpdateAsync(input, assignmentReplyId);
+            await this.assignmentRepliesService.UpdateAsync(input, assignmentReplyId, teacherId);
 
             var assignmentReply = this.assignmentRepliesService.GetById<ReturnAssignmentReplyInputModel>(assignmentReplyId);
 
             this.TempData["Message"] = "Отговорът е добавен.";
 
-            return this.RedirectToAction(actionName: "ById", controllerName: "Assignment", new { assignmentId = assignmentReply.AssignmentId});
+            return this.RedirectToAction(actionName: "ById", controllerName: "Assignment", new { assignmentId = assignmentReply.AssignmentId });
         }
 
         // Get all assignment replies of student

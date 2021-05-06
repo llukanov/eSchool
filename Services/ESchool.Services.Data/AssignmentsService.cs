@@ -37,6 +37,7 @@ namespace ESchool.Services.Data
 
             var assignment = new Assignment
             {
+                Name = input.Name,
                 Description = input.Description,
                 LessonId = input.LessonId,
                 TeacherId = input.TeacherId,
@@ -136,6 +137,7 @@ namespace ESchool.Services.Data
                 .All()
                 .FirstOrDefault(x => x.Id == assignmentId);
 
+            assignment.Name = input.Name;
             assignment.Description = input.Description;
             assignment.Deadline = input.Deadline;
 

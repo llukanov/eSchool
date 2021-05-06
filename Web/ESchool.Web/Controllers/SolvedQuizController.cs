@@ -19,15 +19,21 @@ namespace ESchool.Web.Controllers
     {
         private readonly IQuizzesService quizzesService;
         private readonly IQuestionsService questionsService;
+        private readonly ISubjectsService subjectsService;
+        private readonly IGradesService gradesService;
         private readonly IDeletableEntityRepository<SolvedQuestion> solvedQuestionRepository;
 
         public SolvedQuizController(
             IQuizzesService quizzesService,
             IQuestionsService questionsService,
+            ISubjectsService subjectsService,
+            IGradesService gradesService,
             IDeletableEntityRepository<SolvedQuestion> solvedQuestionRepository)
         {
             this.quizzesService = quizzesService;
             this.questionsService = questionsService;
+            this.subjectsService = subjectsService;
+            this.gradesService = gradesService;
             this.solvedQuestionRepository = solvedQuestionRepository;
         }
 
@@ -39,7 +45,9 @@ namespace ESchool.Web.Controllers
             var viewModel = new AllSolvedQuizzesViewModel
             {
                 QuizName = await this.quizzesService.GetQuizNameByIdAsync(quizId),
+                SubjectId = this.subjectsService.GetIdByQuizId(quizId),
                 SolvedQuizzes = this.quizzesService.GetAllSolvedQuizzesByQuizId<SolvedQuizAtListViewModel>(quizId),
+                Grades = this.gradesService.GetAllAsKeyValuePairs(),
             };
 
             return this.View(viewModel);

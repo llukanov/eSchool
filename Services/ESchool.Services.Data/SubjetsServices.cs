@@ -13,15 +13,21 @@
     {
         private readonly IDeletableEntityRepository<Subject> subjectsRepository;
         private readonly IDeletableEntityRepository<ClassInSchool> classesRepository;
+        private readonly IDeletableEntityRepository<Quiz> quizRepository;
+        private readonly IDeletableEntityRepository<Lesson> lessonRepository;
         private readonly IClassesService classesService;
 
         public SubjetsServices(
             IDeletableEntityRepository<Subject> subjectsRepository,
             IDeletableEntityRepository<ClassInSchool> classesRepository,
+            IDeletableEntityRepository<Quiz> quizRepository,
+            IDeletableEntityRepository<Lesson> lessonRepository,
             IClassesService classesService)
         {
             this.subjectsRepository = subjectsRepository;
             this.classesRepository = classesRepository;
+            this.quizRepository = quizRepository;
+            this.lessonRepository = lessonRepository;
             this.classesService = classesService;
         }
 
@@ -81,6 +87,26 @@
                 .FirstOrDefault();
 
             return subject;
+        }
+
+        public int GetIdByQuizId(string quizId)
+        {
+            var quiz = this.quizRepository
+                .AllAsNoTracking()
+                .Where(x => x.Id == quizId)
+                .FirstOrDefault();
+
+            var lesson = this.lessonRepository
+                .AllAsNoTracking()
+                .Where(x => x.Id == quiz.LessonId)
+                .FirstOrDefault();
+
+            var subject = this.subjectsRepository
+                .AllAsNoTracking()
+                .Where(x => x.Id == lesson.SubjectId)
+                .FirstOrDefault();
+
+            return subject.Id;
         }
     }
 }

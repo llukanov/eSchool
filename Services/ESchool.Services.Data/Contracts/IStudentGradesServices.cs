@@ -12,5 +12,7 @@
         Task AddGrade(int subjectId, string studentId, string teacherId, int gradeId);
 
         IEnumerable<StudentGradeAtListViewModel> GetAllInSubject<T>(int subjectId);
+
+        IEnumerable<T> GetAllOfStudents<T>(string studentId);
     }
 }

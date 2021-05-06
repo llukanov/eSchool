@@ -312,3 +312,13 @@ color: #F7F7F7;
 .border-width-answer {
     border-width: 3px !important;
 }
+
+/* Grade-hover */
+.hide {
+    display: none;
+}
+
+.grade:hover + .hide {
+    display: block;
+    color: green;
+}

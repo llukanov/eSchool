@@ -8,6 +8,10 @@
     {
         public string QuizName { get; set; }
 
+        public int SubjectId { get; set; }
+
         public IEnumerable<SolvedQuizAtListViewModel> SolvedQuizzes { get; set; }
+
+        public IEnumerable<KeyValuePair<string, string>> Grades { get; set; }
     }
 }
