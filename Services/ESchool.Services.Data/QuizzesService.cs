@@ -93,11 +93,11 @@ namespace ESchool.Services.Data
             }
         }
 
-        public async Task FinishQuiz(string quizId, string studentId)
+        public async Task FinishQuiz(string solvedQuizId)
         {
             var solvedQuiz = this.solvedQuizzesRepository
                 .AllAsNoTracking()
-                .Where(x => x.QuizId == quizId && x.StudentId == studentId)
+                .Where(x => x.Id == solvedQuizId)
                 .FirstOrDefault();
 
             var solvedQuestions = this.solvedQuestionsRepository
@@ -107,7 +107,7 @@ namespace ESchool.Services.Data
 
             var quiz = this.quizRepository
                 .AllAsNoTracking()
-                .Where(x => x.Id == quizId)
+                .Where(x => x.Id == solvedQuiz.QuizId)
                 .To<QuizPageViewModel>()
                 .FirstOrDefault();
 

@@ -18,5 +18,9 @@
         public int Scores { get; set; }
 
         public int TotalScores { get; set; }
+
+        public string StudentId { get; set; }
+
+        public string QuizId { get; set; }
     }
 }

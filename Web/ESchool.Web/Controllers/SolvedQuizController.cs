@@ -6,6 +6,7 @@ using ESchool.Web.ViewModels.Question;
 using ESchool.Web.ViewModels.Quiz;
 using ESchool.Web.ViewModels.SolvedQuiz;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -54,7 +55,29 @@ namespace ESchool.Web.Controllers
 
             viewModel.TotalScores = await this.quizzesService.GetQuizTotalScores(quizId);
 
+            viewModel.StudentId = studentId;
+
+            viewModel.QuizId = quizId;
+
             return this.View(viewModel);
+        }
+
+
+        [Authorize(Roles = GlobalConstants.TeacherRoleName)]
+        public async Task<IActionResult> Assign(string quizId, string studentId, string solvedQuestionId, int scores)
+        {
+           await this.questionsService.UpdateScores(solvedQuestionId, scores);
+
+           return this.RedirectToAction(nameof(this.ById), new { quizId = quizId, studentId = studentId });
+        }
+
+        // Start a quiz by Id
+        [Authorize(Roles = GlobalConstants.TeacherRoleName)]
+        public async Task<IActionResult> FinalCheck(string solvedQuizId)
+        {
+            await this.quizzesService.FinishQuiz(solvedQuizId);
+
+            return this.RedirectToAction("Index", "Home");
         }
     }
 }

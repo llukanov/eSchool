@@ -66,6 +66,8 @@
 
         public DbSet<SolvedQuestion> SolvedQuestions { get; set; }
 
+        public DbSet<StudentGrade> StudentGrades { get; set; }
+
         public override int SaveChanges() => this.SaveChanges(true);
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -116,6 +118,10 @@
 
             builder.Entity<ChatUser>()
                 .HasKey(x => new { x.ChatId, x.UserId });
+
+            builder.Entity<ApplicationUser>()
+                .HasMany(c => c.StudentGrades)
+                .WithOne(e => e.Student);
         }
 
         private static void SetIsDeletedQueryFilter<T>(ModelBuilder builder)

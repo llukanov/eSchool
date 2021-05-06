@@ -175,6 +175,20 @@ namespace ESchool.Services.Data
             await this.questionRepository.SaveChangesAsync();
         }
 
+        public async Task UpdateScores(string solvedQuestionId, int scores)
+        {
+            var solvedQuestion = this.solvedQuestionRepository
+                .AllAsNoTracking()
+                .Where(x => x.Id == solvedQuestionId)
+                .FirstOrDefault();
+
+            if (solvedQuestion != null)
+            {
+                solvedQuestion.Scores = scores;
+                this.solvedQuestionRepository.Update(solvedQuestion);
+                await this.solvedQuestionRepository.SaveChangesAsync();
+            }
+        }
 
         //public async Task DeleteQuestionByIdAsync(string id)
         //{

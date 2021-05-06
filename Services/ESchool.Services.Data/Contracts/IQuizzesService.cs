@@ -12,7 +12,7 @@
 
         Task<bool> StartQuiz(string quizId, string studentId);
 
-        Task FinishQuiz(string quizId, string studentId);
+        Task FinishQuiz(string solvedQuizId);
 
         Task ActivateQuiz(string quizId);
 

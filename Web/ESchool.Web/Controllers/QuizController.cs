@@ -99,9 +99,9 @@
         {
             var currentUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            await this.quizzesService.FinishQuiz(quizId, currentUserId);
+            //await this.quizzesService.FinishQuiz(quizId, currentUserId);
 
-            return this.RedirectToAction("Index", "Home" );
+            return this.RedirectToAction("Index", "Home");
         }
 
         // Activate a quiz by Id

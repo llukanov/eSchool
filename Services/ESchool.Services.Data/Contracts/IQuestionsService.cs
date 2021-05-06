@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using ESchool.Data.Models;
     using ESchool.Web.ViewModels.Question;
 
     public interface IQuestionsService
@@ -12,6 +12,8 @@
         Task CreateTrueFalseQuestionAsync(AddTFQuestionInputModel input);
 
         Task CreateQuestionOpenAnswerAsync(AddQuestionOSInputModel input);
+
+        Task UpdateScores(string solvedQuestionId, int scores);
 
         T GetNextQuestion<T>(string quizId, string studentId);
 

@@ -9,4 +9,7 @@
     <div class="col-lg-3 nav-item mt-2 mb-2 text-center">
         <a asp-controller="Assignment" asp-action="AllInSubject" asp-route-subjectId="@Model.SubjectId" class="nav-link border border-secondary rounded font-color-dark-gray">Задачи</a>
     </div>
+    <div class="col-lg-3 nav-item mt-2 mb-2 text-center">
+        <a asp-controller="Grade" asp-action="AllInSubject" asp-route-subjectId="@Model.SubjectId" class="nav-link border border-secondary rounded font-color-dark-gray">Оценки</a>
+    </div>
 </div>

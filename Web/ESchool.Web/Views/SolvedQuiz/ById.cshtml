@@ -2,7 +2,7 @@
 @using System.Security.Claims;
 @model ESchool.Web.ViewModels.SolvedQuiz.SolvedQuizPageViewModel
 @{
-    this.ViewData["Title"] = "Modemm";
+    this.ViewData["Title"] = "Проверка на тест";
 }
 @if (this.TempData.ContainsKey("Message"))
 {
@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="float-left">
-                <h1 class="font-color-dark-gray font-weight-light">Тест</h1>
+                <h1 class="font-color-dark-gray font-weight-light">@this.ViewData["Title"]</h1>
             </div>
         </div>
     </div>
@@ -28,28 +28,30 @@
                 <span>@Model.Scores / @Model.TotalScores</span>
                 <hr />
             </div>
+            <div class="col-md-3">
+                <a asp-controller="SolvedQuiz" asp-action="FinalCheck" asp-route-solvedQuizId="@Model.Id" class="btn shadow p-2 rounded text-white bg-primary btn-block">Потвърждаване на проверката</a>
+            </div>
         </div>
         <!-- Quiz-card-Body -->
         <div class="row p-3 user-select-none">
             <div class="col-md-9">
                 @foreach (var solvedQuestion in Model.SolvedQuestions)
                 {
-                    <div class="row">
-                        <div class="col-12 background-fresh">
-                            <h5 class="text-white font-weight-bold text-uppercase pt-3">@solvedQuestion.Question.Text                         <span class="font-weight-lighter">(@solvedQuestion.Scores / @solvedQuestion.Question.Scores)</span>
-                            </h5>
-                        </div> 
+                    <div class="row background-fresh">
+                        <div class="col-md-9 pl-2">
+                            <h5 class="text-white font-weight-bold text-uppercase pt-3">@solvedQuestion.Question.Text                         <span class="font-weight-lighter">(@solvedQuestion.Scores / @solvedQuestion.Question.Scores)</span></h5>
+                        </div>
                     </div>
-                    @foreach (var question in solvedQuestion.Question.Answers)
+                    @foreach (var answer in solvedQuestion.Question.Answers)
                     {
-                        @if (question.Text == solvedQuestion.StudentAnswer)
+                        @if (answer.Text == solvedQuestion.StudentAnswer)
                         {
-                            @if (question.IsRightAnswer)
+                            @if (answer.IsRightAnswer)
                             {
                                 <div class="row mt-2 mb-2">
                                     <div class="col-md-1"></div>
                                     <div class="col-md-11 border border-success border-width-answer pt-2 pb-2">
-                                        <span class="text-danger align-middle">@question.Text</span>
+                                        <span class="text-danger align-middle">@answer.Text</span>
                                     </div>
                                 </div>
                             }
@@ -58,7 +60,7 @@
                                 <div class="row mt-2 mb-2">
                                     <div class="col-md-1"></div>
                                     <div class="col-md-11 border border-danger border-width-answer pt-2 pb-2">
-                                        <span class="text-danger align-middle">@question.Text</span>
+                                        <span class="text-danger align-middle">@answer.Text</span>
                                     </div>
                                 </div>
                             }
@@ -66,12 +68,12 @@
                         }
                         else
                         {
-                            @if (question.IsRightAnswer)
+                            @if (answer.IsRightAnswer)
                             {
                                 <div class="row mt-2 mb-2">
                                     <div class="col-md-1"></div>
                                     <div class="col-md-11 border border-success border-width-answer pt-2 pb-2">
-                                        <span class="text-danger align-middle">@question.Text</span>
+                                        <span class="text-danger align-middle">@answer.Text</span>
                                     </div>
                                 </div>
                             }
@@ -80,12 +82,39 @@
                                 <div class="row mt-2 mb-2">
                                     <div class="col-md-1"></div>
                                     <div class="col-md-11 border border-secondary border-width-answer pt-2 pb-2">
-                                        <span class="align-middle">@question.Text</span>
+                                        <span class="align-middle">@answer.Text</span>
                                     </div>
                                 </div>
                             }
                         }
                     }
+
+
+
+                    <div class="row mt-2 mb-2">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-11 border border-secondary border-width-answer pt-2 pb-2">
+                            <span class="align-middle">@solvedQuestion.StudentAnswer</span>
+                        </div>
+                        <form id="form" method="post" asp-action="Assign" asp-controller="SolvedQuiz" asp-route-quizId="@Model.QuizId" asp-route-studentId="@Model.StudentId" asp-route-solvedQuestionId="@solvedQuestion.Id" class="col-12">
+                            <!-- Question's scores-->
+                            <div class="form-group input-group">
+                                <div>
+                                    <label class="font-color-dark-gray font-weight-bold" asp-for="@solvedQuestion.Scores"></label>
+                                </div>
+                                <div class="input-group">
+                                    <input name="scores" type="number" asp-for="@solvedQuestion.Scores" class="form-control" placeholder="Въведете точките тук" min="0" max="@solvedQuestion.Question.Scores"/>
+                                </div>
+                                <span asp-validation-for="@solvedQuestion.Scores" class="text-danger"></span>
+                            </div>
+                            <!-- Submit -->
+                            <div class="row mt-2 mb-2">
+                                <div class="col-md-6">
+                                    <button type="submit" class="btn shadow p-2 rounded text-white bg-warning btn-block">Запамети</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 }
             </div>
         </div>

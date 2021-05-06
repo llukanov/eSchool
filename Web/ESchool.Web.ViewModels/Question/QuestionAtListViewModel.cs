@@ -19,5 +19,7 @@
         public IEnumerable<AnswerAtListViewModel> Answers { get; set; }
 
         public int Scores { get; set; }
+
+        public string QuestionType { get; set; }
     }
 }
