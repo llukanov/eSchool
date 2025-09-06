@@ -49,10 +49,10 @@
 
             services.Configure<CookiePolicyOptions>(
                 options =>
-                    {
-                        options.CheckConsentNeeded = context => true;
-                        options.MinimumSameSitePolicy = SameSiteMode.None;
-                    });
+                {
+                    options.CheckConsentNeeded = context => true;
+                    options.MinimumSameSitePolicy = SameSiteMode.None;
+                });
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -62,9 +62,9 @@
 
             services.AddControllersWithViews(
                 options =>
-                    {
-                        options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
-                    }).AddRazorRuntimeCompilation();
+                {
+                    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+                }).AddRazorRuntimeCompilation();
             services.AddRazorPages();
             services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -109,8 +109,8 @@
 
             //if (env.IsDevelopment())
             //{
-                app.UseDeveloperExceptionPage();
-                app.UseMigrationsEndPoint();
+            app.UseDeveloperExceptionPage();
+            app.UseMigrationsEndPoint();
             //}
             //else
             //{
@@ -129,11 +129,11 @@
 
             app.UseEndpoints(
                 endpoints =>
-                    {
-                        endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-                        endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
-                        endpoints.MapRazorPages();
-                    });
+                {
+                    endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                    endpoints.MapRazorPages();
+                });
 
         }
     }
